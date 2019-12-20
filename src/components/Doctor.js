@@ -5,6 +5,8 @@ import Doctorabi from '../abis/Doctor.json'
 import Navbar from './Navbar'
 // import { callExpression } from '@babel/types';
 // import routing from './../index'
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import '../../node_modules/react-notifications/lib/notifications.css';
 class Doctor extends Component {
 
    componentWillMount(){
@@ -46,14 +48,26 @@ constructor(props){
 
 
 async set(name,age,gender){
-  this.setState({loading : true})
+  if(name==""){
+    NotificationManager.warning('Please enter a valid name', 'Incorrect name', 3000);
+  }
+  else if(age<0)
+  {
+    NotificationManager.warning('Please enter a valid age','Incorrect age', 3000);
+  }
+  else if(gender.toLowerCase()!=("male" ||"female"))
+  {
+    NotificationManager.warning('Enter a valid gender', 'Incorrect gender', 3000);
+  }
+  else{
+    this.setState({loading : true})
     var count= await this.state.doctor.methods.doctorCount().call()
    this.state.doctor.methods.set(name,age,gender).send({from: this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
     count =Number(count)+Number(1)
     window.location.href="/Doctor_View/"+count.toString()
- 
+   
 });
-  
+}
    
 }
   render() {
@@ -61,6 +75,7 @@ async set(name,age,gender){
     return (
       
       <div>
+        <NotificationContainer/>
        <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">
           <div className="row">
