@@ -48,16 +48,9 @@ constructor(props){
 
 
 async set(name,age,gender,bg){
-  if(name===""){
-    NotificationManager.warning('Please enter a valid name', 'Incorrect name', 3000);
-  }
-  else if(age<0)
+ if(age<0)
   {
     NotificationManager.warning('Please enter a valid age','Incorrect age', 3000);
-  }
-  else if(gender.toLowerCase()!==("male" ||"female"))
-  {
-    NotificationManager.warning('Enter a valid gender', 'Incorrect gender', 3000);
   }
   else{
   this.setState({loading : true})
@@ -95,16 +88,20 @@ async set(name,age,gender,bg){
                                 <p className="text-danger" id="error"></p>
                               <div className="form-group">
                                 <label htmlFor="Name">Name</label>
-                                <input type="text" className="form-control" id="name" ref={(input) => {this.pname=input}} placeholder="Enter Name"></input>
+                                <input type="text" className="form-control" id="name" required ref={(input) => {this.pname=input}} placeholder="Enter Name"></input>
                               </div>
                               <div className="form-group">
                                 <label htmlFor="Age">Age</label>
-                                <input type="number" className="form-control" id="age" ref={(input) => {this.page=input}} placeholder="Age"></input>
+                                <input type="number" className="form-control" id="age" required ref={(input) => {this.page=input}} placeholder="Age"></input>
                               </div>
                               <div className="form-group">
-                                  <label htmlFor="Gender">Gender</label>
-                                  <input type="text" className="form-control" id="gender" ref={(input) => {this.pgen=input}} placeholder="Gender"></input>
-                              </div>
+                                <label htmlFor="Gender">Gender</label>
+                                <select  name="gender" className="form-control" ref={(input) => {this.pgen=input}} >
+                                    <option value="male"defaultValue>Male</option>
+                                    <option value="female"defaultValue>Female</option>
+                                    <option value="others"defaultValue>Others</option>
+                                </select>
+                                  </div>
                               <div className="form-group">
                                   <label htmlFor="Blood Group">Blood Group</label>
                                   {/* <input type="text" className="form-control" id="bg" ref={(input) => {this.pbg=input}} placeholder="Blood Group"></input> */}

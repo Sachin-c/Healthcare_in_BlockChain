@@ -9,8 +9,12 @@ contract Doctor{
     mapping(uint => Info) public info;
     mapping(uint => PatientList) public patientlist;
      mapping(uint => WaitList[]) waitlist;
+     mapping(uint => WaitListAddress[]) waitlist_add;
     struct WaitList{
         uint wait;
+    }
+    struct WaitListAddress{
+        address add;
     }
     struct PatientList{
         uint pid;
@@ -38,9 +42,11 @@ contract Doctor{
         for(uint i = 0;i<waitlist[_did].length-1;i++){
             if(waitlist[_did][i].wait==_pid){
                 waitlist[_did][i].wait = waitlist[_did][waitlist[_did].length-1].wait;
+                waitlist_add[_did][i].add = waitlist_add[_did][waitlist_add[_did].length-1].add;
             }
         }
         waitlist[_did].pop();
+        waitlist_add[_did].pop();
     }
     function GetMedicationList(uint _id,uint _key)public view returns(string memory _name,bytes32 _medname, bytes32 _medtype,
      bytes32 _sdate, bytes32 _edate, bytes32 _nof,uint _treatCount){
@@ -48,23 +54,24 @@ contract Doctor{
         return(patientlist[_id].name,patientlist[_id].medname,patientlist[_id].medtype,patientlist[_id].sdate,
         patientlist[_id].edate,patientlist[_id].nof,treatCount);
     }
-    function setp(uint _p_id,uint _key) public {
+    function setp(uint _p_id,uint _key, address _address) public {
      waitlist[_key].push(WaitList(_p_id));
+     waitlist_add[_key].push(WaitListAddress(_address));
     }
 function getPlen (uint _key) external view returns(uint count) {
         return (waitlist[_key].length);
  }
  function getP (uint _id,uint _key) external view returns(string memory _name, uint _age, string memory _gender,
   string memory _bg,uint _patientCount,uint _pid) {
-       Patient myPatient = Patient(addressP);
+       Patient myPatient = Patient(waitlist_add[_key][_id].add);
         return (myPatient.getall(waitlist[_key][_id].wait));
  }
- function setAddressB(address _address) external{
-     addressP = _address;
- }
- function getAddressB() public view returns(address a){
-     return(addressP);
- }
+//  function setAddressB(address _address) external{
+//      addressP = _address;
+//  }
+//  function getAddressB() public view returns(address a){
+//      return(addressP);
+//  }
     function set(string memory _name, uint _age, string memory _gender) public {
         doctorCount++;
         info[doctorCount] = Info(doctorCount, _name,_age,_gender);

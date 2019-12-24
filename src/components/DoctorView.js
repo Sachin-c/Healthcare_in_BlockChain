@@ -49,7 +49,7 @@ async write(name,age,gender,bg,pid,mname,mtype,edate,sdate,nof,id){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var id = window.location.href.toString().split("/")[4]
   // console.log(pid,id)
-  this.state.doctor.methods.WriteMedication(name,age,gender,bg,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),id).send({from:this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
+  this.state.doctor.methods.WriteMedication(name,age,gender,bg,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),id).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
     NotificationManager.success('Prescribtion added', 'Check history',5000)
   }) 
   var p = Number(pid)
@@ -59,6 +59,7 @@ async hist(){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
    var key = window.location.href.toString().split("/")[4]
   var x= await this.state.doctor.methods.treatCount.call()
+  document.getElementById("wheel").innerHTML=""
   for(var i=1;i<=x.toString();i++){
     var no= await this.state.doctor.methods.GetMedicationList(i,key).call()
     if(no[0]!=""){
@@ -74,7 +75,6 @@ async hist(){
 }
 async add(dname,mname,mtype,edate,sdate,nof){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
-
   const abi= Patientabi.abi
   const net_id=await web3.eth.net.getId()
   if(Patientabi.networks[net_id]){
@@ -83,7 +83,7 @@ async add(dname,mname,mtype,edate,sdate,nof){
     this.setState({patient})
     console.log(dname)
     console.log(this.state.p)
-    patient.methods.addDoc(dname,mname,sdate,edate,nof,this.state.p).send({from:this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
+    patient.methods.addDoc(dname,mname,sdate,edate,nof,this.state.p).send({from:this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
       NotificationManager.success('Patient got prescribtion', 'Inform Patient',5000)
       window.setTimeout(function(){window.location.reload()}, 3000)    
     }) 
@@ -138,7 +138,7 @@ constructor(props){
                     const sdate=this.sdate.value
                     const edate=this.edate.value
                     const nof=this.nof.value
-                    const doc=this.state.doctor.geta
+                    // const doc=this.state.doctor.geta
                     this.write(patient._name,patient._age,patient._gender,patient._bg,patient._pid.toString(),mname,mtype,edate,sdate,nof,key)   
                     this.add(this.state.info,mname,mtype,edate,sdate,nof)
                   }}> <h6 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg} 
@@ -147,7 +147,7 @@ constructor(props){
                     <p className="text-danger" id="error"></p>
                     <div className="form-group">
                             <label htmlFor="Medicine">Medicine</label>
-                            <input type="med" className="form-control" ref={(input) => {this.mname=input}} id="medicine" placeholder="Medicine Name"></input>
+                            <input type="med" className="form-control" required ref={(input) => {this.mname=input}} id="medicine" placeholder="Medicine Name"></input>
                           </div>
                     <div className="form-group"> 
                             <label htmlFor="type">Medicine Type</label>
@@ -160,12 +160,12 @@ constructor(props){
                     
                     <div className="form-group" data-provide="datepicker">
                             <label htmlFor="Start Date">Start Date</label><br/>
-                            <input type="date" id="ssdate"  ref={(input) => {this.sdate=input}}/>
+                            <input type="date" id="ssdate" required ref={(input) => {this.sdate=input}}/>
                     </div>
                            
                     <div className="form-group" data-provide="datepicker">
                         <label htmlFor="Start Date">End Date</label><br/>
-                        <input type="date"  ref={(input) => {this.edate=input}}/>
+                        <input type="date" required ref={(input) => {this.edate=input}}/>
                     </div>
 
                     <div className="form-group"> 
@@ -212,181 +212,3 @@ export default DoctorView;
 
 
 
-/* <html>
-        <head>
-         
-				section {
-					width: 100%;		
-				}
-				.left-half {
-				float: left;
-				width: 50%;
-				}
-				.right-half {
-				float: left;
-				width: 50%;
-				}
-			</style>
-        </head>
-        <body>
-                <section className="container" >
-                        <div className="left-half">
-                    
-            <h1>Your doctors Request will be shown below </h1>
-            <h4 id="print" style="border: 20px; padding: 20px;"></h4>
-            <div id="form">
-            <form id="form1">
-                    <p className="text-danger" id="error"></p>
-                    <div className="form-group">
-                            <label htmlFor="Medicine">Medicine</label>
-                            <input type="med" className="form-control" id="medicine" placeholder="Medicine Name">
-                          </div>
-                    <div className="form-group"> 
-                            <label htmlFor="type">Medicine Type</label>
-                        <select  name="type" className="form-control" data-toggle="dropdown">
-                            <option value="Liquid"selected>Liquid</option>
-                            <option value="Tablet">Tablet</option>
-                            <option value="Capsule">Capsule</option>
-                        </select>
-                    </div>
-                    
-                    <div className="form-group" data-provide="datepicker">
-                            <label htmlFor="Start Date">Start Date</label>
-                            <input type="date" name="bday">  
-                    </div>
-                    <div className="form-group" data-provide="datepicker">
-                        <label htmlFor="Start Date">End Date</label>
-                        <input type="date" name="bday">  
-                    </div>
-
-                    <div className="form-group"> 
-                            <label htmlFor="type">Number of times a day </label>
-                        <select  name="numberof" className="form-control" data-toggle="dropdown">
-                            <option value="1"selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-
-                        </select>
-                    </div>
-                </form>
-                <button id="button" onclick="setvalue();setdoctor();" className="btn btn-primary">Submit</button>       
-            </div>
-            <button id="button" onclick="getvalue();" className="btn btn-primary">History</button>  
-            </div>
-            <div className="right-half" >
-                    <table id="wheel"></table>
-            </div>
-             </section>
-                
-            <script>
-                    
-                     web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
-//*****************************************Doctor ABI *************************************/
-//                       var abi=
-
-//                     var address='0xEc3aB2F975B0c4cc1deD396c262bF4c04086fF86';
-
-//                     var Courses = new web3.eth.Contract(abi,address);
-                    
-//                     Courses.methods.getP().call().then(function(number){
-//                     if (number[0]!=""){
-//                         document.getElementById("form").style.display="block";     
-//                         }
-//                         else{
-//                             document.getElementById("form").style.display="none";     
-//                     }
-//                     // console.log(number[0])
-//                     var result=number;
-//                     var total=result[4];
-//                     if(number[0]==""){
-//                         document.getElementById("print").innerHTML="No requests yet";
-//                     }
-//                     else{
-//                     document.getElementById("print").innerHTML=result[0]+"("+result[1]+" years old) is "+result[2]+" with blood group "+result[3] ;}
-//                     });
-//                     function setvalue(){
-//                         web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
-// //***********************************Doctor ABI ***************************************//
-//                     var abi=
-//                     var address='0xEc3aB2F975B0c4cc1deD396c262bF4c04086fF86';
-//                     var Courses = new web3.eth.Contract(abi,address);
-//                         Courses.methods.getP().call().then(function(number){
-//                             var name=number[0];
-//                             var age=number[1];
-//                             var gender=number[2];
-//                             var bg=number[3];
-//                             var med=document.getElementById("form1").elements[0].value;
-//                             var type=document.getElementById("form1").elements[1].value;
-//                             var sdate=document.getElementById("form1").elements[2].value;
-//                             var edate=document.getElementById("form1").elements[3].value;
-//                             var nop=document.getElementById("form1").elements[4].value;
-//                     Courses.methods.WriteMedication(name,age,gender,bg,med,type,sdate,edate,nop).send({from:'0x2823659f9FD99f95B44bc4C0A808eebcA069F690',gas: 3000000}, function (error, result){
-//                     console.log(number);
-//                     });
-//                     });
-//                  }
-//                  function getvalue(){
-//                     web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
-// //*******************************************Doctor ABI ****************************************//
-//                     var abi=
-
-//                     var address='0xEc3aB2F975B0c4cc1deD396c262bF4c04086fF86';
-//                     var Doctors = new web3.eth.Contract(abi,address);
-//                     var i=1;
-// 			var list, li, index;
-// 			list = document.getElementById('listed');
-//                         Doctors.methods.GetMedicationList(i).call().then(function(no){
-// 						console.log(no);
-// 					htmlFor(i=1;i<=no[6];i++)
-//                     {	
-// 						Doctors.methods.GetMedicationList(i).call().then(function(no){
-//                         let tableRef = document.getElementById("wheel");
-//                         let newRow = tableRef.insertRow(-1);
-//                         let newCell = newRow.insertCell(0);
-//                         let newText = document.createTextNode
-                        
-// 						newCell.setAttribute("style","padding: 26px; display: inline-block; text-align: center")
-						
-// 						  x=(no[0]+" was prescribed "+web3.utils.toAscii(no[1])+" as "+web3.utils.toAscii(no[2])+" from  "+ web3.utils.toAscii(no[3])+" to "+web3.utils.toAscii(no[4])+" and "+web3.utils.toAscii(no[5])+ " times a day.").toString();
-						  
-// 						  let p=document.createTextNode(x);
-						
-// 						  newCell.appendChild(p);})
-// 			   }});
-//                  }
-//                  function setdoctor(){
-// //*******************************************Doctor ABI ****************************************//
-//                     var abi=
-                    
-
-                    
-//                     web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
-//                     var address='0xEc3aB2F975B0c4cc1deD396c262bF4c04086fF86';
-//                     var Doctors = new web3.eth.Contract(abi,address);
-//                     Doctors.methods.get().call().then(function(number){
-//*******************************************doctor ABI ***************++++++++++++++++++++++++++//
-        //              var abi=          
-
-        //                 console.log(number[0]);
-        //                 var net_address='0x591af41279Fa3fA9A81451D3404037540DDc3CCE';
-        //                 web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));                                    
-        //               var Courses = new web3.eth.Contract(abi,net_address);
-        //               var med=document.getElementById("form1").elements[0].value;
-        //               var type=document.getElementById("form1").elements[1].value;
-        //               var sdate=document.getElementById("form1").elements[2].value;
-        //               var edate=document.getElementById("form1").elements[3].value;
-        //               var nop=document.getElementById("form1").elements[4].value;
-        //               Courses.methods.addDoc(number[0],med,sdate,edate,nop).send({from:'0x2823659f9FD99f95B44bc4C0A808eebcA069F690',gas: 3000000}, function (error, result) {
-                        
-        //               });
-        //             });
-
-        //          }
-        //     </script>
-        // </body>
