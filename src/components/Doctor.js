@@ -16,7 +16,7 @@ class Doctor extends Component {
 
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Doctorabi.abi
@@ -55,11 +55,14 @@ async set(name,age,gender){
   else{
     this.setState({loading : true})
     var count= await this.state.doctor.methods.doctorCount().call()
-   this.state.doctor.methods.set(name,age,gender).send({from: this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
+   this.state.doctor.methods.set(name,age,gender).send({from: this.state.account}).on('error', function(error){
+    NotificationManager.error('Doctor account not created', 'Transaction cancelled!', 5000)
+      window.setTimeout(function(){window.location.reload()}, 3000);    
+  }).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
     count =Number(count)+Number(1)
     window.location.href="/Doctor_View/"+count.toString()
    
-});
+})
 }
    
 }

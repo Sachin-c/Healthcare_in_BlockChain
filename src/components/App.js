@@ -10,10 +10,11 @@ class App extends Component {
   }
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.102:7545")
   const accounts = await web3.eth.getAccounts()
-  console.log(accounts)
+  console.log(web3)
   this.setState({account:accounts[0]})  
+  // this.setState({account:web3})
 }
 constructor(props){
   super(props)
@@ -23,8 +24,6 @@ constructor(props){
 }
   render() {
     return (
-      
-
       <div>
        <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">
@@ -35,6 +34,7 @@ constructor(props){
                     <a target="_blank" href="/Patient"><button type="button" className="btn btn-primary" >Patient</button></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <a target="_blank" href="/Doctor"><button type="button" className="btn btn-primary" >Doctor</button></a>
+                    
               </div>
             </main>
           </div>

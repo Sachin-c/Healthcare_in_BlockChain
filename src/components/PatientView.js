@@ -22,7 +22,7 @@ class PatientView extends Component {
 
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Patientabi.abi
@@ -59,7 +59,7 @@ constructor(props){
 }
 async getdoctors()
 {
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545" )
   const abi= Doctorabi.abi
   const net_id=await web3.eth.net.getId()
   if(Doctorabi.networks[net_id]){
@@ -79,7 +79,7 @@ async getdoctors()
 async selecting(id,key){
   
   this.setState({loading:true})
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
   const abi= Doctorabi.abi
   const net_id=await web3.eth.net.getId()
   if(Doctorabi.networks[net_id]){
@@ -98,14 +98,14 @@ async selecting(id,key){
   }
 }
 async hist(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  // const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var key = window.location.href.toString().split("/")[4]
  var x= await this.state.patient.methods.hCount.call()
  document.getElementById("dlist").innerHTML=""
  for(var i=1;i<=x.toString();i++){
    var no= await this.state.patient.methods.viewHist(i,key).call()
    console.log(no)
-   if(no[0]!=""){
+   if(no[0]!==""){
      let tableRef = document.getElementById("dlist");
      let newRow = tableRef.insertRow(-1);
      let newCell = newRow.insertCell(0);

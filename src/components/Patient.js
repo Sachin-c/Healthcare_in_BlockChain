@@ -16,7 +16,7 @@ class Patient extends Component {
 
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Patientabi.abi
@@ -48,14 +48,17 @@ constructor(props){
 
 
 async set(name,age,gender,bg){
- if(age<0)
+ if(age<=0)
   {
     NotificationManager.warning('Please enter a valid age','Incorrect age', 3000);
   }
   else{
   this.setState({loading : true})
     var count= await this.state.patient.methods.patientCount().call()
-   this.state.patient.methods.set(name,age,gender,bg).send({from: this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
+   this.state.patient.methods.set(name,age,gender,bg).send({from: this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on('error', function(error){
+    NotificationManager.error('Patient account not created', 'Transaction cancelled!', 5000)
+      window.setTimeout(function(){window.location.reload()}, 3000);    
+  }).on("confirmation", function () {
     count =Number(count)+Number(1)
     window.location.href="/Patient_View/"+count.toString()
  
