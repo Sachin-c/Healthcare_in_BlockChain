@@ -16,7 +16,7 @@ class Patient extends Component {
 
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
+  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Patientabi.abi

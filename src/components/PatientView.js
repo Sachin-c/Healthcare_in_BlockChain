@@ -22,7 +22,7 @@ class PatientView extends Component {
 
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
+  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Patientabi.abi
@@ -59,7 +59,7 @@ constructor(props){
 }
 async getdoctors()
 {
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545" )
+  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
   const abi= Doctorabi.abi
   const net_id=await web3.eth.net.getId()
   if(Doctorabi.networks[net_id]){
@@ -79,7 +79,7 @@ async getdoctors()
 async selecting(id,key){
   
   this.setState({loading:true})
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
+  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
   const abi= Doctorabi.abi
   const net_id=await web3.eth.net.getId()
   if(Doctorabi.networks[net_id]){

@@ -13,7 +13,7 @@ class DoctorView extends Component {
    this.loadBlockchainData()
   }
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
+  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Doctorabi.abi
@@ -46,7 +46,7 @@ async loadBlockchainData(){
   
 }
 async write(name,age,gender,bg,pid,mname,mtype,edate,sdate,nof,id){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
+  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
   var id = window.location.href.toString().split("/")[4]
   // console.log(pid,id)
   this.state.doctor.methods.WriteMedication(name,age,gender,bg,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),id).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
@@ -56,7 +56,7 @@ async write(name,age,gender,bg,pid,mname,mtype,edate,sdate,nof,id){
   this.setState({p})
 }
 async hist(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
+  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
    var key = window.location.href.toString().split("/")[4]
   var x= await this.state.doctor.methods.treatCount.call()
   document.getElementById("wheel").innerHTML=""
@@ -74,7 +74,7 @@ async hist(){
   }
 }
 async add(dname,mname,mtype,edate,sdate,nof){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
+  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
   const abi= Patientabi.abi
   const net_id=await web3.eth.net.getId()
   if(Patientabi.networks[net_id]){
