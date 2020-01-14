@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import App from './components/App';
 import Patient from './components/Patient';
@@ -18,6 +18,7 @@ const routing = (
         <Route  path="/Doctor" component={Doctor} />
         <Route path="/Patient_View/:id" component={PatientView}/>
         <Route path="/Doctor_View/:id" component={DoctorView}/>
+       
       </div>
     </Router>
   )

@@ -22,11 +22,31 @@ class PatientView extends Component {
 
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Patientabi.abi
-  const net_id=await web3.eth.net.getId()
+  var net_id = 5777
+  var ret=0    
+  var et=0
+  
+  if(Patientabi.networks[net_id]){
+    console.log(this.state.account)
+    const p_abi= Patientabi.abi
+    var address= Patientabi.networks[net_id].address
+    const patient= await web3.eth.Contract(p_abi,address)
+    this.setState({patient})
+    et = await this.state.patient.methods.check(this.state.account).call()
+    console.log(et.toString())
+    if(et>0 & (window.location.href.toString().split("/")[3]!="Patient_View" | window.location.href.toString().split("/")[4]!=et)){
+      window.location.href="/Patient_View/"+et
+  }else if( et==-1){
+    window.location.href="/"
+  }
+  else{
+  this.setState({loading:false})
+  }
+}
   if(Patientabi.networks[net_id]){
     const address= Patientabi.networks[net_id].address
     const patient= await web3.eth.Contract(abi,address)
@@ -59,9 +79,9 @@ constructor(props){
 }
 async getdoctors()
 {
-  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const abi= Doctorabi.abi
-  const net_id=await web3.eth.net.getId()
+  var net_id = 5777
   if(Doctorabi.networks[net_id]){
     const address= Doctorabi.networks[net_id].address
     const doctor= web3.eth.Contract(abi,address)
@@ -79,9 +99,9 @@ async getdoctors()
 async selecting(id,key){
   
   this.setState({loading:true})
-  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const abi= Doctorabi.abi
-  const net_id=await web3.eth.net.getId()
+  var net_id = 5777
   if(Doctorabi.networks[net_id]){
     const address= Doctorabi.networks[net_id].address
     const doctor= web3.eth.Contract(abi,address)
@@ -192,7 +212,7 @@ async hist(){
                     </tbody>
                   </table>
                  
-                  <button id="button" onClick={this.hist} class="btn btn-primary">See History</button> 
+                  <button id="button" onClick={this.hist} className="btn btn-primary">See History</button> 
                   <table id="dlist"></table>
                   
                 </div>
