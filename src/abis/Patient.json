@@ -3787,6 +3787,7 @@
               "nodeType": "Mapping",
               "src": "108:22:2",
 <<<<<<< HEAD
+<<<<<<< HEAD
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_uint256_$_t_address_$",
                 "typeString": "mapping(uint256 => address)"
@@ -3834,6 +3835,55 @@
               "nodeType": "Mapping",
               "src": "147:24:2",
               "typeDescriptions": {
+=======
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_address_$",
+                "typeString": "mapping(uint256 => address)"
+              },
+              "valueType": {
+                "id": 533,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "122:7:2",
+                "stateMutability": "nonpayable",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 539,
+            "name": "info",
+            "nodeType": "VariableDeclaration",
+            "scope": 782,
+            "src": "147:36:2",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Info_$554_storage_$",
+              "typeString": "mapping(address => struct Patient.Info)"
+            },
+            "typeName": {
+              "id": 538,
+              "keyType": {
+                "id": 536,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "155:7:2",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "147:24:2",
+              "typeDescriptions": {
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
 =======
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_uint256_$_t_address_$",
@@ -5949,6 +5999,9 @@
                             "typeIdentifier": "t_address",
                             "typeString": "address"
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
                           },
                           "id": 717,
                           "isConstant": false,
@@ -6010,6 +6063,7 @@
                               "typeString": "address"
                             }
                           },
+<<<<<<< HEAD
 =======
                           },
                           "id": 717,
@@ -6072,6 +6126,8 @@
                               "typeString": "address"
                             }
                           },
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
+=======
 >>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
                           "src": "1779:9:2",
                           "typeDescriptions": {
@@ -7093,6 +7149,7 @@
       "events": {},
       "links": {},
 <<<<<<< HEAD
+<<<<<<< HEAD
       "address": "0x47bfDA4Bc6F795Fad94B3300616d4D98303eA038",
       "transactionHash": "0xdb29f8c3f2136a30c2d1c134d8941e70af50ea88d77b2f2c5a1d5cf2f457b374"
     }
@@ -7101,6 +7158,8 @@
   "updatedAt": "2020-01-24T14:41:52.055Z",
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
       "address": "0x89Eba337dEA42a6658dCF5899789c17b18Aac855",
       "transactionHash": "0x214771cada33d56146261e37539d0c1f053d3fe18373156f01e5cedee8e81bfe"
     }
@@ -7115,6 +7174,9 @@
   "schemaVersion": "3.0.2",
   "updatedAt": "2020-01-14T16:47:25.963Z",
 >>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
+<<<<<<< HEAD
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
+=======
 >>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
   "devdoc": {
     "methods": {}

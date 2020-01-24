@@ -22,6 +22,7 @@ class PatientView extends Component {
 
 
 async loadBlockchainData(){
+<<<<<<< HEAD
   var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
@@ -31,6 +32,18 @@ async loadBlockchainData(){
     if(Patientabi.networks[net_id]){
       var address= Patientabi.networks[net_id].address
       var patient= await web3.eth.Contract(abi,address)
+=======
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const accounts = await web3.eth.getAccounts()
+  this.setState({account:accounts[0]})
+    var et=0
+  const abi= Patientabi.abi
+<<<<<<< HEAD
+  const net_id=await web3.eth.net.getId()
+    if(Patientabi.networks[net_id]){
+      var address= Patientabi.networks[net_id].address
+      const patient= await web3.eth.Contract(abi,address)
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
       this.setState({patient})
       et = await this.state.patient.methods.check(this.state.account).call()
       console.log(et.toString())
@@ -40,6 +53,36 @@ async loadBlockchainData(){
       window.location.href="/"
     }
     else{
+<<<<<<< HEAD
+=======
+=======
+  var net_id = 5777
+  var ret=0    
+  var et=0
+  
+  if(Patientabi.networks[net_id]){
+    console.log(this.state.account)
+    const p_abi= Patientabi.abi
+    var address= Patientabi.networks[net_id].address
+    const patient= await web3.eth.Contract(p_abi,address)
+    this.setState({patient})
+    et = await this.state.patient.methods.check(this.state.account).call()
+    console.log(et.toString())
+    if(et>0 & (window.location.href.toString().split("/")[3]!="Patient_View" | window.location.href.toString().split("/")[4]!=et)){
+      window.location.href="/Patient_View/"+et
+  }else if( et==-1){
+    window.location.href="/"
+  }
+  else{
+  this.setState({loading:false})
+  }
+}
+  if(Patientabi.networks[net_id]){
+    const address= Patientabi.networks[net_id].address
+    const patient= await web3.eth.Contract(abi,address)
+    this.setState({patient})
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
     this.setState({loading:false})
     var id = window.location.href.toString().split("/")[4]
     this.setState({id})
@@ -68,8 +111,13 @@ constructor(props){
 }
 async getdoctors()
 {
+<<<<<<< HEAD
   var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var abi= Doctorabi.abi
+=======
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const abi= Doctorabi.abi
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
   var net_id = 5777
   if(Doctorabi.networks[net_id]){
     var address= Doctorabi.networks[net_id].address
@@ -88,9 +136,15 @@ async getdoctors()
 async selecting(id,key){
   
   this.setState({loading:true})
+<<<<<<< HEAD
   var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var d_abi= Doctorabi.abi
   const net_id=await web3.eth.net.getId()
+=======
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const abi= Doctorabi.abi
+  var net_id = 5777
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
   if(Doctorabi.networks[net_id]){
     var address= Doctorabi.networks[net_id].address
     var doctor= web3.eth.Contract(d_abi,address)

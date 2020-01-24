@@ -12549,6 +12549,7 @@
       "events": {},
       "links": {},
 <<<<<<< HEAD
+<<<<<<< HEAD
       "address": "0xC55A57FfFcB7Fc82C380117D5EB7acb64ba2351A",
       "transactionHash": "0xbde49267107bee7c7861c29413d1b1602c779f18197a348a4d278044f41b1893"
     }
@@ -12557,6 +12558,8 @@
   "updatedAt": "2020-01-24T14:41:51.568Z",
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
       "address": "0x4855EEF323951FCFF9cD400b16fcdd7ca800a074",
       "transactionHash": "0x947ca138a0496dc0c5b2800aeface269ec66b7063d65923ef0ea5d6076f102a5"
     }
@@ -12571,6 +12574,9 @@
   "schemaVersion": "3.0.2",
   "updatedAt": "2020-01-14T16:47:25.627Z",
 >>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
+<<<<<<< HEAD
+>>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
+=======
 >>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
   "devdoc": {
     "methods": {}
