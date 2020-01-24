@@ -10,7 +10,7 @@ class Navbar extends Component {
          
           target="_blank"
           rel="noopener noreferrer"
-        >
+        ><img src="/logo.png" height="80" width="80"></img>
           Healthcare in BLOCKCHAIN
         </div>
         <p className="text-white"> {this.props.account}</p>

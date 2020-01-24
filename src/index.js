@@ -7,6 +7,7 @@ import Patient from './components/Patient';
 import Doctor from './components/Doctor';
 import PatientView from './components/PatientView';
 import DoctorView from './components/DoctorView';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import * as serviceWorker from './serviceWorker';
 

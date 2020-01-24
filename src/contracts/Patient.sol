@@ -4,7 +4,8 @@ pragma solidity ^0.5.0;
 contract Patient{
     uint public patientCount = 0;
     uint public hCount=0;
-    mapping(uint => Info) public info;
+    mapping(uint=>address) public adr;
+    mapping(address => Info) public info;
     mapping(uint => History) public history;
     struct Info{
     uint id;
@@ -33,15 +34,27 @@ string memory _edate, string memory _nof,uint _hCount){
             return(history[i].dname,history[i].medicine,history[i].sdate,history[i].edate,history[i].nof,hCount);
         }
     }
-    function set(string memory _name, uint _age, string memory _gender,string memory _bg) public {
+     function set(string memory _name, uint _age, string memory _gender,string memory _bg, address _address) public {
         patientCount++;
-        info[patientCount] = Info(patientCount, _name,_age,_gender,_bg);
+        adr[patientCount] = _address;
+        info[_address] = Info(patientCount, _name,_age,_gender,_bg);
     }
-    function get() public view returns(string memory _name, uint _age, string memory _gender, string memory _bg){
-    return (info[patientCount].name, info[patientCount].age, info[patientCount].gender,info[patientCount].bg) ;
+    // function get() public view returns(string memory _name, uint _age, string memory _gender, string memory _bg){
+    // return (info[patientCount].name, info[patientCount].age, info[patientCount].gender,info[patientCount].bg) ;
+    // }
+    function check(address s) public view returns(int t){
+        if(patientCount==0){
+            return -1;
+        }
+        for(uint i = 1; i <= patientCount;i++){
+            if(s==adr[i]){
+                return int(i);
+            }
+        }
+        return -1;
     }
     function getall(uint i) public view returns(string memory _name, uint _age, string memory _gender, string memory _bg,
     uint _patientCount,uint id){
-    return (info[i].name, info[i].age, info[i].gender,info[i].bg,patientCount,info[i].id);
+    return (info[adr[i]].name, info[adr[i]].age, info[adr[i]].gender,info[adr[i]].bg,patientCount,info[adr[i]].id);
     }
 }

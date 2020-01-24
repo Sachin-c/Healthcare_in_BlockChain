@@ -22,26 +22,35 @@ class PatientView extends Component {
 
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
+    var et=0
   const abi= Patientabi.abi
   const net_id=await web3.eth.net.getId()
-  if(Patientabi.networks[net_id]){
-    const address= Patientabi.networks[net_id].address
-    const patient= await web3.eth.Contract(abi,address)
-    this.setState({patient})
+    if(Patientabi.networks[net_id]){
+      var address= Patientabi.networks[net_id].address
+      const patient= await web3.eth.Contract(abi,address)
+      this.setState({patient})
+      et = await this.state.patient.methods.check(this.state.account).call()
+      console.log(et.toString())
+      if(et>0 & (window.location.href.toString().split("/")[3]!="Patient_View" | window.location.href.toString().split("/")[4]!=et)){
+        window.location.href="/Patient_View/"+et
+    }else if( et==-1){
+      window.location.href="/"
+    }
+    else{
     this.setState({loading:false})
     var id = window.location.href.toString().split("/")[4]
     this.setState({id})
     const p=await this.state.patient.methods.getall(id).call();
     this.setState({
       info:p
-    })
-    // console.log((this.state.info[1]).toString())
-    
+    })    
     document.getElementById('age').innerHTML=(this.state.info[1]).toString();
-  }else{
+    }
+  }
+else{
     window.alert("Contract not loaded to blockchain")
   }
   
@@ -59,7 +68,7 @@ constructor(props){
 }
 async getdoctors()
 {
-  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const abi= Doctorabi.abi
   const net_id=await web3.eth.net.getId()
   if(Doctorabi.networks[net_id]){
@@ -79,7 +88,7 @@ async getdoctors()
 async selecting(id,key){
   
   this.setState({loading:true})
-  const web3 = new Web3(Web3.givenProvider|| "http://192.168.0.103:7545" || "http://localhost:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const abi= Doctorabi.abi
   const net_id=await web3.eth.net.getId()
   if(Doctorabi.networks[net_id]){
@@ -101,7 +110,7 @@ async hist(){
   // const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var key = window.location.href.toString().split("/")[4]
  var x= await this.state.patient.methods.hCount.call()
- document.getElementById("dlist").innerHTML=""
+ if(document.getElementById("dlist").innerHTML==""){
  for(var i=1;i<=x.toString();i++){
    var no= await this.state.patient.methods.viewHist(i,key).call()
    console.log(no)
@@ -115,6 +124,9 @@ async hist(){
      newCell.appendChild(p);
    }
  }
+}else{
+  document.getElementById("dlist").innerHTML=""
+}
 }
 
 // createNotification = (type) => {
