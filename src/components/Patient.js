@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3'
 import './App.css';
+import Doctorabi from '../abis/Doctor.json'
 import Patientabi from '../abis/Patient.json'
 import Doctorabi from '../abis/Doctor.json'
 import Navbar from './Navbar'
@@ -20,7 +21,12 @@ async loadBlockchainData(){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
+<<<<<<< HEAD
   const net_id=await web3.eth.net.getId()
+=======
+  const abi= Patientabi.abi
+  var net_id = 5777
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
   var ret=0    
   if(Doctorabi.networks[net_id]){
     const d_abi= Doctorabi.abi
@@ -47,7 +53,11 @@ async loadBlockchainData(){
   this.setState({loading:false})
   }
 }
+<<<<<<< HEAD
 if(!Patientabi.networks[net_id] && !Doctorabi.networks[net_id]){
+=======
+  else{
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
     window.alert("Contract not loaded to blockchain")
   }
   

@@ -20,8 +20,45 @@ async loadBlockchainData(){
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Doctorabi.abi
+<<<<<<< HEAD
   const net_id=await web3.eth.net.getId()
   var ret=0 
+=======
+  var net_id = 5777
+  var ret=0 
+  var et=0   
+  if(Doctorabi.networks[net_id]){
+    const d_abi= Doctorabi.abi
+    var address= Doctorabi.networks[net_id].address
+    var doctor= await web3.eth.Contract(d_abi,address)
+    this.setState({doctor})
+    ret = await this.state.doctor.methods.check(this.state.account).call()
+    console.log(window.location.href.toString().split("/")[3])
+    if(ret>0 & (window.location.href.toString().split("/")[3]!="Doctor_View" | window.location.href.toString().split("/")[4]!=ret)){
+        window.location.href="/Doctor_View/"+ret
+    }else if(ret==-1){
+      window.location.href="/"
+    }else{
+    this.setState({loading:false})
+    }
+  }
+//   if(Patientabi.networks[net_id]){
+//     console.log(this.state.account)
+//     const p_abi= Patientabi.abi
+//     address= Patientabi.networks[net_id].address
+//     const patient= await web3.eth.Contract(p_abi,address)
+//     this.setState({patient})
+//     et = await this.state.patient.methods.check(this.state.account).call()
+//     console.log(ret)
+//     if(et>0 & window.location.href.toString().split("/")[3]!="Patient_View" | window.location.href.toString().split("/")[4]!=et){
+//       // window.location.href="/Patient_View/"+et
+//   }else if(ret==-1 & et==-1){
+//     window.location.href="/"
+//   }else{
+//   this.setState({loading:false})
+//   }
+// }
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
   if(Doctorabi.networks[net_id]){
     var address= Doctorabi.networks[net_id].address
     var doctor= await web3.eth.Contract(abi,address)
@@ -63,7 +100,11 @@ async write(name,age,gender,bg,pid,mname,mtype,edate,sdate,nof,id){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var id = window.location.href.toString().split("/")[4]
   // console.log(pid,id)
+<<<<<<< HEAD
   this.state.doctor.methods.WriteMedication(name,age,gender,bg,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),id).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
+=======
+  this.state.doctor.methods.WriteMedication(name,age,gender,bg,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),id).send({from:this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
     NotificationManager.success('Prescribtion added', 'Check history',5000)
   }) 
   var p = Number(pid)
@@ -115,7 +156,7 @@ async hist(){
 async add(dname,mname,mtype,edate,sdate,nof){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const abi= Patientabi.abi
-  const net_id=await web3.eth.net.getId()
+  var net_id = 5777
   if(Patientabi.networks[net_id]){
     const address= Patientabi.networks[net_id].address
     const patient= await web3.eth.Contract(abi,address)
@@ -173,7 +214,8 @@ constructor(props){
                 <div>
                   <h2>Requests will be shown below </h2>
                   {this.state.list
-                  ?<div> <h3>No requests yet</h3></div>
+                  ?<div>
+                     <h3>No requests yet</h3></div>
                  :
                  <ul>
                    
@@ -186,6 +228,7 @@ constructor(props){
                     </table>
      
                   <form id="form1" onSubmit={event=>{
+                    this.setState({loading:true})
                     event.preventDefault()
                     const mname=this.mname.value
                     const mtype=this.mtype.value

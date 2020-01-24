@@ -1374,7 +1374,11 @@
   },
   "networks": {},
   "schemaVersion": "3.0.2",
+<<<<<<< HEAD
   "updatedAt": "2020-01-23T14:44:53.208Z",
+=======
+  "updatedAt": "2020-01-14T16:47:25.991Z",
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
   "devdoc": {
     "methods": {}
   },

@@ -3,7 +3,10 @@ import Web3 from 'web3'
 import './App.css';
 import Doctorabi from '../abis/Doctor.json'
 import Patientabi from '../abis/Patient.json'
+<<<<<<< HEAD
 
+=======
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
 import Navbar from './Navbar'
 // import { callExpression } from '@babel/types';
 // import routing from './../index'
@@ -18,10 +21,19 @@ class Doctor extends Component {
 
 
 async loadBlockchainData(){
+<<<<<<< HEAD
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const net_id=await web3.eth.net.getId()
+  var ret=0    
+=======
+  
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const accounts = await web3.eth.getAccounts()
+  this.setState({account:accounts[0]})
+  const abi= Doctorabi.abi
+  var net_id = 5777
   var ret=0    
   if(Doctorabi.networks[net_id]){
     const d_abi= Doctorabi.abi
@@ -44,6 +56,41 @@ async loadBlockchainData(){
     console.log(ret)
     if(ret>0){
       window.location.href="/Patient_View/"+ret
+  }else{
+  this.setState({loading:false})
+  }
+}
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
+  if(Doctorabi.networks[net_id]){
+    const d_abi= Doctorabi.abi
+    var address= Doctorabi.networks[net_id].address
+    var doctor= await web3.eth.Contract(d_abi,address)
+    this.setState({doctor})
+<<<<<<< HEAD
+    ret = await this.state.doctor.methods.check(this.state.account).call()
+    console.log(ret.toString())
+    if(ret>0){
+        window.location.href="/Doctor_View/"+ret
+    }
+  }
+  if(Patientabi.networks[net_id]){
+    console.log(this.state.account)
+    const p_abi= Patientabi.abi
+    address= Patientabi.networks[net_id].address
+    const patient= await web3.eth.Contract(p_abi,address)
+    this.setState({patient})
+    ret = await this.state.patient.methods.check(this.state.account).call()
+    console.log(ret)
+    if(ret>0){
+      window.location.href="/Patient_View/"+ret
+=======
+    this.setState({loading:false})
+    const count = await doctor.methods.doctorCount.call()
+    console.log(count);
+    console.log(this.state.account) 
+    // await this.state.doctor.methods.get().call().then(function(number){ console.log(number)});
+    
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
   }else{
   this.setState({loading:false})
   }

@@ -6978,12 +6978,21 @@
     "5777": {
       "events": {},
       "links": {},
+<<<<<<< HEAD
       "address": "0x89Eba337dEA42a6658dCF5899789c17b18Aac855",
       "transactionHash": "0x214771cada33d56146261e37539d0c1f053d3fe18373156f01e5cedee8e81bfe"
     }
   },
   "schemaVersion": "3.0.2",
   "updatedAt": "2020-01-23T14:44:53.205Z",
+=======
+      "address": "0x470c8c8Eb49768D81B5eD385d1B32eA4988D5639",
+      "transactionHash": "0x32aac2cebb1bba8e9112930a92e523c5775b4d39cba8a722d422c5d435c1be6c"
+    }
+  },
+  "schemaVersion": "3.0.2",
+  "updatedAt": "2020-01-14T16:47:25.963Z",
+>>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
   "devdoc": {
     "methods": {}
   },
