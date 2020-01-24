@@ -22,15 +22,15 @@ class PatientView extends Component {
 
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
-  const accounts = await web3.eth.getAccounts()
+  var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  var accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
     var et=0
-  const abi= Patientabi.abi
-  const net_id=await web3.eth.net.getId()
+  var abi= Patientabi.abi
+  var net_id=await web3.eth.net.getId()
     if(Patientabi.networks[net_id]){
       var address= Patientabi.networks[net_id].address
-      const patient= await web3.eth.Contract(abi,address)
+      var patient= await web3.eth.Contract(abi,address)
       this.setState({patient})
       et = await this.state.patient.methods.check(this.state.account).call()
       console.log(et.toString())
@@ -43,7 +43,7 @@ async loadBlockchainData(){
     this.setState({loading:false})
     var id = window.location.href.toString().split("/")[4]
     this.setState({id})
-    const p=await this.state.patient.methods.getall(id).call();
+    var p=await this.state.patient.methods.getall(id).call();
     this.setState({
       info:p
     })    
@@ -68,16 +68,16 @@ constructor(props){
 }
 async getdoctors()
 {
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
-  const abi= Doctorabi.abi
+  var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  var abi= Doctorabi.abi
   var net_id = 5777
   if(Doctorabi.networks[net_id]){
-    const address= Doctorabi.networks[net_id].address
-    const doctor= web3.eth.Contract(abi,address)
+    var address= Doctorabi.networks[net_id].address
+    var doctor= web3.eth.Contract(abi,address)
     
-    const count = await doctor.methods.doctorCount.call()
+    var count = await doctor.methods.doctorCount.call()
     for(var i=1;i<= count;i++){
-        const doc=await doctor.methods.getall(i).call()
+        var doc=await doctor.methods.getall(i).call()
         this.setState({doctors:[...this.state.doctors,doc]})
     }
     console.log(this.state.doctors)
@@ -88,18 +88,16 @@ async getdoctors()
 async selecting(id,key){
   
   this.setState({loading:true})
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
-  const abi= Doctorabi.abi
-  var net_id = 5777
+  var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  var d_abi= Doctorabi.abi
+  const net_id=await web3.eth.net.getId()
   if(Doctorabi.networks[net_id]){
-    const address= Doctorabi.networks[net_id].address
-    const doctor= web3.eth.Contract(abi,address)
+    var address= Doctorabi.networks[net_id].address
+    var doctor= web3.eth.Contract(d_abi,address)
     this.setState({doctor})
     console.log(key,Number(id))
     this.state.doctor.methods.setp(Number(id),key,Patientabi.networks[net_id].address).send({from:this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
-    // });
-    // this.state.doctor.methods.setAddressB(Patientabi.networks[net_id].address).send({from:this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
-      NotificationManager.success('Your prescribtion will be added by doctor', 'Doctor was notified',5000)
+     NotificationManager.success('Your prescribtion will be added by doctor', 'Doctor was notified',5000)
       window.setTimeout(function(){window.location.reload()}, 3000);    
     });
   }else{
@@ -107,7 +105,7 @@ async selecting(id,key){
   }
 }
 async hist(){
-  // const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  // var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var key = window.location.href.toString().split("/")[4]
  var x= await this.state.patient.methods.hCount.call()
  if(document.getElementById("dlist").innerHTML==""){
@@ -190,7 +188,7 @@ async hist(){
                         <td>
                           <button className="btn btn-primary"
                             onClick={()=> {
-                              // console.log(key+1);
+                              // console.log(this.state.id,key);
                               this.selecting(this.state.id,key+1);
                           }
                             }
