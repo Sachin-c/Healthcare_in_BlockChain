@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Web3 from 'web3'
 import './App.css';
+import Doctorabi from '../abis/Doctor.json'
 import Patientabi from '../abis/Patient.json'
 import Navbar from './Navbar'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
@@ -16,22 +17,38 @@ class Patient extends Component {
 
 
 async loadBlockchainData(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545" || "http://192.168.0.100:7545")
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Patientabi.abi
-  const net_id=await web3.eth.net.getId()
+  var net_id = 5777
+  var ret=0    
+  if(Doctorabi.networks[net_id]){
+    const d_abi= Doctorabi.abi
+    var address= Doctorabi.networks[net_id].address
+    var doctor= await web3.eth.Contract(d_abi,address)
+    this.setState({doctor})
+    ret = await this.state.doctor.methods.check(this.state.account).call()
+    console.log(ret.toString())
+    if(ret>0){
+        window.location.href="/Doctor_View/"+ret
+    }
+  }
   if(Patientabi.networks[net_id]){
-    const address= Patientabi.networks[net_id].address
-    const patient= await web3.eth.Contract(abi,address)
+    console.log(this.state.account)
+    const p_abi= Patientabi.abi
+    address= Patientabi.networks[net_id].address
+    const patient= await web3.eth.Contract(p_abi,address)
     this.setState({patient})
-    this.setState({loading:false})
-    const count = await patient.methods.patientCount.call()
-    console.log(count);
-    console.log(this.state.patient.abiModel.abi.methods) 
-    await this.state.patient.methods.get().call().then(function(number){ console.log(number)});
-    
+    ret = await this.state.patient.methods.check(this.state.account).call()
+    console.log(ret)
+    if(ret>0){
+      window.location.href="/Patient_View/"+ret
   }else{
+  this.setState({loading:false})
+  }
+}
+  else{
     window.alert("Contract not loaded to blockchain")
   }
   
@@ -55,7 +72,7 @@ async set(name,age,gender,bg){
   else{
   this.setState({loading : true})
     var count= await this.state.patient.methods.patientCount().call()
-   this.state.patient.methods.set(name,age,gender,bg).send({from: this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on('error', function(error){
+   this.state.patient.methods.set(name,age,gender,bg,this.state.account).send({from: this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on('error', function(error){
     NotificationManager.error('Patient account not created', 'Transaction cancelled!', 5000)
       window.setTimeout(function(){window.location.reload()}, 3000);    
   }).on("confirmation", function () {

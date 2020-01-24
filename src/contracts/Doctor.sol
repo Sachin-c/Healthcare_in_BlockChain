@@ -6,7 +6,8 @@ contract Doctor{
     uint public treatCount = 0;
    address addressP;
     uint public p;
-    mapping(uint => Info) public info;
+    mapping(uint=>address) public adr;
+    mapping(address => Info) public info;
     mapping(uint => PatientList) public patientlist;
      mapping(uint => WaitList[]) waitlist;
      mapping(uint => WaitListAddress[]) waitlist_add;
@@ -66,20 +67,32 @@ function getPlen (uint _key) external view returns(uint count) {
        Patient myPatient = Patient(waitlist_add[_key][_id].add);
         return (myPatient.getall(waitlist[_key][_id].wait));
  }
-//  function setAddressB(address _address) external{
-//      addressP = _address;
-//  }
-//  function getAddressB() public view returns(address a){
-//      return(addressP);
-//  }
-    function set(string memory _name, uint _age, string memory _gender) public {
+ function setAddressB(address _address) external{
+     addressP = _address;
+ }
+ function getAddressB() public view returns(address a){
+     return(addressP);
+ }
+    function set(string memory _name, uint _age, string memory _gender, address _address) public {
         doctorCount++;
-        info[doctorCount] = Info(doctorCount, _name,_age,_gender);
+        adr[doctorCount] = msg.sender;
+        info[_address] = Info(doctorCount, _name,_age,_gender);
     }
-    function get() public view returns(string memory _name, uint _age, string memory _gender){
-    return (info[doctorCount].name, info[doctorCount].age, info[doctorCount].gender) ;
+    function check(address s) public view returns(int t){
+        if(doctorCount==0){
+            return -1;
+        }
+        for(uint i = 1; i <= doctorCount ;i++){
+            if(s==adr[i]){
+                return int(i);
+            }
+        }
+        return -1;
     }
+    // function get() public view returns(string memory _name, uint _age, string memory _gender){
+    // return (info[doctorCount].name, info[doctorCount].age, info[doctorCount].gender) ;
+    // }
     function getall(uint i) public view returns(string memory _name, uint _age, string memory _gender,uint _doctorCount){
-        return (info[i].name, info[i].age, info[i].gender,doctorCount);
+        return (info[adr[i]].name, info[adr[i]].age, info[adr[i]].gender,doctorCount);
     }
 }
