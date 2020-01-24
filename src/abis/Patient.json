@@ -3786,8 +3786,6 @@
               },
               "nodeType": "Mapping",
               "src": "108:22:2",
-<<<<<<< HEAD
-<<<<<<< HEAD
               "typeDescriptions": {
                 "typeIdentifier": "t_mapping$_t_uint256_$_t_address_$",
                 "typeString": "mapping(uint256 => address)"
@@ -3835,104 +3833,6 @@
               "nodeType": "Mapping",
               "src": "147:24:2",
               "typeDescriptions": {
-=======
-              "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_address_$",
-                "typeString": "mapping(uint256 => address)"
-              },
-              "valueType": {
-                "id": 533,
-                "name": "address",
-                "nodeType": "ElementaryTypeName",
-                "src": "122:7:2",
-                "stateMutability": "nonpayable",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_address",
-                  "typeString": "address"
-                }
-              }
-            },
-            "value": null,
-            "visibility": "public"
-          },
-          {
-            "constant": false,
-            "id": 539,
-            "name": "info",
-            "nodeType": "VariableDeclaration",
-            "scope": 782,
-            "src": "147:36:2",
-            "stateVariable": true,
-            "storageLocation": "default",
-            "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Info_$554_storage_$",
-              "typeString": "mapping(address => struct Patient.Info)"
-            },
-            "typeName": {
-              "id": 538,
-              "keyType": {
-                "id": 536,
-                "name": "address",
-                "nodeType": "ElementaryTypeName",
-                "src": "155:7:2",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_address",
-                  "typeString": "address"
-                }
-              },
-              "nodeType": "Mapping",
-              "src": "147:24:2",
-              "typeDescriptions": {
->>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
-=======
-              "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_uint256_$_t_address_$",
-                "typeString": "mapping(uint256 => address)"
-              },
-              "valueType": {
-                "id": 533,
-                "name": "address",
-                "nodeType": "ElementaryTypeName",
-                "src": "122:7:2",
-                "stateMutability": "nonpayable",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_address",
-                  "typeString": "address"
-                }
-              }
-            },
-            "value": null,
-            "visibility": "public"
-          },
-          {
-            "constant": false,
-            "id": 539,
-            "name": "info",
-            "nodeType": "VariableDeclaration",
-            "scope": 782,
-            "src": "147:36:2",
-            "stateVariable": true,
-            "storageLocation": "default",
-            "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Info_$554_storage_$",
-              "typeString": "mapping(address => struct Patient.Info)"
-            },
-            "typeName": {
-              "id": 538,
-              "keyType": {
-                "id": 536,
-                "name": "address",
-                "nodeType": "ElementaryTypeName",
-                "src": "155:7:2",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_address",
-                  "typeString": "address"
-                }
-              },
-              "nodeType": "Mapping",
-              "src": "147:24:2",
-              "typeDescriptions": {
->>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
                 "typeIdentifier": "t_mapping$_t_address_$_t_struct$_Info_$554_storage_$",
                 "typeString": "mapping(address => struct Patient.Info)"
               },
@@ -5998,10 +5898,6 @@
                           "commonType": {
                             "typeIdentifier": "t_address",
                             "typeString": "address"
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
                           },
                           "id": 717,
                           "isConstant": false,
@@ -6063,72 +5959,6 @@
                               "typeString": "address"
                             }
                           },
-<<<<<<< HEAD
-=======
-                          },
-                          "id": 717,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": false,
-                          "lValueRequested": false,
-                          "leftExpression": {
-                            "argumentTypes": null,
-                            "id": 713,
-                            "name": "s",
-                            "nodeType": "Identifier",
-                            "overloadedDeclarations": [],
-                            "referencedDeclaration": 690,
-                            "src": "1779:1:2",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_address",
-                              "typeString": "address"
-                            }
-                          },
-                          "nodeType": "BinaryOperation",
-                          "operator": "==",
-                          "rightExpression": {
-                            "argumentTypes": null,
-                            "baseExpression": {
-                              "argumentTypes": null,
-                              "id": 714,
-                              "name": "adr",
-                              "nodeType": "Identifier",
-                              "overloadedDeclarations": [],
-                              "referencedDeclaration": 535,
-                              "src": "1782:3:2",
-                              "typeDescriptions": {
-                                "typeIdentifier": "t_mapping$_t_uint256_$_t_address_$",
-                                "typeString": "mapping(uint256 => address)"
-                              }
-                            },
-                            "id": 716,
-                            "indexExpression": {
-                              "argumentTypes": null,
-                              "id": 715,
-                              "name": "i",
-                              "nodeType": "Identifier",
-                              "overloadedDeclarations": [],
-                              "referencedDeclaration": 704,
-                              "src": "1786:1:2",
-                              "typeDescriptions": {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
-                              }
-                            },
-                            "isConstant": false,
-                            "isLValue": true,
-                            "isPure": false,
-                            "lValueRequested": false,
-                            "nodeType": "IndexAccess",
-                            "src": "1782:6:2",
-                            "typeDescriptions": {
-                              "typeIdentifier": "t_address",
-                              "typeString": "address"
-                            }
-                          },
->>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
-=======
->>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
                           "src": "1779:9:2",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
@@ -7148,36 +6978,12 @@
     "5777": {
       "events": {},
       "links": {},
-<<<<<<< HEAD
-<<<<<<< HEAD
-      "address": "0x47bfDA4Bc6F795Fad94B3300616d4D98303eA038",
-      "transactionHash": "0xdb29f8c3f2136a30c2d1c134d8941e70af50ea88d77b2f2c5a1d5cf2f457b374"
+      "address": "0x5345dcb0744aA04F8dBbf0e06995BddF868E4C1a",
+      "transactionHash": "0x62e4967b663012f330a560755c75c8393525cdb58bd11d8c0b5c6ebc5b7646fa"
     }
   },
   "schemaVersion": "3.0.2",
-  "updatedAt": "2020-01-24T14:41:52.055Z",
-=======
-<<<<<<< HEAD
-=======
->>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
-      "address": "0x89Eba337dEA42a6658dCF5899789c17b18Aac855",
-      "transactionHash": "0x214771cada33d56146261e37539d0c1f053d3fe18373156f01e5cedee8e81bfe"
-    }
-  },
-  "schemaVersion": "3.0.2",
-  "updatedAt": "2020-01-23T14:44:53.205Z",
-=======
-      "address": "0x470c8c8Eb49768D81B5eD385d1B32eA4988D5639",
-      "transactionHash": "0x32aac2cebb1bba8e9112930a92e523c5775b4d39cba8a722d422c5d435c1be6c"
-    }
-  },
-  "schemaVersion": "3.0.2",
-  "updatedAt": "2020-01-14T16:47:25.963Z",
->>>>>>> b2d173000e6f92bd2529f83583cc513cd2f18d09
-<<<<<<< HEAD
->>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
-=======
->>>>>>> 735b4af18f25b9d0157b7a3f49a5a5e14a963e01
+  "updatedAt": "2020-01-24T15:12:28.106Z",
   "devdoc": {
     "methods": {}
   },
