@@ -192,7 +192,7 @@ constructor(props){
       fontFamily: "Arial"
     };
     return (
-      <div>
+      <div id="big-banner">
         <NotificationContainer/>
        <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">

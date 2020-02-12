@@ -46,8 +46,6 @@ async loadBlockchainData(){
   }
 }
 
- 
-  
 }
 constructor(props){
   super(props)
@@ -58,29 +56,27 @@ constructor(props){
 }
   render() {
     return (
-      <div>
-       <Navbar account={this.state.account} />
-      
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto"> 
-              {this.state.loading 
-                ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
-                : 
-                <div>
-                    <a  href="/Patient"><button type="button" className="btn btn-primary" >Patient</button></a>
-                    <a  href="/Doctor"><button type="button" className="btn btn-primary" >Doctor</button></a>
-                    </div>
-              }
+      <div id="big-banner">
+        <div>
+          <Navbar account={this.state.account} />
+        </div>
+        <div>
+          {this.state.loading 
+            ? <div id="loader" class="col-text-center"><h1 className="text-center">Loading..</h1></div>
+            : 
+            <div className="row">
+              <div className="col-sm-6">
+                <p></p>
+                <a  href="/Patient"><button type="button" className="btn btn-default btn-outline-primary btn-sm" ><img src="/pat.png" height="50%" width="50%" ></img></button></a>
               </div>
-            </main>
-          </div>
+              <div className="col-sm-6">
+                <p></p>
+                <a  href="/Doctor"><button type="button" className="btn btn-default btn-outline-primary btn-sm" ><img src="/pic.png" height="50%" width="50%" ></img></button></a>
+              </div>
+            </div>
+          }
         </div>
       </div>
-      // <div>
-      //   <h1>Home</h1>
-      // </div>
     );
   }
 }

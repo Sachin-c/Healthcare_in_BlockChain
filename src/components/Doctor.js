@@ -28,7 +28,7 @@ async loadBlockchainData(){
     var doctor= await web3.eth.Contract(d_abi,address)
     this.setState({doctor})
     ret = await this.state.doctor.methods.check(this.state.account).call()
-    console.log(ret.toString())
+    //console.log(ret.toString())
     if(ret>0){
         window.location.href="/Doctor_View/"+ret
     }
@@ -86,7 +86,7 @@ async set(name,age,gender){
    
     return (
       
-      <div>
+      <div id="big-banner">
         <NotificationContainer/>
        <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">
@@ -96,7 +96,7 @@ async set(name,age,gender){
                 {this.state.loading 
                 ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
                 : 
-                                  <form id="form1"  onSubmit={event=>{
+                                  <form id="box"  onSubmit={event=>{
                                     event.preventDefault()
                                     const name=this.pname.value
                                     const age=this.page.value
@@ -104,21 +104,33 @@ async set(name,age,gender){
                                     this.set(name,age,gender)   
                                   }}>
                                 <p className="text-danger" id="error"></p>
-                              <div className="form-group">
-                                <label htmlFor="Name">Name</label>
-                                <input type="text" className="form-control" id="name" required ref={(input) => {this.pname=input}} placeholder="Enter Name"></input>
-                              </div>
-                              <div className="form-group">
-                                <label htmlFor="Age">Age</label>
-                                <input type="number" className="form-control" id="age" required  ref={(input) => {this.page=input}} placeholder="Age"></input>
-                              </div>
-                              <div className="form-group">
-                                  <label htmlFor="Gender">Gender</label>
-                                  <select  name="gender" className="form-control" ref={(input) => {this.pgen=input}} >
-                                    <option value="male"defaultValue>Male</option>
-                                    <option value="female"defaultValue>Female</option>
-                                    <option value="others"defaultValue>Others</option>
-                                </select>
+                                <div className="row" >
+                                  <div className="form-group col-sm-4">
+                                    <label htmlFor="Name">Name:</label>
+                                  </div>
+                                  <div className="col-sm-8">
+                                    <input type="text" className="form-control" id="name" required ref={(input) => {this.pname=input}} placeholder="Enter Name"></input>
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="form-group col-sm-4">
+                                    <label htmlFor="Age">Age:</label>
+                                  </div>
+                                  <div className="form-group col-sm-8">  
+                                    <input type="number" className="form-control" id="age" required ref={(input) => {this.page=input}} placeholder="Age"></input>
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="form-group col-sm-4">
+                                    <label htmlFor="Gender">Gender</label>
+                                  </div>
+                                  <div className="form-group col-sm-8">
+                                    <select  name="gender" className="form-control" ref={(input) => {this.pgen=input}} >
+                                      <option value="male"defaultValue>Male</option>
+                                      <option value="female"defaultValue>Female</option>
+                                      <option value="others"defaultValue>Others</option>
+                                    </select>
+                                  </div>
                                 </div>                          
                               <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
                            </form>      
