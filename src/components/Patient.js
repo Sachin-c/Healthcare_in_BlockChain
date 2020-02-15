@@ -94,7 +94,7 @@ async set(name,age,gender,bg){
               <div className="content mr-auto ml-auto">
                 {this.state.loading 
                 ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
-                : 
+                :
                                   <form id="box" className="" onSubmit={event=>{
                                     event.preventDefault()
                                     const name=this.pname.value

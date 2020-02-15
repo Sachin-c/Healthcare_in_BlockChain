@@ -322,10 +322,3 @@ constructor(props){
 }
 
 export default DoctorView;
-
-
-
-
-
-
-
