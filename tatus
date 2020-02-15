@@ -1,0 +1,148 @@
+[33mcommit b7b7c7b2fa64ff969dc7623e407ce9e82aef2324[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: aSamad97 <43605319+aSamad97@users.noreply.github.com>
+Date:   Wed Feb 12 13:52:28 2020 +0530
+
+    Modified GUI
+
+[33mcommit aa67b52030e463e2e5075aecd3ae6a3c8b852c82[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: d744d36 846a177
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Jan 24 20:49:08 2020 +0530
+
+    Update App.js
+
+[33mcommit d744d362a3d36ef096486584c7707e9d2d343c6b[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Jan 24 20:47:50 2020 +0530
+
+    .
+
+[33mcommit 846a177d4fb8a291e847237df5183d17126b0e2f[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Jan 24 20:40:53 2020 +0530
+
+    .
+
+[33mcommit a916b352303ee1ad328d9114b13c63704bb2777b[m
+Merge: 268b5cd 735b4af
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Jan 24 20:33:26 2020 +0530
+
+    Merge branch 'master' of https://github.com/Sachin-c/Healthcare_in_BlockChain
+
+[33mcommit 268b5cdb431e4459cb2f9d2c2aa36db79c53353d[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Jan 24 20:30:25 2020 +0530
+
+    ..
+
+[33mcommit bfb47614ba0b04d2b47f1726e20d5577355fc8ca[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Jan 24 20:26:13 2020 +0530
+
+    sorted(all uncommits commited)
+
+[33mcommit 735b4af18f25b9d0157b7a3f49a5a5e14a963e01[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Jan 24 19:53:03 2020 +0530
+
+    ..
+
+[33mcommit b7cbd4cca1f921a4946265190641d267981f292c[m
+Merge: 54fddd1 b2d1730
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Jan 24 19:48:40 2020 +0530
+
+    .
+
+[33mcommit 54fddd1da11cc0c6bf9d58384da602c5ee54fa96[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Jan 24 19:47:14 2020 +0530
+
+    .
+
+[33mcommit b2d173000e6f92bd2529f83583cc513cd2f18d09[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Wed Jan 15 00:03:04 2020 +0530
+
+    ..
+
+[33mcommit 48b3d7df1c85def57f800930f9c3f399fe250ea3[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Tue Jan 14 22:19:13 2020 +0530
+
+    auto login addded (one role per account)
+
+[33mcommit 9243ba02bbd2a8b55a146c888938f0146207b6f1[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Sun Jan 12 13:32:45 2020 +0530
+
+    mobile functionality(variable)
+
+[33mcommit 0b5e8a04fa0b7316d222e9d5e247e352020439eb[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Mon Dec 30 20:47:44 2019 +0530
+
+    ..
+
+[33mcommit f344de055fba2e62146032631affd8e3fefcca32[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Tue Dec 24 20:38:41 2019 +0530
+
+    1.added intsance scalability for patients
+    2.added required fields in forms and other small fixes
+
+[33mcommit 5bb456655b1faa86f5013a644441e9013b49bb99[m
+Merge: 5a89c07 deed760
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Dec 20 19:22:28 2019 +0530
+
+    Merge branch 'master' of https://github.com/Sachin-c/Healthcare_in_BlockChain
+
+[33mcommit 5a89c075f04eabbfb2b2a2703b9d1d04bd706e5a[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Dec 20 19:22:10 2019 +0530
+
+    Added validation for forms on sign up
+
+[33mcommit deed7603984d16ab131f5f0681839d88c7256ea5[m
+Author: Sachin-c <43939828+Sachin-c@users.noreply.github.com>
+Date:   Fri Dec 6 14:53:25 2019 +0530
+
+    Update README.md
+
+[33mcommit e5cdb1f2363cc7aa4cf1d9d42d74dcb0a4147920[m
+Author: Sachin-c <43939828+Sachin-c@users.noreply.github.com>
+Date:   Fri Nov 29 00:45:32 2019 +0530
+
+    Update README.md
+
+[33mcommit bb7dd8b709c3b3facc94ec9f452ca6882a5ac10c[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Nov 29 00:43:39 2019 +0530
+
+    ..
+
+[33mcommit 0ac29bebd3bbf308ddded68808346a03cbe661a7[m
+Author: Sachin Chandwani <sachinchandwani@sachin.local>
+Date:   Fri Nov 29 00:43:12 2019 +0530
+
+    readme update
+
+[33mcommit f38936cd2363893c835efcbded6438bc382865bd[m
+Author: Sachin-c <43939828+Sachin-c@users.noreply.github.com>
+Date:   Wed Nov 27 20:30:27 2019 +0530
+
+    Create README.md
+
+[33mcommit 1c1fb6cf198ad2ad354612ccf78c4a4e78c7c4f2[m
+Author: Sachin-c <43939828+Sachin-c@users.noreply.github.com>
+Date:   Wed Nov 27 20:13:26 2019 +0530
+
+    Add files via upload
+
+[33mcommit 8e25cbd720a84280e2695b17b8b8e4716d8d3419[m
+Author: Sachin-c <43939828+Sachin-c@users.noreply.github.com>
+Date:   Wed Nov 27 20:08:05 2019 +0530
+
+    Initial commit

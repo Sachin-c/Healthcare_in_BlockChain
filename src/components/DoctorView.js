@@ -195,14 +195,43 @@ constructor(props){
       <div id="big-banner">
         <NotificationContainer/>
        <Navbar account={this.state.account} />
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
+          <div className="container-fluid row ">
                 {this.state.loading 
-                ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
+                ? <div id="loader" className="text-center "><h1 className="text-center">Loading..</h1></div>
                 :
-                <div>
+                <div className="row text-center ">
+                  <div>
+                  <div id="box" className="col">
+                    <h1 className="text-center">Your Bio</h1>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h4 > Name : </h4>
+                      </div>
+                      <div className="col-sm-6">
+                        <h4 id="name" >Abdus</h4>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h4 > Age : </h4>
+                      </div>
+                      <div className="col-sm-6">
+                        <h4 id="age">22</h4>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h4 > Gender : </h4>
+                      </div>
+                      <div className="col-sm-6">
+                        <h4 id="gender">Male</h4>
+                      </div>
+                    </div>
+                  <script>var age=</script>
+                </div>
+                </div>
+              <div>
+                <div id="box" className="col">
                   <h2>Requests will be shown below </h2>
                   {this.state.list
                   ?<div>
@@ -214,11 +243,10 @@ constructor(props){
                    return(
                      
                      <li key={key}>
-                       <button   onClick={(e) => this.ph(patient[5])} title="View Patient History">View Patient History</button>
+                       <button  className="btn-primary" onClick={(e) => this.ph(patient[5])} title="View Patient History">View Patient History</button>
                     <table id="dlist">
                     </table>
-     
-                  <form id="form1" onSubmit={event=>{
+                  <form id="form1" onSubmit= { event=> {
                     this.setState({loading:true})
                     event.preventDefault()
                     const mname=this.mname.value
@@ -229,17 +257,17 @@ constructor(props){
                     // const doc=this.state.doctor.geta
                     this.write(patient._name,patient._age,patient._gender,patient._bg,patient._pid.toString(),mname,mtype,edate,sdate,nof,key)   
                     this.add(this.state.info,mname,mtype,edate,sdate,nof)
-                  }}> <h6 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg} 
+                  }}> 
+                  <h6 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg} 
                   </h6>
                     {/* { this.setmindate()} */}
                     {/* <p className="text-danger" id="error"></p> */}
-                    
-                    
-                    <div className="form-group">
+
+                    <div className="form-group text-center">
                             <label htmlFor="Medicine">Medicine</label>
                             <input type="med" className="form-control" required ref={(input) => {this.mname=input}} id="medicine" placeholder="Medicine Name"></input>
                           </div>
-                    <div className="form-group"> 
+                    <div className="form-group text-center"> 
                             <label htmlFor="type">Medicine Type</label>
                         <select  name="type" className="form-control" ref={(input) => {this.mtype=input}} >
                             <option value="Liquid"defaultValue>Liquid</option>
@@ -248,17 +276,17 @@ constructor(props){
                         </select>
                     </div>
                     
-                    <div className="form-group" data-provide="datepicker">
+                    <div className="form-group text-center" data-provide="datepicker">
                             <label htmlFor="Start Date">Start Date</label><br/>
                             <input type="date" id="ssdate" required ref={(input) => {this.sdate=input}}/>
                     </div>
                            
-                    <div className="form-group" data-provide="datepicker">
+                    <div className="form-group text-center" data-provide="datepicker">
                         <label htmlFor="Start Date">End Date</label><br/>
                         <input type="date" required ref={(input) => {this.edate=input}}/>
                     </div>
 
-                    <div className="form-group"> 
+                    <div className="form-group text-center"> 
                             <label htmlFor="type">Number of times a day </label>
                         <select  name="numberof" className="form-control" ref={(input) => {this.nof=input}} >
                             <option defaultValue value="1">1</option>
@@ -277,18 +305,18 @@ constructor(props){
                    )})}    
                  </ul>  
                 }
-                <button id="button"  onClick={this.hist} className="btn btn-primary">History</button> 
-                <table id="wheel"></table>
                 </div>
-                
+              </div>
+                <div>
+                  <div className="col text-center" id="box">
+                    <button id="button"  onClick={this.hist} className="btn btn-primary">History</button>
+                  <table id="wheel"></table>
+                  </div>
+                </div>
+                </div>
                 }
                 </div>
-           
-            </main>
           </div>
-        </div>
-      </div>
-      
     );
   }
 }

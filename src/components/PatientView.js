@@ -155,21 +155,49 @@ async hist(){
       <div id="big-banner">
         <NotificationContainer/>
        <Navbar account={this.state.account} />
-       <br></br><br></br>
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
+          <div className="">
                 {this.state.loading 
                 ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
                 :
-                <div>
-                  <h1>Your Bio</h1>
-                <h4 > Name : </h4><h4 id="name" >{this.state.info[0]}</h4><br/>
-                <script>var age=</script>
-                  <h4 > Age : </h4><h4 id="age"></h4><br/>
-                  <h4 > Gender : </h4><h4 id="gender">{this.state.info[2]}</h4><br/>
-                  <h4 > Blood Group : </h4><h4 id="bg" >{this.state.info[3]}</h4><br/>
+                <div className="">
+                  <div id="box">
+                    <h1 className="text-center">Your Bio</h1>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h4 > Name : </h4>
+                      </div>
+                      <div className="col-sm-6">
+                        <h4 id="name" >{this.state.info["name"]}</h4>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h4 > Age : </h4>
+                      </div>
+                      <div className="col-sm-6">
+                        <h4 id="age"></h4>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h4 > Gender : </h4>
+                      </div>
+                      <div className="col-sm-6">
+                        <h4 id="gender">{this.state.info[2]}</h4>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h4 > Blood Group : </h4>
+                      </div>
+                      <div className="col-sm-6">
+                        <h4 id="bg" >{this.state.info[3]}</h4>
+                      </div>
+                    </div>
+                  <script>var age=</script>
+                </div>
+                <br/>
+                <div id="box">
                   <h3>Doctors to consult from</h3>
                   <table className="table">
                     <thead>
@@ -184,47 +212,32 @@ async hist(){
                         return(
                           <tr key={key}>
                             <th scope="row">{key+1}</th>
-                        <td>{doctor._name}</td>
-                        <td>
-                          <button className="btn btn-primary"
-                            onClick={()=> {
-                              // console.log(this.state.id,key);
-                              this.selecting(this.state.id,key+1);
-                          }
-                            }
-                          
-                          >Select</button></td>
-
-
+                              <td>{doctor._name}</td>
+                              <td>
+                                <button className="btn btn-primary"
+                                  onClick={()=> {
+                                    // console.log(this.state.id,key);
+                                    this.selecting(this.state.id,key+1);
+                                    }
+                                  }
+                                >Select</button>
+                              </td>
                           </tr>
                         )
                       })}
                     </tbody>
                   </table>
-                 
-                  <button id="button" onClick={this.hist} className="btn btn-primary">See History</button> 
+                  <div className="text-center">
+                    <button id="button" onClick={this.hist} className="btn btn-primary">See History</button>
+                  </div>
                   <table id="dlist"></table>
-                  
+                  </div>
                 </div>
-                
                 }
                 </div>
-            </main>
           </div>
-        </div>
-      </div>
-      
     );
   }
 }
 
 export default PatientView;
-
-
-
-
-
-
-
-           
-               

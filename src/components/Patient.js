@@ -95,7 +95,7 @@ async set(name,age,gender,bg){
                 {this.state.loading 
                 ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
                 : 
-                                  <form id="box" className="fixed-bottom" onSubmit={event=>{
+                                  <form id="box" className="" onSubmit={event=>{
                                     event.preventDefault()
                                     const name=this.pname.value
                                     const age=this.page.value
