@@ -167,7 +167,7 @@ async hist(){
                         <h4 > Name : </h4>
                       </div>
                       <div className="col-sm-6">
-                        <h4 id="name" >{this.state.info["name"]}</h4>
+                        <h4 id="name" >{this.state.info[0]}</h4>
                       </div>
                     </div>
                     <div className="row">

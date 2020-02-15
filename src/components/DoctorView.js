@@ -208,7 +208,7 @@ constructor(props){
                         <h4 > Name : </h4>
                       </div>
                       <div className="col-sm-6">
-                        <h4 id="name" >Abdus</h4>
+                        <h4 id="name" >{this.state.info}</h4>
                       </div>
                     </div>
                     <div className="row">
@@ -257,6 +257,7 @@ constructor(props){
                     // const doc=this.state.doctor.geta
                     this.write(patient._name,patient._age,patient._gender,patient._bg,patient._pid.toString(),mname,mtype,edate,sdate,nof,key)   
                     this.add(this.state.info,mname,mtype,edate,sdate,nof)
+                    
                   }}> 
                   <h6 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg} 
                   </h6>
