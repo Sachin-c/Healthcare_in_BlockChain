@@ -67,9 +67,10 @@ async loadBlockchainData(){
     }else{
     this.setState({loading:false})
     var id = window.location.href.toString().split("/")[4]
-    const count = await doctor.methods.getall(id).call()
-    this.setState({info:count[0]})
+    const count = await doctor.methods.getall1(id).call()
     console.log(count)
+    this.setState({hash:count[3]})
+    this.setState({name:web3.utils.toAscii(count[0])})
     const result=await this.state.doctor.methods.getPlen(id).call()
     var patient= await web3.eth.Contract(Patientabi.abi,Patientabi.networks[net_id].address)
     this.setState({patient})
@@ -182,17 +183,10 @@ constructor(props){
 
 
   render() {
-    const hstyle = {
-      display: "block",
-      width: "100%",
-      border: '3px solid grey',
-      color: "white",
-      backgroundColor: "DodgerBlue",
-      padding: "10px",
-      fontFamily: "Arial"
-    };
+    const ipfsHash = this.state.hash
     return (
-      <div id="big-banner">
+      <div>
+      <div id="big-banner" ></div>
         <NotificationContainer/>
        <Navbar account={this.state.account} />
           <div className="container-fluid row ">
@@ -208,15 +202,31 @@ constructor(props){
                         <h4 > Name : </h4>
                       </div>
                       <div className="col-sm-6">
-                        <h4 id="name" >{this.state.info}</h4>
+                        <h4 id="name" >{this.state.name}</h4>
                       </div>
                     </div>
                     <div className="row">
+          <div className="col-md-4">
+            <div className="card mb-3">
+              {ipfsHash ? (
+                <img
+                  src={`https://ipfs.io/ipfs/${ipfsHash}`}
+                  className="card-img-top"
+                  alt={`${ipfsHash}`}
+                />
+              ) : (
+                <img
+                  src="https://api.fnkr.net/testimg/333x180/?text=IPFS"
+                  className="card-img-top"
+                  alt="NA"
+                />
+              )}</div></div></div>
+                    {/* <div className="row">
                       <div className="col-sm-6">
                         <h4 > Age : </h4>
                       </div>
                       <div className="col-sm-6">
-                        <h4 id="age">22</h4>
+                        <h4 id="age"></h4>
                       </div>
                     </div>
                     <div className="row">
@@ -224,9 +234,9 @@ constructor(props){
                         <h4 > Gender : </h4>
                       </div>
                       <div className="col-sm-6">
-                        <h4 id="gender">Male</h4>
+                        <h4 id="gender"></h4>
                       </div>
-                    </div>
+                    </div> */}
                   <script>var age=</script>
                 </div>
                 </div>

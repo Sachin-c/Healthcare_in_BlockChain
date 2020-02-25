@@ -87,7 +87,8 @@ async set(name,age,gender,bg){
    
     return (
       
-      <div id="big-banner">
+      <div>
+      <div id="big-banner" ></div>
         <NotificationContainer/>
        <Navbar account={this.state.account} />
           <div className="row border border-danger">

@@ -85,7 +85,7 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
     this.setState({loading : true})
     console.log(this.state.file)
     var count= await this.state.doctor.methods.doctorCount().call()
-   this.state.doctor.methods.set(name,spec,exp,web3.utils.fromAscii(add),web3.utils.fromAscii(timingfrom),web3.utils.fromAscii(timingtill),gender,this.state.account,this.state.file).send({from: this.state.account}).on('error', function(error){
+   this.state.doctor.methods.set(web3.utils.fromAscii(name),web3.utils.fromAscii(spec),exp,web3.utils.fromAscii(add),web3.utils.fromAscii(timingfrom),web3.utils.fromAscii(timingtill),web3.utils.fromAscii(gender),this.state.account,(this.state.file)).send({from: this.state.account}).on('error', function(error){
     NotificationManager.error('Doctor account not created', 'Transaction cancelled!', 5000)
       window.setTimeout(function(){window.location.reload()}, 3000);    
   }).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
@@ -98,8 +98,8 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
 }
   render() {
    
-    return (
-      <div id="big-banner" onScroll>
+    return (<div>
+      <div id="big-banner"></div>
         <NotificationContainer/>
        <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">

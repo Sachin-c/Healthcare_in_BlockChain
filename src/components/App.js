@@ -56,7 +56,8 @@ constructor(props){
 }
   render() {
     return (
-      <div id="big-banner">
+      <div>
+      <div id="big-banner" ></div>
         <div>
           <Navbar account={this.state.account} />
         </div>

@@ -152,7 +152,8 @@ async hist(){
 
   render() {
     return (
-      <div id="big-banner">
+      <div>
+      <div id="big-banner" ></div>
         <NotificationContainer/>
        <Navbar account={this.state.account} />
           <div className="">

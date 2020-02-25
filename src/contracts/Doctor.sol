@@ -32,13 +32,13 @@ contract Doctor{
     }
     struct Info{
     uint id;
-    string name;
-    string spec;
+    bytes32 name;
+    bytes32 spec;
     uint exp;
     bytes32 add;
     bytes32 timingfrom;
     bytes32 timingtill;
-    string gender;
+    bytes32 gender;
     string ipfshash;
     }
     function WriteMedication(string memory _name, uint _age, string memory _gender, string memory _bg,uint _pid,bytes32 _medname,
@@ -78,8 +78,8 @@ function getPlen (uint _key) external view returns(uint count) {
  function getAddressB() public view returns(address a){
      return(addressP);
  }
-    function set(string memory _name,string memory _spec, uint _exp, bytes32 _add,bytes32 _timingfrom,
-    bytes32 _timingtill,string memory _gender,address _address,string memory _ipfshash) public {
+    function set(bytes32 _name,bytes32 _spec, uint _exp, bytes32 _add,bytes32 _timingfrom,
+    bytes32 _timingtill,bytes32 _gender,address _address,string memory _ipfshash) public {
         doctorCount++;
         adr[doctorCount] = _address;
         info[_address] = Info(doctorCount, _name,_spec,_exp,_add,_timingfrom,_timingtill,_gender,_ipfshash);
@@ -101,16 +101,19 @@ function getPlen (uint _key) external view returns(uint count) {
     // function getall(uint i) public view returns(string memory _name, uint _age, string memory _gender,uint _doctorCount){
     //     return (info[adr[i]].name, info[adr[i]].exp, info[adr[i]].gender,doctorCount);
     // }
-    function getall(uint i) public view returns(string memory _name, string memory _spec,uint _exp,bytes32 add,
-    bytes32 _timingfrom,bytes32 _timingtill, string memory _gender,bytes32 _ipfhash,uint _doctorCount){
+    function getall1(uint i) public view returns(bytes32 _name, bytes32 _spec,uint _exp,string memory _ipfhash,uint _doctorCount){
         return (info[adr[i]].name,
         info[adr[i]].spec,
         info[adr[i]].exp,
+        info[adr[i]].ipfshash,
+        doctorCount);
+    }
+    function getall2(uint i) public view returns(bytes32 add,
+    bytes32 _timingfrom,bytes32 _timingtill,uint _doctorCount){
+        return (
         info[adr[i]].add,
         info[adr[i]].timingfrom,
         info[adr[i]].timingtill,
-        info[adr[i]].gender,
-        info[adr[i]].ipfshash,
         doctorCount);
     }
 }
