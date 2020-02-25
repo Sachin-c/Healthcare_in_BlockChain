@@ -67,7 +67,13 @@ constructor(props){
             <div className="row">
               <div className="col-sm-6">
                 <p></p>
-                <a  href="/Patient"><button type="button" className="btn btn-default btn-outline-primary btn-sm" ><img src="/pat.png" height="50%" width="50%" ></img></button></a>
+                <div class="r2 r3 r4 yc z9 za yb zb zc">
+                  <a href="https://get.uber.com/sign-up/" target="_self" aria-label="" class="nq b5 nr ns ag am cj nt yh yi yj yk yl ym">
+                    <div class="yn yo i6 on b5 f2 bj bk s5 bw bu bc yp yq">
+                      <div class="fe yr bk c4 hk ys">
+                        <div class="pf yt">
+                          <h2 class="ig ih xo xp io ip f2 bi fp cu j4 fb uh">Sign up to ride</h2></div><div class="yu yv"><div class="yw al b7 yx iv yy yz"><div class="z0 z1 bw z2 z3 z4 is z5 bx"><div class="z6 dr is iu al z7 z8 uf"><svg aria-hidden="true" focusable="false" width="30px" height="1em" fill="currentColor" viewBox="0 0 36 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.2354 2H24.2711L36 18L24.2711 34H18.2354L28.1237 20.56H0V15.44H28.1237L18.2354 2Z" fill="currentColor"></path></svg></div><div class="z6 dr is iu al z7 z8 uf"><svg aria-hidden="true" focusable="false" width="30px" height="1em" fill="currentColor" viewBox="0 0 36 36"><path fill-rule="evenodd" clip-rule="evenodd" d="M18.2354 2H24.2711L36 18L24.2711 34H18.2354L28.1237 20.56H0V15.44H28.1237L18.2354 2Z" fill="currentColor"></path></svg></div></div></div></div></div></div></a></div>
+                {/* <a  href="/Patient"><button type="button" className="btn btn-default btn-outline-primary btn-sm" ><img src="/pat.png" height="50%" width="50%" ></img></button></a> */}
               </div>
               <div className="col-sm-6">
                 <p></p>
