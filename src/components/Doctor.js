@@ -56,22 +56,36 @@ constructor(props){
   super(props)
   this.state={
     account:'',
-    loading:true
+    loading:true,
+    file: null,
+
   }
   this.set=this.set.bind(this);
 
 }
+ captureFile=(event)=>{
+  const file = event.target.files[0]
+  const reader = new window.FileReader()
+  reader.readAsArrayBuffer(file)
+  reader.onloadend = () => {
+    this.setState({
+      buffer: Buffer(reader.result),
+      file: URL.createObjectURL(file)
+    })
+  }
+}
 
-
-async set(name,age,gender){
-   if(age<=0)
+async set(name,spec,gender,exp,add,timingfrom,timingtill){
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+   if(exp<=0)
   {
-    NotificationManager.warning('Please enter a valid age','Incorrect age', 3000);
+    NotificationManager.warning('Please enter valid year of experience','Incorrect number', 3000);
   }
   else{
     this.setState({loading : true})
+    console.log(this.state.file)
     var count= await this.state.doctor.methods.doctorCount().call()
-   this.state.doctor.methods.set(name,age,gender,this.state.account).send({from: this.state.account}).on('error', function(error){
+   this.state.doctor.methods.set(name,spec,exp,web3.utils.fromAscii(add),web3.utils.fromAscii(timingfrom),web3.utils.fromAscii(timingtill),gender,this.state.account,this.state.file).send({from: this.state.account}).on('error', function(error){
     NotificationManager.error('Doctor account not created', 'Transaction cancelled!', 5000)
       window.setTimeout(function(){window.location.reload()}, 3000);    
   }).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
@@ -85,8 +99,7 @@ async set(name,age,gender){
   render() {
    
     return (
-      
-      <div id="big-banner">
+      <div id="big-banner" onScroll>
         <NotificationContainer/>
        <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">
@@ -99,9 +112,13 @@ async set(name,age,gender){
                                   <form id="box"  onSubmit={event=>{
                                     event.preventDefault()
                                     const name=this.pname.value
-                                    const age=this.page.value
-                                    const gender=this.pgen.value                                    
-                                    this.set(name,age,gender)   
+                                    const gender=this.pgen.value   
+                                    const exp=this.exp.value
+                                    const add=this.add.value
+                                    const spec=this.spec.value
+                                    const timingfrom=this.timingfrom.value
+                                    const timingtill=this.timingtill.value                  
+                                    this.set(name,gender,exp,add,spec,timingfrom,timingtill)   
                                   }}>
                                 <p className="text-danger" id="error"></p>
                                 <div className="row" >
@@ -114,10 +131,53 @@ async set(name,age,gender){
                                 </div>
                                 <div className="row">
                                   <div className="form-group col-sm-4">
-                                    <label htmlFor="Age">Age:</label>
+                                    <label htmlFor="spec">Specialization:</label>
+                                  </div>
+                                  <div className="form-group col-sm-8">
+                                    <select  name="spec" className="form-control" ref={(input) => {this.spec=input}} >
+                                      <option value="Dentist"defaultValue>Dentist</option>
+                                      <option value="Gynecologist">Gynecologist</option>
+                                      <option value="Obstetrician">Obstetrician</option>
+                                      <option value="General Physician">General Physician</option>
+                                      <option value="Dermatologist">Dermatologist</option>
+                                      <option value="Ear-nose-throat (ent) Specialist">Ear-nose-throat (ent) Specialist</option>
+                                      <option value="Homoeopath">Homoeopath</option>
+                                      <option value="Ayurveda">Ayurveda</option>
+                                      
+                                    </select>
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="form-group col-sm-4">
+                                    <label htmlFor="Experience">Years of Experience:</label>
                                   </div>
                                   <div className="form-group col-sm-8">  
-                                    <input type="number" className="form-control" id="age" required ref={(input) => {this.page=input}} placeholder="Age"></input>
+                                    <input type="number" className="form-control" id="exp" required ref={(input) => {this.exp=input}} placeholder="Experience"></input>
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="form-group col-sm-4">
+                                    <label htmlFor="Address">Address:</label>
+                                  </div>
+                                  <div className="form-group col-sm-8">  
+                                    <textarea type="text" className="form-control" id="add" required ref={(input) => {this.add=input}} placeholder="Address"></textarea>
+                                  </div>
+                                </div>
+                                
+                                <div className="row">
+                                  <div className="form-group col-sm-4">
+                                    <label htmlFor="time">Available  from:</label>
+                                  </div>
+                                  <div className="form-group col-sm-8">  
+                                    <input type="time" id="timingfrom" required ref={(input) => {this.timingfrom=input}}/>                                  
+                                  </div>
+                                </div>
+                                <div className="row">
+                                  <div className="form-group col-sm-4">
+                                    <label htmlFor="time">Available till:</label>
+                                  </div>
+                                  <div className="form-group col-sm-8">  
+                                    <input type="time" id="timingtill" required ref={(input) => {this.timingtill=input}}/>                                  
                                   </div>
                                 </div>
                                 <div className="row">
@@ -131,7 +191,30 @@ async set(name,age,gender){
                                       <option value="others"defaultValue>Others</option>
                                     </select>
                                   </div>
-                                </div>                          
+                                </div> 
+                                <div className="row">      
+                                <div className="form-group col-sm-4">
+                                  <label htmlFor="file">Choose a profile photo</label>
+                                </div>
+                                <div className="form-group col-sm-8">
+                                  <input
+                                    type="file"
+                                    className="form-control-file"
+                                    id="file"
+                                    onChange={this.captureFile}
+                                    required
+                                  />
+                                  </div>    
+                                  </div> 
+                                  {this.state.file && (
+                                    <div className="text-center mt-3 mb-3">
+                                      <img
+                                        src={this.state.file}
+                                        className="img-thumbnail"
+                                        alt="Preview"
+                                      />
+                                    </div>
+                                  )}              
                               <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
                            </form>      
                     

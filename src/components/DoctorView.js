@@ -69,7 +69,7 @@ async loadBlockchainData(){
     var id = window.location.href.toString().split("/")[4]
     const count = await doctor.methods.getall(id).call()
     this.setState({info:count[0]})
-    console.log(this.state.info)
+    console.log(count)
     const result=await this.state.doctor.methods.getPlen(id).call()
     var patient= await web3.eth.Contract(Patientabi.abi,Patientabi.networks[net_id].address)
     this.setState({patient})

@@ -33,8 +33,13 @@ contract Doctor{
     struct Info{
     uint id;
     string name;
-    uint age;
+    string spec;
+    uint exp;
+    bytes32 add;
+    bytes32 timingfrom;
+    bytes32 timingtill;
     string gender;
+    string ipfshash;
     }
     function WriteMedication(string memory _name, uint _age, string memory _gender, string memory _bg,uint _pid,bytes32 _medname,
      bytes32 _medtype,bytes32 _sdate,bytes32 _edate,bytes32 _nof,uint _did ) public{
@@ -73,10 +78,11 @@ function getPlen (uint _key) external view returns(uint count) {
  function getAddressB() public view returns(address a){
      return(addressP);
  }
-    function set(string memory _name, uint _age, string memory _gender, address _address) public {
+    function set(string memory _name,string memory _spec, uint _exp, bytes32 _add,bytes32 _timingfrom,
+    bytes32 _timingtill,string memory _gender,address _address,string memory _ipfshash) public {
         doctorCount++;
-        adr[doctorCount] = msg.sender;
-        info[_address] = Info(doctorCount, _name,_age,_gender);
+        adr[doctorCount] = _address;
+        info[_address] = Info(doctorCount, _name,_spec,_exp,_add,_timingfrom,_timingtill,_gender,_ipfshash);
     }
     function check(address s) public view returns(int t){
         if(doctorCount==0){
@@ -92,7 +98,19 @@ function getPlen (uint _key) external view returns(uint count) {
     // function get() public view returns(string memory _name, uint _age, string memory _gender){
     // return (info[doctorCount].name, info[doctorCount].age, info[doctorCount].gender) ;
     // }
-    function getall(uint i) public view returns(string memory _name, uint _age, string memory _gender,uint _doctorCount){
-        return (info[adr[i]].name, info[adr[i]].age, info[adr[i]].gender,doctorCount);
+    // function getall(uint i) public view returns(string memory _name, uint _age, string memory _gender,uint _doctorCount){
+    //     return (info[adr[i]].name, info[adr[i]].exp, info[adr[i]].gender,doctorCount);
+    // }
+    function getall(uint i) public view returns(string memory _name, string memory _spec,uint _exp,bytes32 add,
+    bytes32 _timingfrom,bytes32 _timingtill, string memory _gender,bytes32 _ipfhash,uint _doctorCount){
+        return (info[adr[i]].name,
+        info[adr[i]].spec,
+        info[adr[i]].exp,
+        info[adr[i]].add,
+        info[adr[i]].timingfrom,
+        info[adr[i]].timingtill,
+        info[adr[i]].gender,
+        info[adr[i]].ipfshash,
+        doctorCount);
     }
 }
