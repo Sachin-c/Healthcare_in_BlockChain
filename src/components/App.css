@@ -1,10 +1,10 @@
 #big-banner{
-	background: url("/b1.jpg") no-repeat center center fixed;
+	background: url("/b1.jpg") ;
 	background-size: cover;
 	-webkit-background-size: cover;
 	-o-background-size: cover;
 	-moz-background-size: cover;
-	position:fixed;
+	/* position:fixed; */
     padding:0;
     margin:0;
     top:0;

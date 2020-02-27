@@ -70,7 +70,7 @@ async loadBlockchainData(){
     const count = await doctor.methods.getall1(id).call()
     console.log(count)
     this.setState({hash:count[3]})
-    this.setState({name:web3.utils.toAscii(count[0])})
+    this.setState({name:web3.utils.toUtf8(count[0])})
     const result=await this.state.doctor.methods.getPlen(id).call()
     var patient= await web3.eth.Contract(Patientabi.abi,Patientabi.networks[net_id].address)
     this.setState({patient})
@@ -137,7 +137,7 @@ async hist(){
       let newRow = tableRef.insertRow(-1);
       let newCell = newRow.insertCell(0);
       newCell.setAttribute("style","padding: 26px; display: inline-block; text-align: center")
-      let p=document.createTextNode((no[0]+" was prescribed "+web3.utils.toAscii(no[1])+" as "+web3.utils.toAscii(no[2])+" from  "+ web3.utils.toAscii(no[3])+" to "+web3.utils.toAscii(no[4])+" and "+web3.utils.toAscii(no[5])+ " times a day.").toString());
+      let p=document.createTextNode((no[0]+" was prescribed "+web3.utils.toUtf8(no[1])+" as "+web3.utils.toUtf8(no[2])+" from  "+ web3.utils.toUtf8(no[3])+" to "+web3.utils.toUtf8(no[4])+" and "+web3.utils.toUtf8(no[5])+ " times a day.").toString());
       newCell.appendChild(p);
     }
   }

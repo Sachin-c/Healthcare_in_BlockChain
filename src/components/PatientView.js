@@ -23,6 +23,7 @@ class PatientView extends Component {
 
 async loadBlockchainData(){
   var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  this.setState(web3)
   var accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
     var et=0
@@ -77,10 +78,11 @@ async getdoctors()
     
     var count = await doctor.methods.doctorCount.call()
     for(var i=1;i<= count;i++){
-        var doc=await doctor.methods.getall(i).call()
+        var doc=await doctor.methods.getall1(i).call()
+        console.log(doc)
         this.setState({doctors:[...this.state.doctors,doc]})
+        
     }
-    console.log(this.state.doctors)
   }else{
     window.alert("Contract not loaded to blockchain")
   }
@@ -150,10 +152,11 @@ async hist(){
 //   };
 // };
 
-  render() {
+  render() {  var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+
     return (
-      <div>
-      <div id="big-banner" ></div>
+       
+      <div id="big-banner" >
         <NotificationContainer/>
        <Navbar account={this.state.account} />
           <div className="">
@@ -203,8 +206,10 @@ async hist(){
                   <table className="table">
                     <thead>
                       <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">Profile</th>
                         <th scope="col">Doctor Name</th>
+                        <th scope="col"> Specialitist</th>
+                        <th scope="col"> Years of Experience</th>
                         <th scope="col"> selecting</th>
                       </tr>
                     </thead>          
@@ -212,8 +217,25 @@ async hist(){
                       {this.state.doctors.map((doctor,key)=>{
                         return(
                           <tr key={key}>
-                            <th scope="row">{key+1}</th>
-                              <td>{doctor._name}</td>
+                            <th scope="row">{doctor._ipfhash ? (
+                              <div class="c-doctor-card__photo_col pure-u-1-5">
+                <img
+                
+                  src={`https://ipfs.io/ipfs/${doctor._ipfhash}`}
+                  className="card-img-top"
+                  alt={`${doctor._ipfhash}`}
+                /></div>
+              ) : (
+                <img
+                  src="https://api.fnkr.net/testimg/333x180/?text=IPFS"
+                  className="card-img-top"
+                  alt="NA"
+                />
+              )}</th>
+                              <td><b></b> {web3.utils.toUtf8(doctor._name)}</td>
+                              <td><b></b> {web3.utils.toUtf8(doctor._spec)}</td>
+                              <td><b></b> {web3.utils.toDecimal(doctor._exp)}</td>
+                              
                               <td>
                                 <button className="btn btn-primary"
                                   onClick={()=> {
