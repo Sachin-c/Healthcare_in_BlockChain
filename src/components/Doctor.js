@@ -131,8 +131,7 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
 }
   render() {
    
-    return (<div>
-      <div id="big-banner"></div>
+    return (<div id="big-banner">
         <NotificationContainer/>
        <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">

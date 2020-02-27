@@ -185,8 +185,7 @@ constructor(props){
   render() {
     const ipfsHash = this.state.hash
     return (
-      <div>
-      <div id="big-banner" ></div>
+      <div id="big-banner" >
         <NotificationContainer/>
        <Navbar account={this.state.account} />
           <div className="container-fluid row ">
