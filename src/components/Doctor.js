@@ -8,7 +8,11 @@ import Navbar from './Navbar'
 // import routing from './../index'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import '../../node_modules/react-notifications/lib/notifications.css';
-class Doctor extends Component {
+// const ipfsClient = require('ipfs-http-client')
+const ipfsAPI = require('ipfs-http-client');
+const ipfs = ipfsAPI({host:'ipfs.infura.io',port: '5001',  protocol: 'https' });
+
+ class Doctor extends Component {
 
    componentWillMount(){
    this.loadBlockchainData()
@@ -58,12 +62,33 @@ constructor(props){
     account:'',
     loading:true,
     file: null,
+    buffer:null,
+    prhash:null,
+    
 
   }
   this.set=this.set.bind(this);
 
 }
+// "QmPgCvyRHcXe8dCPNVWYL9FNNkwgGvFUyBtPE8gQdFNKC9"
+onSubmit=(event)=>{
+  event.preventDefault()
+  // ipfs.add(this.state.buffer, (err, result) => {
+  //   console.log('Rsult',result);
+  //   this.setState({prhash:result})
+  // })
+  
+  const name=this.pname.value
+  const gender=this.pgen.value   
+  const exp=this.exp.value
+  const add=this.add.value
+  const spec=this.spec.value
+  const timingfrom=this.timingfrom.value
+  const timingtill=this.timingtill.value                  
+  this.set(name,gender,exp,add,spec,timingfrom,timingtill)   
+}
  captureFile=(event)=>{
+  event.preventDefault()
   const file = event.target.files[0]
   const reader = new window.FileReader()
   reader.readAsArrayBuffer(file)
@@ -82,17 +107,25 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
     NotificationManager.warning('Please enter valid year of experience','Incorrect number', 3000);
   }
   else{
-    this.setState({loading : true})
-    console.log(this.state.file)
-    var count= await this.state.doctor.methods.doctorCount().call()
-   this.state.doctor.methods.set(web3.utils.fromAscii(name),web3.utils.fromAscii(spec),exp,web3.utils.fromAscii(add),web3.utils.fromAscii(timingfrom),web3.utils.fromAscii(timingtill),web3.utils.fromAscii(gender),this.state.account,(this.state.file)).send({from: this.state.account}).on('error', function(error){
-    NotificationManager.error('Doctor account not created', 'Transaction cancelled!', 5000)
-      window.setTimeout(function(){window.location.reload()}, 3000);    
-  }).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
-    count =Number(count)+Number(1)
-    window.location.href="/Doctor_View/"+count.toString()
+     ipfs.add(this.state.buffer, (err, result) => {
+      console.log('Rsult',result[0].hash);
+      const prhash=result[0].hash
+      this.setState({loading : true})
+      console.log(this.state.buffer)
+      var count=  this.state.doctor.methods.doctorCount().call()
+     this.state.doctor.methods.set(web3.utils.fromAscii(name),web3.utils.fromAscii(spec),exp,web3.utils.fromAscii(add),web3.utils.fromAscii(timingfrom),web3.utils.fromAscii(timingtill),web3.utils.fromAscii(gender),this.state.account,prhash).send({from: this.state.account}).on('error', function(error){
+      NotificationManager.error('Doctor account not created', 'Transaction cancelled!', 5000)
+        window.setTimeout(function(){window.location.reload()}, 3000);    
+    }).on('receipt',(receipt)=>{ this.setState({loading:false})
+    this.setState({prhash:result[0].hash})}).on("confirmation", function () {
+     
+      count =Number(count)+Number(1)
+      window.location.href="/Doctor_View/"+count.toString()
+     
+  })
+      return
+    })
    
-})
 }
    
 }
@@ -109,17 +142,9 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
                 {this.state.loading 
                 ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
                 : 
-                                  <form id="box"  onSubmit={event=>{
-                                    event.preventDefault()
-                                    const name=this.pname.value
-                                    const gender=this.pgen.value   
-                                    const exp=this.exp.value
-                                    const add=this.add.value
-                                    const spec=this.spec.value
-                                    const timingfrom=this.timingfrom.value
-                                    const timingtill=this.timingtill.value                  
-                                    this.set(name,gender,exp,add,spec,timingfrom,timingtill)   
-                                  }}>
+                
+                                  <form id="box" onSubmit={this.onSubmit}>
+                                
                                 <p className="text-danger" id="error"></p>
                                 <div className="row" >
                                   <div className="form-group col-sm-4">
@@ -217,7 +242,8 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
                                   )}              
                               <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
                            </form>      
-                    
+                          
+            
   }
                  {/* <TouchableOpacity onPress={() => { onPress('YourPage'); }} n> */}
                   {/* <Text> Move</Text> */}
