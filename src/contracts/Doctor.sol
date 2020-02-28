@@ -67,10 +67,14 @@ contract Doctor{
 function getPlen (uint _key) external view returns(uint count) {
         return (waitlist[_key].length);
  }
- function getP (uint _id,uint _key) external view returns(string memory _name, uint _age, string memory _gender,
+ function getP1 (uint _id,uint _key) external view returns(string memory _name, uint _age, string memory _gender,
   string memory _bg,uint _patientCount,uint _pid) {
        Patient myPatient = Patient(waitlist_add[_key][_id].add);
-        return (myPatient.getall(waitlist[_key][_id].wait));
+        return (myPatient.getall1(waitlist[_key][_id].wait));
+ }
+  function getP2 (uint _id,uint _key) external view returns(string memory _aler) {
+       Patient myPatient = Patient(waitlist_add[_key][_id].add);
+        return (myPatient.getall2(waitlist[_key][_id].wait));
  }
  function setAddressB(address _address) external{
      addressP = _address;

@@ -44,9 +44,12 @@ async loadBlockchainData(){
     this.setState({loading:false})
     var id = window.location.href.toString().split("/")[4]
     this.setState({id})
-    var p=await this.state.patient.methods.getall(id).call();
+    var p=await this.state.patient.methods.getall1(id).call();
+    var t=await this.state.patient.methods.getall2(id).call();
+    console.log(t)
     this.setState({
-      info:p
+      info:p,
+      info2:t
     })    
     document.getElementById('age').innerHTML=(this.state.info[1]).toString();
     }
@@ -198,8 +201,17 @@ async hist(){
                         <h4 id="bg" >{this.state.info[3]}</h4>
                       </div>
                     </div>
-                  <script>var age=</script>
+                    <div className="row">
+                      <div className="col-sm-6">
+                        <h4 > Allergies:</h4>
+                      </div>
+                      <div className="col-sm-6">
+                        <h4 id="bg" >{this.state.info2}</h4>
+                      </div>
+                    </div>
                 </div>
+                
+
                 <br/>
                 <div id="box">
                   <h3>Doctors to consult from</h3>

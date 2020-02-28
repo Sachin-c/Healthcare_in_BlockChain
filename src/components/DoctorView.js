@@ -75,7 +75,7 @@ async loadBlockchainData(){
     var patient= await web3.eth.Contract(Patientabi.abi,Patientabi.networks[net_id].address)
     this.setState({patient})
     for(var i=0;i< result.toString();i++){
-      const doc=await doctor.methods.getP(i,id).call()
+      const doc=await doctor.methods.getP1(i,id).call()
       this.setState({patients:[...this.state.patients,doc]})
       console.log(this.state.patients)
   }
@@ -104,7 +104,13 @@ async write(name,age,gender,bg,pid,mname,mtype,edate,sdate,nof,id){
 }
 async ph(key){
   var x= await this.state.patient.methods.hCount.call()
-  if(document.getElementById("dlist").innerHTML==""){ 
+  if(document.getElementById("dlist").innerHTML=="")
+  { 
+    if(x.toString()==0)
+    {
+      document.getElementById("dlist").innerHTML="No prescriptions are there yet!! \n"
+    }
+    else{
    for(var i=1;i<=x.toString();i++){
     var no= await this.state.patient.methods.viewHist(i,key).call()
     console.log(no)
@@ -117,6 +123,7 @@ async ph(key){
       let p=document.createTextNode((no[0]+"  prescribed to have "+no[1]+" from  "+no[2]+" to "+no[3]+" "+no[4]+"times a day").toString());
       newCell.appendChild(p);
     }
+  }
    
   }
   }
@@ -207,6 +214,7 @@ constructor(props){
                     <div className="row">
           <div className="col-md-4">
             <div className="card mb-3">
+            <div class="c-doctor-card__photo_col pure-u-1-3">
               {ipfsHash ? (
                 <img
                   src={`https://ipfs.io/ipfs/${ipfsHash}`}
@@ -219,7 +227,7 @@ constructor(props){
                   className="card-img-top"
                   alt="NA"
                 />
-              )}</div></div></div>
+              )}</div></div></div></div>
                     {/* <div className="row">
                       <div className="col-sm-6">
                         <h4 > Age : </h4>

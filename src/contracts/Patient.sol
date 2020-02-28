@@ -12,6 +12,7 @@ contract Patient{
     string name;
     uint age;
     string gender;
+    string aler;
     string bg;
     }
     struct History{
@@ -34,10 +35,10 @@ string memory _edate, string memory _nof,uint _hCount){
             return(history[i].dname,history[i].medicine,history[i].sdate,history[i].edate,history[i].nof,hCount);
         }
     }
-     function set(string memory _name, uint _age, string memory _gender,string memory _bg, address _address) public {
+     function set(string memory _name, uint _age, string memory _gender,string memory _aler,string memory _bg, address _address) public {
         patientCount++;
         adr[patientCount] = _address;
-        info[_address] = Info(patientCount, _name,_age,_gender,_bg);
+        info[_address] = Info(patientCount, _name,_age,_gender,_aler,_bg);
     }
     // function get() public view returns(string memory _name, uint _age, string memory _gender, string memory _bg){
     // return (info[patientCount].name, info[patientCount].age, info[patientCount].gender,info[patientCount].bg) ;
@@ -53,8 +54,11 @@ string memory _edate, string memory _nof,uint _hCount){
         }
         return -1;
     }
-    function getall(uint i) public view returns(string memory _name, uint _age, string memory _gender, string memory _bg,
+    function getall1(uint i) public view returns(string memory _name, uint _age, string memory _gender, string memory _bg,
     uint _patientCount,uint id){
     return (info[adr[i]].name, info[adr[i]].age, info[adr[i]].gender,info[adr[i]].bg,patientCount,info[adr[i]].id);
+    }
+    function getall2(uint i) public view returns(string memory _aler){
+    return (info[adr[i]].aler);
     }
 }
