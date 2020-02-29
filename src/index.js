@@ -8,6 +8,8 @@ import Doctor from './components/Doctor';
 import PatientView from './components/PatientView';
 import DoctorView from './components/DoctorView';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
+
 
 import * as serviceWorker from './serviceWorker';
 

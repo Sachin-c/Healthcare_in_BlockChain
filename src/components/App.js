@@ -4,6 +4,8 @@ import './App.css';
 import Navbar from './Navbar'
 import Doctorabi from '../abis/Doctor.json'
 import Patientabi from '../abis/Patient.json'
+
+
 class App extends Component {
    componentWillMount(){
      
@@ -78,7 +80,8 @@ constructor(props){
                       <div className="carousel-caption d-none d-md-block text-left">
                         <h1>Example headline.</h1>
                         <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a className="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                        <p><a className="btn btn-lg btn-primary" href="/Patient" role="button">Patient</a></p>
+                        <p><a className="btn btn-lg btn-primary" href="/Doctor" role="button">Doctor</a></p>
                       </div>
                     </div>
                   </div>
@@ -88,7 +91,8 @@ constructor(props){
                       <div className="carousel-caption d-none d-md-block">
                         <h1>Another example headline.</h1>
                         <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a className="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+                          <p><a className="btn btn-lg btn-primary" href="/Patient" role="button">Patient</a></p>
+                          <p><a className="btn btn-lg btn-primary" href="/Doctor" role="button">Doctor</a></p>
                       </div>
                     </div>
                   </div>
@@ -98,7 +102,8 @@ constructor(props){
                       <div className="carousel-caption d-none d-md-block text-right">
                         <h1>One more for good measure.</h1>
                         <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        <p><a className="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+                        <p><a className="btn btn-lg btn-primary" href="/Patient" role="button">Patient</a></p>
+                        <p><a className="btn btn-lg btn-primary" href="/Doctor" role="button">Doctor</a></p>
                       </div>
                     </div>
                   </div>
@@ -111,17 +116,6 @@ constructor(props){
                   <span className="carousel-control-next-icon" aria-hidden="true"></span>
                   <span className="sr-only">Next</span>
                 </a>
-              </div>
-
-              <div className="row">
-                <div className="col-sm-6">
-                  <p></p>
-                  <a  href="/Patient"><button type="button" className="btn btn-default btn-outline-primary btn-sm" ><img src="/pat.png" height="50%" width="50%" ></img></button></a>
-                </div>
-                <div className="col-sm-6">
-                  <p></p>
-                  <a  href="/Doctor"><button type="button" className="btn btn-default btn-outline-primary btn-sm" ><img src="/pic.png" height="50%" width="50%" ></img></button></a>
-                </div>
               </div>
 
               <div className="container marketing">
