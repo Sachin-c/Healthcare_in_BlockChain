@@ -5,10 +5,84 @@ import Doctorabi from '../abis/Doctor.json'
 import Patientabi from '../abis/Patient.json'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import Collapsible from 'react-collapsible';
+import CreatableSelect from 'react-select/creatable';
 
 import '../../node_modules/react-notifications/lib/notifications.css';
 import Navbar from './Navbar'
 import { DropdownButton } from 'react-bootstrap';
+type State = {
+  options: [{ [string]: string }],
+  value: string | void,
+};
+const createOption = (label: string) => ({
+  label,
+  value: label,
+});
+
+const defaultOptions = [
+      createOption('Coronary catheterization'),
+      createOption('Electrocardiogram'),
+      createOption('Echocardiography'),
+      createOption('Skin allergy test'),
+      createOption('Skin biopsy'),
+      createOption('Hearing test'),
+      createOption('Laryngoscopy'),
+      createOption('Electronystagmography (ENG)'),
+      createOption('Videonystagmography (VNG)'),
+      createOption('Capsule endoscopy'),
+      createOption('Coloscopy'),
+      createOption('Endoscopic retrograde cholangiopancreatography'),
+      createOption('Esophagogastroduodenoscopy'),
+      createOption('Esophageal motility study'),
+      createOption('Esophageal pH monitoring'),
+      createOption('Liver biopsy'),
+      createOption('Bone marrow examination'),
+      createOption('Biochemistry'),
+      createOption('Arterial blood gas (ABG)'),
+      createOption('Complete blood count (CBC)'),
+      createOption('Comprehensive metabolic panel (CMP) (including CHEM-7)'),
+      createOption('Coagulation tests'),
+      createOption('C-reactive protein'),
+      createOption('Erythrocyte sedimentation rate (ESR)'),
+      createOption('FibroTest'),
+      createOption('Urea breath test'),
+      createOption('Urinalysis'),
+      createOption('Cytogenetics and Molecular Genetics'),
+      createOption('Genetic testing'),
+      createOption('Immunology'),
+      createOption('Autoantibodies'),
+      createOption('Microbiology'),
+      createOption('Blood culture'),
+      createOption('Mantoux test'),
+      createOption('Sputum culture'),
+      createOption('Stool culture'),
+      createOption('Urine culture'),
+      createOption('Electroencephalogram'),
+      createOption('Electromyography (EMG)'),
+      createOption('Lumbar puncture'),
+      createOption('Neuropsychological tests'),
+      createOption('Obstetric / Gynaecological	Edit'),
+      createOption('Amniocentesis'),
+      createOption('Colposcopy'),
+      createOption('Hysteroscopy'),
+      createOption('Pap smears'),
+      createOption('Dilated fundus examination'),
+      createOption('Multifocal electroretinography (mfERG)'),
+      createOption('Optical coherence tomography (OCT)'),
+      createOption('Visual field test'),
+      createOption('Polysomnography'),
+      createOption('Pulmonary pletysmography'),
+      createOption('Thoracentesis'),
+      createOption('CT scan (B*2**)'),
+      createOption('Magnetic resonance imaging (MRI) (B*3**)'),
+      createOption('Nuclear medicine (C****)'),
+      createOption('Positron-emission tomography (PET)'),
+      createOption('Projectional radiography (B*0**)'),
+      createOption('Ultrasonography (B*4**)'),
+      createOption('Arthroscopy'),
+      createOption('Cystoscopy'),
+      createOption('Urodynamic testing'),
+];
 
 class DoctorView extends Component {
 
@@ -74,10 +148,14 @@ async loadBlockchainData(){
     const result=await this.state.doctor.methods.getPlen(id).call()
     var patient= await web3.eth.Contract(Patientabi.abi,Patientabi.networks[net_id].address)
     this.setState({patient})
+    
     for(var i=0;i< result.toString();i++){
       const doc=await doctor.methods.getP1(i,id).call()
+      const doc2=await doctor.methods.getP2(i,id).call()
+      
       this.setState({patients:[...this.state.patients,doc]})
-      console.log(this.state.patients)
+      this.setState({patients2:[...this.state.patients2,doc2]})
+      console.log(this.state.patients2)
   }
     if (result.toString()>0){
         this.setState({list:false})  
@@ -92,11 +170,29 @@ async loadBlockchainData(){
   }
   
 }
-async write(name,age,gender,bg,pid,mname,mtype,edate,sdate,nof,id){
+handleChange = (newValue: any, actionMeta: any) => {
+  this.setState({ value: newValue });
+};
+handleCreate = (inputValue: any) => {
+  this.setState({ isLoading: true });
+  
+  setTimeout(() => {
+    const { options } = this.state;
+    const newOption = createOption(inputValue);
+    console.log(newOption);
+    console.groupEnd();
+    this.setState({
+      isLoading: false,
+      options: [...options, newOption],
+      value: newOption,
+    });
+  }, 1000);
+};
+async write(name,age,gender,aler,pid,mname,mtype,test,edate,sdate,nof,summ,id){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var id = window.location.href.toString().split("/")[4]
   // console.log(pid,id)
-  this.state.doctor.methods.WriteMedication(name,age,gender,bg,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),id).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
+  this.state.doctor.methods.WriteMedication(name,aler,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),web3.utils.fromAscii(test),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),web3.utils.fromAscii(summ),id).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
     NotificationManager.success('Prescribtion added', 'Check history',5000)
   }) 
   var p = Number(pid)
@@ -152,7 +248,7 @@ async hist(){
   document.getElementById("wheel").innerHTML=""
 }
 }
-async add(dname,mname,mtype,edate,sdate,nof){
+async add(dname,mname,mtype,test,edate,sdate,nof,summ){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const abi= Patientabi.abi
   var net_id = 5777
@@ -162,7 +258,7 @@ async add(dname,mname,mtype,edate,sdate,nof){
     this.setState({patient})
     console.log(dname)
     console.log(this.state.p)
-    patient.methods.addDoc(dname,mname,sdate,edate,nof,this.state.p).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
+    patient.methods.addDoc(web3.utils.fromAscii(dname),web3.utils.fromAscii(mname),web3.utils.fromAscii(test),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),web3.utils.fromAscii(summ),this.state.p).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
       NotificationManager.success('Patient got prescribtion', 'Inform Patient',5000)
       window.setTimeout(function(){window.location.reload()}, 3000)    
     }) 
@@ -181,7 +277,10 @@ constructor(props){
     list:true,
     info:'',
     patients:[],
-    plist:[]
+    patients2:[],
+    plist:[],
+    options: defaultOptions,
+    value: undefined,
   }
   this.hist = this.hist.bind(this);
 
@@ -190,6 +289,8 @@ constructor(props){
 
 
   render() {
+    const { isLoading, options, value } = this.state;
+
     const ipfsHash = this.state.hash
     return (
       <div id="big-banner" >
@@ -248,6 +349,7 @@ constructor(props){
                 </div>
                 </div>
               <div>
+                <br/>
                 <div id="box" className="col">
                   <h2>Requests will be shown below </h2>
                   {this.state.list
@@ -266,18 +368,52 @@ constructor(props){
                   <form id="form1" onSubmit= { event=> {
                     this.setState({loading:true})
                     event.preventDefault()
+                    
                     const mname=this.mname.value
                     const mtype=this.mtype.value
                     const sdate=this.sdate.value
                     const edate=this.edate.value
                     const nof=this.nof.value
+                    const summ=this.summ.value
+                    var aler="";
+                    if(this.state.patients2[key].length!=0)
+                    {
+                      for(var i=0;i<this.state.patients2[key].length;i++)
+                      {
+                        aler=aler+this.state.patients2[key][i].toString()
+                        if(i!=this.state.value.length-1)
+                        {
+                          aler=aler+", "
+                        }
+                      }
+                    }
+                    else{
+                      aler="None"
+                    }
+                    var test="";
+                    console.log(this.state.value)
+                    if(this.state.value!=undefined)
+                    {
+                      for(var i=0;i<this.state.value.length;i++)
+                      {
+                        console.log(this.state.value[i].label)
+                        test=test+this.state.value[i].label.toString()
+                        if(i!=this.state.value.length-1)
+                        {
+                          test=test+", "
+                        }
+                      }
+                    }
+                    else{
+                      test="None"
+                    }
                     // const doc=this.state.doctor.geta
-                    this.write(patient._name,patient._age,patient._gender,patient._bg,patient._pid.toString(),mname,mtype,edate,sdate,nof,key)   
-                    this.add(this.state.info,mname,mtype,edate,sdate,nof)
+                    this.write(patient._name,patient._age,patient._gender,aler,patient._pid.toString(),mname,mtype,test,edate,sdate,nof,summ,key)   
+                    this.add(this.state.info,mname,mtype,test,edate,sdate,nof,summ)
                     
                   }}> 
-                  <h6 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg} 
-                  </h6>
+                  <h6 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg}</h6>
+                  <h6>Allergies from: {this.state.patients2[key]}</h6>
                     {/* { this.setmindate()} */}
                     {/* <p className="text-danger" id="error"></p> */}
 
@@ -293,19 +429,35 @@ constructor(props){
                             <option value="Capsule">Capsule</option>
                         </select>
                     </div>
+                    <div className="form-group text-center"> 
+                            <label htmlFor="type">Suggest tests</label>
+                            <CreatableSelect
+                                      isClearable
+                                      isDisabled={isLoading}
+                                      isLoading={isLoading}
+                                      onChange={this.handleChange}
+                                      // onCreateOption={this.handleCreate}
+                                      options={options}
+                                      value={value}
+                                      isMulti
+                                      required
+                                      placeholder="Search or type and create new tests if not in list"
+                                      ref={(input) => {this.aler=input}}
+                                    />
+                    </div>
                     
                     <div className="form-group text-center" data-provide="datepicker">
-                            <label htmlFor="Start Date">Start Date</label><br/>
+                            <label htmlFor="Start Date">Start taking medicines from</label><br/>
                             <input type="date" id="ssdate" required ref={(input) => {this.sdate=input}}/>
                     </div>
                            
                     <div className="form-group text-center" data-provide="datepicker">
-                        <label htmlFor="Start Date">End Date</label><br/>
+                        <label htmlFor="Start Date">Medicines to be taken till</label><br/>
                         <input type="date" required ref={(input) => {this.edate=input}}/>
                     </div>
 
                     <div className="form-group text-center"> 
-                            <label htmlFor="type">Number of times a day </label>
+                            <label htmlFor="type">Number of times medicine to be taken in a day </label>
                         <select  name="numberof" className="form-control" ref={(input) => {this.nof=input}} >
                             <option defaultValue value="1">1</option>
                             <option value="2">2</option>
@@ -316,7 +468,12 @@ constructor(props){
                             <option value="7">7</option>
                             <option value="8">8</option>
                             <option value="9">9</option>
+                            
                         </select>
+                    </div>
+                    <div className="form-group text-center"> 
+                            <label htmlFor="type">Summary for medication</label>
+                        <textarea type="text" className="form-control" id="summ" required ref={(input) => {this.summ=input}}></textarea>
                     </div>
                     <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
                 </form></li>
@@ -324,7 +481,8 @@ constructor(props){
                  </ul>  
                 }
                 </div>
-              </div>
+                <br/></div>
+              
                 <div>
                   <div className="col text-center" id="box">
                     <button id="button"  onClick={this.hist} className="btn btn-primary">History</button>

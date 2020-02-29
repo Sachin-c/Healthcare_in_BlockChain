@@ -20,14 +20,14 @@ contract Doctor{
     struct PatientList{
         uint pid;
         string name;
-        uint age;
-        string gender;
-        string bg;
+        string aler;
         bytes32 medname;
         bytes32 medtype;
+        bytes32 test;
         bytes32 sdate;
         bytes32 edate;
         bytes32 nof;
+        bytes32 summ;
         uint did;
     }
     struct Info{
@@ -41,10 +41,10 @@ contract Doctor{
     bytes32 gender;
     string ipfshash;
     }
-    function WriteMedication(string memory _name, uint _age, string memory _gender, string memory _bg,uint _pid,bytes32 _medname,
-     bytes32 _medtype,bytes32 _sdate,bytes32 _edate,bytes32 _nof,uint _did ) public{
+    function WriteMedication(string memory _name, string memory _aler,uint _pid,bytes32 _medname,
+     bytes32 _medtype,bytes32 _test,bytes32 _sdate,bytes32 _edate,bytes32 _nof,bytes32 _summ,uint _did ) public{
         treatCount++;
-        patientlist[treatCount] = PatientList(treatCount,_name,_age,_gender,_bg,_medname,_medtype,_sdate,_edate,_nof,_did);
+        patientlist[treatCount] = PatientList(treatCount,_name,_aler,_medname,_medtype,_test,_sdate,_edate,_nof,_summ,_did);
         for(uint i = 0;i<waitlist[_did].length-1;i++){
             if(waitlist[_did][i].wait==_pid){
                 waitlist[_did][i].wait = waitlist[_did][waitlist[_did].length-1].wait;
