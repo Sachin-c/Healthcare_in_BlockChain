@@ -28,7 +28,8 @@ async loadBlockchainData(){
   this.setState({account:accounts[0]})
     var et=0
   var abi= Patientabi.abi
-  var net_id=await web3.eth.net.getId()
+  // var net_id=await web3.eth.net.getId()
+  var net_id=5777
     if(Patientabi.networks[net_id]){
       var address= Patientabi.networks[net_id].address
       var patient= await web3.eth.Contract(abi,address)
@@ -93,15 +94,16 @@ async getdoctors()
 async selecting(id,key){
   
   this.setState({loading:true})
-  var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  var web3 = new Web3(Web3.givenProvider|| "http://localhost:7545")
   var d_abi= Doctorabi.abi
-  const net_id=await web3.eth.net.getId()
+  // var net_id=await web3.eth.net.getId()
+  var net_id=5777
   if(Doctorabi.networks[net_id]){
     var address= Doctorabi.networks[net_id].address
     var doctor= web3.eth.Contract(d_abi,address)
     this.setState({doctor})
     console.log(key,Number(id))
-    this.state.doctor.methods.setp(Number(id),key,Patientabi.networks[net_id].address).send({from:this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
+    doctor.methods.setp(Number(id),key,Patientabi.networks[net_id].address).send({from:this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
      NotificationManager.success('Your prescribtion will be added by doctor', 'Doctor was notified',5000)
       window.setTimeout(function(){window.location.reload()}, 3000);    
     });
