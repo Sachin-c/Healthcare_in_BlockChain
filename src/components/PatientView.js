@@ -134,6 +134,15 @@ async hist(){
 }
 }
 
+openLink(cityName) {
+    var i;
+    var x = document.getElementsByClassName("data");
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    document.getElementById(cityName).style.display = "block";
+}
+
 // createNotification = (type) => {
 //   return () => {
 //     switch (type) {
@@ -160,119 +169,152 @@ async hist(){
   render() {  var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
 
     return (
-       
-      <div id="big-banner" >
-        <NotificationContainer/>
-       <Navbar account={this.state.account} />
-          <div className="">
+            <div className="d-flex" id="wrapper">
+              <div className="bg-light border-right" id="sidebar-wrapper" >
+                <div className="sidebar-heading"> Name</div>
+                <div className="list-group list-group-flush">
+                  <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick="openLink('dashboard')">Dashboard</a>
+                  <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick="openLink('appointment')">Make an Appointment</a>
+                  <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick="openLink('report')">Reports</a>
+                  <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick="openLink('profile')">Profile</a>
+                  <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick="openLink('history')">History</a>
+                </div>
+              </div>
+              <div id="page-content-wrapper">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                  <button className="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+
+                  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                  </button>
+                  <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+                      <li className="nav-item active">
+                        <a className="nav-link" href="#">{this.state.account}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
                 {this.state.loading 
                 ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
                 :
-                <div className="">
-                  <div id="box">
-                    <h1 className="text-center">Your Bio</h1>
-                    <div className="row">
-                      <div className="col-sm-6">
-                        <h4 > Name : </h4>
-                      </div>
-                      <div className="col-sm-6">
-                        <h4 id="name" >{this.state.info[0]}</h4>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-sm-6">
-                        <h4 > Age : </h4>
-                      </div>
-                      <div className="col-sm-6">
-                        <h4 id="age"></h4>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-sm-6">
-                        <h4 > Gender : </h4>
-                      </div>
-                      <div className="col-sm-6">
-                        <h4 id="gender">{this.state.info[2]}</h4>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-sm-6">
-                        <h4 > Blood Group : </h4>
-                      </div>
-                      <div className="col-sm-6">
-                        <h4 id="bg" >{this.state.info[3]}</h4>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-sm-6">
-                        <h4 > Allergies:</h4>
-                      </div>
-                      <div className="col-sm-6">
-                        <h4 id="bg" >{this.state.info2}</h4>
-                      </div>
-                    </div>
-                </div>
-                
-
-                <br/>
-                <div id="box">
-                  <h3>Doctors to consult from</h3>
-                  <table className="table">
-                    <thead>
-                      <tr>
+                <div>
+                  <div className="container-fluid data animate-right" id="dashboard">
+                    <h3>Doctors to consult from</h3>
+                    <table className="table">
+                      <thead>
+                        <tr>
                         <th scope="col">Profile</th>
                         <th scope="col">Doctor Name</th>
                         <th scope="col"> Specialitist</th>
                         <th scope="col"> Years of Experience</th>
                         <th scope="col"> selecting</th>
-                      </tr>
-                    </thead>          
-                    <tbody id="doclist">
-                      {this.state.doctors.map((doctor,key)=>{
-                        return(
-                          <tr key={key}>
+                        </tr>
+                      </thead>          
+                      <tbody id="doclist">
+                        {this.state.doctors.map((doctor,key)=>{
+                          return(
+                            <tr key={key}>
                             <th scope="row">{doctor._ipfhash ? (
-                              <div class="c-doctor-card__photo_col pure-u-1-5">
-                <img
-                
-                  src={`https://ipfs.io/ipfs/${doctor._ipfhash}`}
-                  className="card-img-top"
-                  alt={`${doctor._ipfhash}`}
-                /></div>
-              ) : (
-                <img
-                  src="https://api.fnkr.net/testimg/333x180/?text=IPFS"
-                  className="card-img-top"
-                  alt="NA"
-                />
-              )}</th>
+                              <div className="c-doctor-card__photo_col pure-u-1-5">
+                            <img
+                            
+                              src={`https://ipfs.io/ipfs/${doctor._ipfhash}`}
+                              className="card-img-top"
+                              alt={`${doctor._ipfhash}`}
+                            /></div>
+                              ) : (
+                              <img
+                                src="https://api.fnkr.net/testimg/333x180/?text=IPFS"
+                                className="card-img-top"
+                                alt="NA"
+                              />
+                              )}</th>
                               <td><b></b> {web3.utils.toUtf8(doctor._name)}</td>
                               <td><b></b> {web3.utils.toUtf8(doctor._spec)}</td>
                               <td><b></b> {web3.utils.toDecimal(doctor._exp)}</td>
                               
                               <td>
-                                <button className="btn btn-primary"
-                                  onClick={()=> {
-                                    // console.log(this.state.id,key);
-                                    this.selecting(this.state.id,key+1);
-                                    }
-                                  }
-                                >Select</button>
+                              <button className="btn btn-primary"
+                                onClick={()=> {
+                                // console.log(this.state.id,key);
+                                this.selecting(this.state.id,key+1);
+                                }
+                                }
+                              >Select</button>
                               </td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </table>
-                  <div className="text-center">
-                    <button id="button" onClick={this.hist} className="btn btn-primary">See History</button>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
                   </div>
-                  <table id="dlist"></table>
+                  <div className="container-fluid data animate-right" id="appointment" style={{display:"none"}}>
+                    <h1>Appointment</h1>
+                  </div>
+                  <div className="container-fluid data animate-right" id="report" style={{display: "none"}}>
+                    <h1>Reports</h1>
+                    <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
+                    <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+                  </div>
+                  <div className="container-fluid data animate-right" id="profile" style={{display:"none"}}>
+                    <h1>Profile</h1>
+                    <div id="box">
+                      <h1 className="text-center">Your Bio</h1>
+                      <div className="row">
+                        <div className="col-sm-6">
+                          <h4 > Name : </h4>
+                        </div>
+                        <div className="col-sm-6">
+                          <h4 id="name" >{this.state.info[0]}</h4>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-6">
+                          <h4 > Age : </h4>
+                        </div>
+                        <div className="col-sm-6">
+                          <h4 id="age"></h4>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-6">
+                          <h4 > Gender : </h4>
+                        </div>
+                        <div className="col-sm-6">
+                          <h4 id="gender">{this.state.info[2]}</h4>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-6">
+                          <h4 > Blood Group : </h4>
+                        </div>
+                        <div className="col-sm-6">
+                          <h4 id="bg" >{this.state.info[3]}</h4>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-sm-6">
+                        <h4 > Allergies:</h4>
+                        </div>
+                        <div className="col-sm-6">
+                        <h4 id="bg" >{this.state.info2}</h4>
+                        </div>
+                      </div>
+                      <script>var age=</script>
+                    </div>
+                  </div>
+                  <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
+                    <h1>History</h1>
+                     <div className="col text-center" id="box">
+                      <button id="button"  onClick={this.hist} className="btn btn-primary">History</button>
+                      <table id="dlist"></table>
+                    </div>
                   </div>
                 </div>
-                }
-                </div>
-          </div>
+              }
+        </div>
+      </div>
     );
   }
 }

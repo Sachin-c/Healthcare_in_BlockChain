@@ -269,6 +269,17 @@ async add(dname,mname,mtype,test,edate,sdate,nof,summ){
     window.alert("Contract not loaded to blockchain")
   }
 }
+async openLink(tabName){
+    var i;
+    var x = document.getElementsByclassName("data");
+    console.log(x);
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    document.getElementById(tabName).style.display = "block";
+}
+
+
 constructor(props){
   super(props)
   this.state={
@@ -286,212 +297,243 @@ constructor(props){
 
 }
 
-
-
   render() {
     const { isLoading, options, value } = this.state;
 
     const ipfsHash = this.state.hash
     return (
-      <div id="big-banner" >
-        <NotificationContainer/>
-       <Navbar account={this.state.account} />
-          <div className="container-fluid row ">
-                {this.state.loading 
+          <div className="d-flex" id="wrapper">
+            <div className="bg-light border-right" id="sidebar-wrapper" >
+              <div className="sidebar-heading"> Name</div>
+              <div className="list-group list-group-flush">
+                <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick="openLink('dashboard')">Dashboard</a>
+                <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick="openLink('appointment')">Make an Appointment</a>
+                <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick="openLink('report')">Reports</a>
+                <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick="openLink('profile')">Profile</a>
+                <a className="list-group-item list-group-item-action bg-light tablink" onClick={this.openLink.bind(this,'history')}>History</a>
+              </div>
+            </div>
+
+            <div id="page-content-wrapper">
+
+              <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button className="btn btn-primary" id="menu-toggle">
+                  Toggle Menu
+                </button>
+
+                  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                  </button>
+
+                  <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
+                      <li className="nav-item active">
+                        <a className="nav-link" href="#">{this.state.account}</a>
+                      </li>
+                    </ul>
+                  </div>
+              </nav>
+              {this.state.loading 
                 ? <div id="loader" className="text-center "><h1 className="text-center">Loading..</h1></div>
                 :
-                <div className="row text-center ">
-                  <div>
-                  <div id="box" className="col">
-                    <h1 className="text-center">Your Bio</h1>
-                    <div className="row">
-                      <div className="col-sm-6">
-                        <h4 > Name : </h4>
-                      </div>
-                      <div className="col-sm-6">
-                        <h4 id="name" >{this.state.name}</h4>
+                <div>
+                  <div className="container-fluid data animate-right" id="dashboard">
+                    <h1 className="mt-4">Requests will be shown below</h1>
+                    <div id="box" className="col">
+                      {this.state.list
+                        ?<div><h3>No requests yet</h3></div>
+                        :
+                        <ul>   
+                          {this.state.patients.map((patient,key)=>{
+                            return(
+                                  <li key={key}>
+                                    <button  className="btn-primary" onClick={(e) => this.ph(patient[5])} title="View Patient History">View Patient History</button>
+                                    <table id="dlist"></table>
+                                    <form id="form1" onSubmit= { event=> {
+                                      this.setState({loading:true})
+                                      event.preventDefault()
+                                      
+                                      const mname=this.mname.value
+                                      const mtype=this.mtype.value
+                                      const sdate=this.sdate.value
+                                      const edate=this.edate.value
+                                      const nof=this.nof.value
+                                      const summ=this.summ.value
+                                      var aler="";
+                                      if(this.state.patients2[key].length!=0){
+                                        for(var i=0;i<this.state.patients2[key].length;i++){
+                                          aler=aler+this.state.patients2[key][i].toString()
+                                          if(i!=this.state.value.length-1){
+                                            aler=aler+", "
+                                          }
+                                        }
+                                      }
+                                      else{
+                                        aler="None"
+                                      }
+                                      var test="";
+                                      console.log(this.state.value)
+                                      if(this.state.value!=undefined){
+                                        for(var i=0;i<this.state.value.length;i++){
+                                          console.log(this.state.value[i].label)
+                                          test=test+this.state.value[i].label.toString()
+                                          if(i!=this.state.value.length-1){
+                                            test=test+", "
+                                          }
+                                        }
+                                      }
+                                      else{
+                                        test="None"
+                                      }
+                                      // const doc=this.state.doctor.geta
+                                      this.write(patient._name,patient._age,patient._gender,aler,patient._pid.toString(),mname,mtype,test,edate,sdate,nof,summ,key)   
+                                      this.add(this.state.info,mname,mtype,test,edate,sdate,nof,summ)
+                                      
+                                      }}> 
+                                      <h6 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg}</h6>
+                                      <h6>Allergies from: {this.state.patients2[key]}</h6>
+                                      {/* { this.setmindate()} */}
+                                      {/* <p className="text-danger" id="error"></p> */}
+
+                                      <div className="form-group text-center">
+                                        <label htmlFor="Medicine">Medicine</label>
+                                        <input type="med" className="form-control" required ref={(input) => {this.mname=input}} id="medicine" placeholder="Medicine Name"></input>
+                                      </div>
+                                      <div className="form-group text-center"> 
+                                        <label htmlFor="type">Medicine Type</label>
+                                        <select  name="type" className="form-control" ref={(input) => {this.mtype=input}} >
+                                          <option value="Liquid"defaultValue>Liquid</option>
+                                          <option value="Tablet">Tablet</option>
+                                          <option value="Capsule">Capsule</option>
+                                        </select>
+                                      </div>
+                                      <div className="form-group text-center"> 
+                                        <label htmlFor="type">Suggest tests</label>
+                                        <CreatableSelect
+                                              isClearable
+                                              isDisabled={isLoading}
+                                              isLoading={isLoading}
+                                              onChange={this.handleChange}
+                                              // onCreateOption={this.handleCreate}
+                                              options={options}
+                                              value={value}
+                                              isMulti
+                                              required
+                                              placeholder="Search or type and create new tests if not in list"
+                                              ref={(input) => {this.aler=input}}
+                                            />
+                                      </div>
+                                      
+                                      <div className="form-group text-center" data-provide="datepicker">
+                                        <label htmlFor="Start Date">Start taking medicines from</label><br/>
+                                        <input type="date" id="ssdate" required ref={(input) => {this.sdate=input}}/>
+                                      </div>
+                                           
+                                      <div className="form-group text-center" data-provide="datepicker">
+                                        <label htmlFor="Start Date">Medicines to be taken till</label><br/>
+                                        <input type="date" required ref={(input) => {this.edate=input}}/>
+                                      </div>
+
+                                      <div className="form-group text-center"> 
+                                        <label htmlFor="type">Number of times medicine to be taken in a day </label>
+                                        <select  name="numberof" className="form-control" ref={(input) => {this.nof=input}} >
+                                          <option defaultValue value="1">1</option>
+                                          <option value="2">2</option>
+                                          <option value="3">3</option>
+                                          <option value="4">4</option>
+                                          <option value="5">5</option>
+                                          <option value="6">6</option>
+                                          <option value="7">7</option>
+                                          <option value="8">8</option>
+                                          <option value="9">9</option>
+                                          
+                                        </select>
+                                      </div>
+                                      <div className="form-group text-center"> 
+                                        <label htmlFor="type">Summary for medication</label>
+                                        <textarea type="text" className="form-control" id="summ" required ref={(input) => {this.summ=input}}></textarea>
+                                      </div>
+                                      <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
+                                    </form>
+                                  </li>
+                                )
+                              }
+                            )
+                          }    
+                        </ul>  
+                      }
+                    </div>
+                  </div>
+                <div className="container-fluid data animate-right" id="appointment" style={{display:"none"}}>
+                <h1>Appointment</h1>
+                <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
+                    <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+                </div>
+                <div className="container-fluid data animate-right" id="report" style={{display:"none"}}>
+                <h1>Reports</h1>
+                <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
+                    <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+                </div>
+                <div className="container-fluid data animate-right" id="profile" style={{display:"none"}}>
+                <h1>Profile</h1>
+                <div id="box" className="col">
+                  <h1 className="text-center">Your Bio</h1>
+                  <div className="row">
+                    <div className="col-sm-6">
+                    <h4 > Name : </h4>
+                    </div>
+                    <div className="col-sm-6">
+                    <h4 id="name" >{this.state.name}</h4>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="card mb-3">
+                        <div className="c-doctor-card__photo_col pure-u-1-3">
+                          {ipfsHash ? (
+                            <img
+                              src={`https://ipfs.io/ipfs/${ipfsHash}`}
+                              className="card-img-top"
+                              alt={`${ipfsHash}`}
+                            />
+                          ) : (
+                            <img
+                              src="https://api.fnkr.net/testimg/333x180/?text=IPFS"
+                              className="card-img-top"
+                              alt="NA"
+                            />
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <div className="row">
-          <div className="col-md-4">
-            <div className="card mb-3">
-            <div class="c-doctor-card__photo_col pure-u-1-3">
-              {ipfsHash ? (
-                <img
-                  src={`https://ipfs.io/ipfs/${ipfsHash}`}
-                  className="card-img-top"
-                  alt={`${ipfsHash}`}
-                />
-              ) : (
-                <img
-                  src="https://api.fnkr.net/testimg/333x180/?text=IPFS"
-                  className="card-img-top"
-                  alt="NA"
-                />
-              )}</div></div></div></div>
-                    {/* <div className="row">
-                      <div className="col-sm-6">
-                        <h4 > Age : </h4>
-                      </div>
-                      <div className="col-sm-6">
-                        <h4 id="age"></h4>
-                      </div>
+                  </div>
+                {/* <div className="row">
+                    <div className="col-sm-6">
+                      <h4 > Age : </h4>
                     </div>
-                    <div className="row">
-                      <div className="col-sm-6">
-                        <h4 > Gender : </h4>
-                      </div>
-                      <div className="col-sm-6">
-                        <h4 id="gender"></h4>
-                      </div>
-                    </div> */}
+                    <div className="col-sm-6">
+                      <h4 id="age"></h4>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-sm-6">
+                    <h4 > Gender : </h4>
+                    </div>
+                    <div className="col-sm-6">
+                    <h4 id="gender"></h4>
+                    </div>
+                  </div> */}
                   <script>var age=</script>
                 </div>
                 </div>
-              <div>
-                <br/>
-                <div id="box" className="col">
-                  <h2>Requests will be shown below </h2>
-                  {this.state.list
-                  ?<div>
-                     <h3>No requests yet</h3></div>
-                 :
-                 <ul>
-                   
-                 {this.state.patients.map((patient,key)=>{
-                   return(
-                     
-                     <li key={key}>
-                       <button  className="btn-primary" onClick={(e) => this.ph(patient[5])} title="View Patient History">View Patient History</button>
-                    <table id="dlist">
-                    </table>
-                  <form id="form1" onSubmit= { event=> {
-                    this.setState({loading:true})
-                    event.preventDefault()
-                    
-                    const mname=this.mname.value
-                    const mtype=this.mtype.value
-                    const sdate=this.sdate.value
-                    const edate=this.edate.value
-                    const nof=this.nof.value
-                    const summ=this.summ.value
-                    var aler="";
-                    if(this.state.patients2[key].length!=0)
-                    {
-                      for(var i=0;i<this.state.patients2[key].length;i++)
-                      {
-                        aler=aler+this.state.patients2[key][i].toString()
-                        if(i!=this.state.value.length-1)
-                        {
-                          aler=aler+", "
-                        }
-                      }
-                    }
-                    else{
-                      aler="None"
-                    }
-                    var test="";
-                    console.log(this.state.value)
-                    if(this.state.value!=undefined)
-                    {
-                      for(var i=0;i<this.state.value.length;i++)
-                      {
-                        console.log(this.state.value[i].label)
-                        test=test+this.state.value[i].label.toString()
-                        if(i!=this.state.value.length-1)
-                        {
-                          test=test+", "
-                        }
-                      }
-                    }
-                    else{
-                      test="None"
-                    }
-                    // const doc=this.state.doctor.geta
-                    this.write(patient._name,patient._age,patient._gender,aler,patient._pid.toString(),mname,mtype,test,edate,sdate,nof,summ,key)   
-                    this.add(this.state.info,mname,mtype,test,edate,sdate,nof,summ)
-                    
-                  }}> 
-                  <h6 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg}</h6>
-                  <h6>Allergies from: {this.state.patients2[key]}</h6>
-                    {/* { this.setmindate()} */}
-                    {/* <p className="text-danger" id="error"></p> */}
-
-                    <div className="form-group text-center">
-                            <label htmlFor="Medicine">Medicine</label>
-                            <input type="med" className="form-control" required ref={(input) => {this.mname=input}} id="medicine" placeholder="Medicine Name"></input>
-                          </div>
-                    <div className="form-group text-center"> 
-                            <label htmlFor="type">Medicine Type</label>
-                        <select  name="type" className="form-control" ref={(input) => {this.mtype=input}} >
-                            <option value="Liquid"defaultValue>Liquid</option>
-                            <option value="Tablet">Tablet</option>
-                            <option value="Capsule">Capsule</option>
-                        </select>
-                    </div>
-                    <div className="form-group text-center"> 
-                            <label htmlFor="type">Suggest tests</label>
-                            <CreatableSelect
-                                      isClearable
-                                      isDisabled={isLoading}
-                                      isLoading={isLoading}
-                                      onChange={this.handleChange}
-                                      // onCreateOption={this.handleCreate}
-                                      options={options}
-                                      value={value}
-                                      isMulti
-                                      required
-                                      placeholder="Search or type and create new tests if not in list"
-                                      ref={(input) => {this.aler=input}}
-                                    />
-                    </div>
-                    
-                    <div className="form-group text-center" data-provide="datepicker">
-                            <label htmlFor="Start Date">Start taking medicines from</label><br/>
-                            <input type="date" id="ssdate" required ref={(input) => {this.sdate=input}}/>
-                    </div>
-                           
-                    <div className="form-group text-center" data-provide="datepicker">
-                        <label htmlFor="Start Date">Medicines to be taken till</label><br/>
-                        <input type="date" required ref={(input) => {this.edate=input}}/>
-                    </div>
-
-                    <div className="form-group text-center"> 
-                            <label htmlFor="type">Number of times medicine to be taken in a day </label>
-                        <select  name="numberof" className="form-control" ref={(input) => {this.nof=input}} >
-                            <option defaultValue value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            
-                        </select>
-                    </div>
-                    <div className="form-group text-center"> 
-                            <label htmlFor="type">Summary for medication</label>
-                        <textarea type="text" className="form-control" id="summ" required ref={(input) => {this.summ=input}}></textarea>
-                    </div>
-                    <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
-                </form></li>
-                   )})}    
-                 </ul>  
-                }
+                <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
+                <h1>History</h1>
+                <button id="button"  onClick={this.hist} className="btn btn-primary">History</button>
+                <table id="wheel"></table>
                 </div>
-                <br/></div>
-              
-                <div>
-                  <div className="col text-center" id="box">
-                    <button id="button"  onClick={this.hist} className="btn btn-primary">History</button>
-                  <table id="wheel"></table>
-                  </div>
-                </div>
-                </div>
-                }
-                </div>
+              </div>
+          }
+            </div>
           </div>
     );
   }
