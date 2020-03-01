@@ -113,7 +113,7 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
       this.setState({loading : true})
       console.log(this.state.buffer)
       var count=  this.state.doctor.methods.doctorCount().call()
-     this.state.doctor.methods.set(web3.utils.fromAscii(name),web3.utils.fromAscii(spec),(exp),web3.utils.fromAscii((add).toString()),web3.utils.fromAscii(timingfrom),web3.utils.fromAscii(timingtill),web3.utils.fromAscii(gender),this.state.account,prhash).send({from: this.state.account}).on('error', function(error){
+     this.state.doctor.methods.set(web3.utils.fromAscii(name),web3.utils.fromAscii(spec),(exp),((add).toString()),web3.utils.fromAscii(timingfrom),web3.utils.fromAscii(timingtill),web3.utils.fromAscii(gender),this.state.account,prhash).send({from: this.state.account}).on('error', function(error){
       NotificationManager.error('Doctor account not created', 'Transaction cancelled!', 5000)
         window.setTimeout(function(){window.location.reload()}, 3000);    
     }).on('receipt',(receipt)=>{ this.setState({loading:false})

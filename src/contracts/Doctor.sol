@@ -19,15 +19,15 @@ contract Doctor{
     }
     struct PatientList{
         uint pid;
-        string name;
+        bytes32 name;
         string aler;
-        bytes32 medname;
+        string medname;
         bytes32 medtype;
-        bytes32 test;
+        string test;
         bytes32 sdate;
         bytes32 edate;
         bytes32 nof;
-        bytes32 summ;
+        string summ;
         uint did;
     }
     struct Info{
@@ -35,14 +35,14 @@ contract Doctor{
     bytes32 name;
     bytes32 spec;
     uint exp;
-    bytes32 add;
+    string add;
     bytes32 timingfrom;
     bytes32 timingtill;
     bytes32 gender;
     string ipfshash;
     }
-    function WriteMedication(string memory _name, string memory _aler,uint _pid,bytes32 _medname,
-     bytes32 _medtype,bytes32 _test,bytes32 _sdate,bytes32 _edate,bytes32 _nof,bytes32 _summ,uint _did ) public{
+    function WriteMedication(bytes32 _name, string memory _aler,uint _pid,string memory _medname,
+     bytes32 _medtype,string memory _test,bytes32 _sdate,bytes32 _edate,bytes32 _nof,string memory _summ,uint _did ) public{
         treatCount++;
         patientlist[treatCount] = PatientList(treatCount,_name,_aler,_medname,_medtype,_test,_sdate,_edate,_nof,_summ,_did);
         for(uint i = 0;i<waitlist[_did].length-1;i++){
@@ -54,13 +54,13 @@ contract Doctor{
         waitlist[_did].pop();
         waitlist_add[_did].pop();
     }
-    function GetMedicationList1(uint _id,uint _key)public view returns(string memory _name,string memory _aler,
-    bytes32 _medname, bytes32 _medtype,bytes32 _test,uint _treatCount){
+    function GetMedicationList1(uint _id,uint _key)public view returns(bytes32 _name,string memory _aler,
+    string memory _medname, bytes32 _medtype,string memory _test,uint _treatCount){
          if(_key==patientlist[_id].did)
         return(patientlist[_id].name,patientlist[_id].aler,patientlist[_id].medname,patientlist[_id].medtype,patientlist[_id].test,treatCount);
     }
      function GetMedicationList2(uint _id,uint _key)public view returns(bytes32 _sdate, bytes32 _edate, bytes32 _nof,
-     bytes32 _summ,uint _treatCount){
+     string memory _summ,uint _treatCount){
          if(_key==patientlist[_id].did)
         return(patientlist[_id].sdate,patientlist[_id].edate,patientlist[_id].nof,patientlist[_id].summ,treatCount);
     }
@@ -86,7 +86,7 @@ function getPlen (uint _key) external view returns(uint count) {
  function getAddressB() public view returns(address a){
      return(addressP);
  }
-    function set(bytes32 _name,bytes32 _spec, uint _exp, bytes32 _add,bytes32 _timingfrom,
+    function set(bytes32 _name,bytes32 _spec, uint _exp, string memory _add,bytes32 _timingfrom,
     bytes32 _timingtill,bytes32 _gender,address _address,string memory _ipfshash) public {
         doctorCount++;
         adr[doctorCount] = _address;
@@ -103,6 +103,17 @@ function getPlen (uint _key) external view returns(uint count) {
         }
         return -1;
     }
+    function checkwait(uint _did,uint _d) public view returns(int t){
+        if(waitlist[_did].length==0){
+            return 1;
+        }
+        for(uint i = 0; i <= waitlist[_did].length-1 ;i++){
+            if(waitlist[_did][i].wait==_d){
+                return 0;
+            }
+        }
+        return 1;
+    }
     // function get() public view returns(string memory _name, uint _age, string memory _gender){
     // return (info[doctorCount].name, info[doctorCount].age, info[doctorCount].gender) ;
     // }
@@ -116,7 +127,7 @@ function getPlen (uint _key) external view returns(uint count) {
         info[adr[i]].ipfshash,
         doctorCount);
     }
-    function getall2(uint i) public view returns(bytes32 add,
+    function getall2(uint i) public view returns(string memory add,
     bytes32 _timingfrom,bytes32 _timingtill,uint _doctorCount){
         return (
         info[adr[i]].add,

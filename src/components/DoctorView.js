@@ -143,7 +143,8 @@ async loadBlockchainData(){
     this.setState({loading:false})
     var id = window.location.href.toString().split("/")[4]
     const count = await doctor.methods.getall1(id).call()
-    console.log(count)
+    console.log(web3.utils.toUtf8(count[0]))
+    this.setState({info:web3.utils.toUtf8(count[0])})
     this.setState({hash:count[3]})
     this.setState({name:web3.utils.toUtf8(count[0])})
     const result=await this.state.doctor.methods.getPlen(id).call()
@@ -193,7 +194,7 @@ async write(name,age,gender,aler,pid,mname,mtype,test,edate,sdate,nof,summ,id){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var id = window.location.href.toString().split("/")[4]
   // console.log(pid,id)
-  this.state.doctor.methods.WriteMedication(name,aler,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),web3.utils.fromAscii(test),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),web3.utils.fromAscii(summ),id).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
+  this.state.doctor.methods.WriteMedication(web3.utils.fromAscii(name),aler,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),(test),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),web3.utils.fromAscii(summ),id).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
     NotificationManager.success('Prescribtion added', 'Check history',5000)
   }) 
   var p = Number(pid)
@@ -209,16 +210,48 @@ async ph(key){
     }
     else{
    for(var i=1;i<=x.toString();i++){
-    var no= await this.state.patient.methods.viewHist(i,key).call()
+    const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+    var no= await this.state.patient.methods.viewHist1(i,key).call()
+    var no2= await this.state.patient.methods.viewHist2(i,key).call()
+
     console.log(no)
     if(no[0]!==""){
       let tableRef = document.getElementById("dlist");
       let newRow = tableRef.insertRow(-1);
       let newCell = newRow.insertCell(0);
       console.log(no)
-      newCell.setAttribute("style","padding: 26px; display: inline-block; text-align: center")
-      let p=document.createTextNode((no[0]+"  prescribed to have "+no[1]+" from  "+no[2]+" to "+no[3]+" "+no[4]+"times a day").toString());
+      newCell.setAttribute("style","border-stlye:solid;  text-align:left; position: relative;top: 8px;right: 16px;font-size: 18px;")
+      let p=document.createTextNode((web3.utils.toUtf8(no[0])+"  prescribed to have "+web3.utils.toUtf8(no[1])+" from  "+web3.utils.toUtf8(no[3])+" to  "+web3.utils.toUtf8(no[4])+", times a day").toString());
+      let q=document.createTextNode("Summary of treatment: "+web3.utils.toUtf8(no2) .toString())
+      newCell.appendChild(document.createElement("hr"));
       newCell.appendChild(p);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(q);
+      newCell.appendChild(document.createElement("hr"));
+      // let a=document.createTextNode(("Name: "+web3.utils.toUtf8(no[0])).toString())
+      // let b=document.createTextNode(("Allergies: "+no[1]).toString());
+      // let c=document.createTextNode((" Treatment details:").toString())
+      // let d=document.createTextNode(("Medicine prescribed to take is: "+web3.utils.toUtf8(no[2])).toString()+" as "+web3.utils.toUtf8(no[3]) )
+      // let e=document.createTextNode(("Tests suggested:  "+(no[4])).toString())
+      // let f=document.createTextNode(("Medicine to be taken from "+web3.utils.toUtf8(no2[0])+" till "+web3.utils.toUtf8(no2[1])+" , "+  (no[5]) +" times a day").toString())
+      // let g=document.createTextNode(("Summary of treatment: "+web3.utils.toUtf8(no2[3])).toString())
+      // let h=document.createTextNode(("").toString())
+      // newCell.appendChild(document.createElement("hr"));
+      // newCell.appendChild(a);
+      // newCell.appendChild(document.createElement("br"));
+      // newCell.appendChild(b);
+      // newCell.appendChild(document.createElement("br"));
+      // newCell.appendChild(c);
+      // newCell.appendChild(document.createElement("br"));
+      // newCell.appendChild(d);
+      // newCell.appendChild(document.createElement("br"));
+      // newCell.appendChild(e);
+      // newCell.appendChild(document.createElement("br"));
+      // newCell.appendChild(f);
+      // newCell.appendChild(document.createElement("br"));
+      // newCell.appendChild(g);
+      // newCell.appendChild(document.createElement("br"));
+      // newCell.appendChild(h);
     }
   }
    
@@ -240,7 +273,7 @@ async add(dname,mname,mtype,test,edate,sdate,nof,summ){
     this.setState({patient})
     console.log(dname)
     console.log(this.state.p)
-    patient.methods.addDoc(web3.utils.fromAscii(dname),web3.utils.fromAscii(mname),web3.utils.fromAscii(test),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),web3.utils.fromAscii(summ),this.state.p).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
+    patient.methods.addDoc(web3.utils.fromAscii(dname),web3.utils.fromAscii(mname),test,web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),web3.utils.fromAscii(summ),this.state.p).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
       NotificationManager.success('Patient got prescribtion', 'Inform Patient',5000)
       window.setTimeout(function(){window.location.reload()}, 3000)    
     }) 
@@ -269,16 +302,18 @@ async openLink(tabName){
   for(var i=x.toString();i>=1;i--){
     var no= await this.state.doctor.methods.GetMedicationList1(i,key).call()
     var no2= await this.state.doctor.methods.GetMedicationList2(i,key).call()
-    
+    console.log(no)
+    if(no[1]!="")
+    {
       let tableRef = document.getElementById("wheel");
       let newRow = tableRef.insertRow(-1);
       let newCell = newRow.insertCell(0);
       newCell.setAttribute("style","padding: 26px; text-align: left")
-      let a=document.createTextNode(("Name: "+no[0]).toString())
+      let a=document.createTextNode(("Name: "+web3.utils.toUtf8(no[0])).toString())
       let b=document.createTextNode(("Allergies: "+no[1]).toString());
       let c=document.createTextNode((" Treatment details:").toString())
-      let d=document.createTextNode(("Medicine prescribed to take is: "+web3.utils.toUtf8(no[2])).toString()+" as "+web3.utils.toUtf8(no[3]) )
-      let e=document.createTextNode(("Tests suggested:  "+ web3.utils.toUtf8(no[4])).toString())
+      let d=document.createTextNode(("Medicine prescribed to take is: "+web3.utils.toUtf8(no[2]))+" as "+web3.utils.toUtf8(no[3]).toString() )
+      let e=document.createTextNode(("Tests suggested:  "+(no[4])).toString())
       let f=document.createTextNode(("Medicine to be taken from "+web3.utils.toUtf8(no2[0])+" till "+web3.utils.toUtf8(no2[1])+" , "+  (no[5]) +" times a day").toString())
       let g=document.createTextNode(("Summary of treatment: "+web3.utils.toUtf8(no2[3])).toString())
       let h=document.createTextNode(("").toString())
@@ -298,6 +333,7 @@ async openLink(tabName){
       newCell.appendChild(g);
       newCell.appendChild(document.createElement("br"));
       newCell.appendChild(h);
+    }
     }
   }
 
@@ -329,10 +365,11 @@ constructor(props){
     const ipfsHash = this.state.hash
     return (
       <div>
-        <Navbar account={this.state.account} />
-          <div className="d-flex"  id="wrapper" >
-            <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap" >
-              <div className="sidebar-heading"> Your Account</div>
+      <Navbar account={this.state.account} />
+          <div className={this.state.showMe ? "d-flex toggled" : "d-flex"}  id="wrapper" >
+          <NotificationContainer/>
+            <div className="bg-light border-right" id="sidebar-wrapper"  >
+              <div className="sidebar-heading">{this.state.name}</div>
               <div className="list-group list-group-flush">
                 <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')} >Dashboard</a>
                 <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
@@ -367,17 +404,18 @@ constructor(props){
                 <div>
                   <div className="container-fluid data animate-right" id="dashboard">
                     <h1 className="mt-4">Requests will be shown below</h1>
-                    <div id="box" className="col">
+                    <div  className="col">
                       {this.state.list
                         ?<div><h3>No requests yet</h3></div>
                         :
                         <ul>   
                           {this.state.patients.map((patient,key)=>{
                             return(
-                                  <li key={key}>
-                                    <button  className="btn-primary" onClick={(e) => this.ph(patient[5])} title="View Patient History">View Patient History</button>
-                                    <table id="dlist"></table>
-                                    <form id="form1" onSubmit= { event=> {
+                              
+                                  <li key={key}><hr></hr>
+                                     <div style={{ display: "flex" }}><button  style={{ marginLeft: "auto" }} className="btn-primary" onClick={(e) => this.ph(patient[5])} title="View Patient History">View Patient History</button></div>
+                                    <div id="box">
+                                      <form id="form1" onSubmit= { event=> {
                                       this.setState({loading:true})
                                       event.preventDefault()
                                       
@@ -415,12 +453,16 @@ constructor(props){
                                       }
                                       console.log(test)
                                       // const doc=this.state.doctor.geta
+                                      console.log(this.state.info)
                                       this.write(patient._name,patient._age,patient._gender,aler,patient._pid.toString(),mname,mtype,test,edate,sdate,nof,summ,key)   
                                       this.add(this.state.info,mname,mtype,test,edate,sdate,nof,summ)
                                       
                                       }}> 
-                                      <h6 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg}</h6>
-                                      <h6>Allergies from: {this.state.patients2[key]}</h6>
+                                      
+                                      <h4 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg}</h4>
+                                      <h4>Allergies from: {this.state.patients2[key]}</h4>
+                                      
+                                    <table id="dlist"></table>
                                       {/* { this.setmindate()} */}
                                       {/* <p className="text-danger" id="error"></p> */}
 
@@ -484,7 +526,7 @@ constructor(props){
                                       </div>
                                       <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
                                     </form>
-                                  </li>
+                                  </div></li>
                                 )
                               }
                             )
@@ -564,7 +606,7 @@ constructor(props){
           }
             </div>
           </div>
-        </div>
+          </div>
     );
   }
 }

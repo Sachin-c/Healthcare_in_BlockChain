@@ -70,6 +70,7 @@ constructor(props){
     info:'',
     doctors:[],
     doctors2:[],
+    a:[0],
     showMe: false,
   }
   this.hist = this.hist.bind(this);
@@ -83,16 +84,20 @@ async getdoctors()
   if(Doctorabi.networks[net_id]){
     var address= Doctorabi.networks[net_id].address
     var doctor= web3.eth.Contract(abi,address)
-    
+    this.setState({doctor})
+    var id = window.location.href.toString().split("/")[4]
+
+   
     var count = await doctor.methods.doctorCount.call()
-    for(var i=1;i<= count;i++){
-      
+    for(var i=1;i<= count;i++){var c=(await doctor.methods.checkwait(Number(i),(id)).call()); if(c==1){var d= true}else{var d=false}
+      this.setState({a:[...this.state.a,d]})
         var doc1=await doctor.methods.getall1(i).call()
         var doc2=await doctor.methods.getall2(i).call()
         var doc=[doc1,doc2]
         // this.setState({doctors:[...this.state.doctors,doc,doc2]})
         this.setState({doctors:[...this.state.doctors,doc]})
-        console.log((this.state.doctors))
+        var c=await doctor.methods.checkwait(1,2).call()
+        console.log(c)
     }
   }else{
     window.alert("Contract not loaded to blockchain")
@@ -108,6 +113,7 @@ async selecting(id,key){
   if(Doctorabi.networks[net_id]){
     var address= Doctorabi.networks[net_id].address
     var doctor= web3.eth.Contract(d_abi,address)
+    
     this.setState({doctor})
     console.log(key,Number(id))
     doctor.methods.setp(Number(id),key,Patientabi.networks[net_id].address).send({from:this.state.account}).on('error', function(error){
@@ -134,22 +140,42 @@ async openLink(cityName) {
       x[i].style.display = "none";
     }
     if(cityName=='history'){
+      var web3 = new Web3(Web3.givenProvider|| "http://localhost:7545")
       var key = window.location.href.toString().split("/")[4]
  var x= await this.state.patient.methods.hCount.call()
  if(document.getElementById("dlist").innerHTML==""){
  for(var i=1;i<=x.toString();i++){
    var no= await this.state.patient.methods.viewHist1(i,key).call()
    console.log(no)
-   var no1= await this.state.patient.methods.viewHist2(i,key).call()
-   console.log(no1)
+   var no2= await this.state.patient.methods.viewHist2(i,key).call()
+   console.log(no2)
 
      let tableRef = document.getElementById("dlist");
      let newRow = tableRef.insertRow(-1);
      let newCell = newRow.insertCell(0);
      console.log(no)
-     newCell.setAttribute("style","padding: 26px; display: inline-block; text-align: center")
-     let p=document.createTextNode((no[0]+"  prescribed to have "+no[1]+" from  "+no[2]+" to "+no[3]+" "+no[4]+"times a day").toString());
-     newCell.appendChild(p);
+     newCell.setAttribute("style","padding: 26px; text-align: left")
+     let a=document.createTextNode(("Name: "+web3.utils.toUtf8(no[0])).toString())
+      let c=document.createTextNode((" Treatment details:").toString())
+      let d=document.createTextNode(("Medicine prescribed to take is: "+web3.utils.toUtf8(no[1])).toString())
+      let e=document.createTextNode(("Tests suggested:  "+(no[2])).toString())
+      let f=document.createTextNode(("Medicine to be taken from "+web3.utils.toUtf8(no[3])+" till "+web3.utils.toUtf8(no[4])+" , "+  web3.utils.toUtf8(no[5]) +" times a day").toString())
+      let g=document.createTextNode(("Summary of treatment: "+web3.utils.toUtf8(no2)).toString())
+      let h=document.createTextNode(("").toString())
+      newCell.appendChild(document.createElement("hr"));
+      newCell.appendChild(a);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(c);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(d);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(e);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(f);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(g);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(h);
    }
  }
     }
@@ -179,7 +205,8 @@ async openLink(cityName) {
 //   };
 // };
 
-  render() {  var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  render() {  
+    var web3 = new Web3(Web3.givenProvider|| "http://localhost:7545")
 
     return (
             <div>
@@ -254,18 +281,21 @@ async openLink(cityName) {
                               <td><b></b> {web3.utils.toUtf8(doctor[0]._name)}</td>
                               <td><b></b> {web3.utils.toUtf8(doctor[0]._spec)}</td>
                               <td><b></b> {web3.utils.toDecimal(doctor[0]._exp)}</td>
-                              <td><b></b>{web3.utils.toUtf8(doctor[1].add)}</td>
+                              <td><b></b>{(doctor[1].add)}</td>
                               <td><b></b>{web3.utils.toUtf8(doctor[1]._timingfrom)}</td>
                               <td><b></b>{web3.utils.toUtf8(doctor[1]._timingtill)}</td>
                               
-                              <td>
-                              <button className="btn btn-primary"
-                                onClick={()=> {
-                                // console.log(this.state.id,key);
-                                this.selecting(this.state.id,key+1);
-                                }
-                                }
-                              >Select</button>
+                              <td>{this.state.a[key+1]
+                              ? <div> <button className="btn btn-primary"
+                              onClick={()=> {
+                              // console.log(this.state.id,key);
+                              this.selecting(this.state.id,key+1);
+                              }
+                              }
+                            >Select</button></div>
+                             :
+                           <button type="button" class="btn  btn-primary" disabled>Already selected</button>
+                              }
                               </td>
                             </tr>
                           )

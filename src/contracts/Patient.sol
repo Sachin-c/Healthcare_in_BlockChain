@@ -17,27 +17,27 @@ contract Patient{
     }
     struct History{
         uint id;
-        bytes32 dname;
-        bytes32 medicine;
-        bytes32 test;
+        string dname;
+        string medicine;
+        string  test;
         bytes32 sdate;
         bytes32 edate;
         bytes32 nof;
-        bytes32 summ;
+        string summ;
         uint pid;
     }
-    function addDoc(bytes32 _dname,bytes32 _medicine,bytes32 _test,bytes32 _sdate,bytes32 _edate,
-        bytes32 _nof,bytes32 _summ,uint _pid) public{
+    function addDoc(string memory _dname,string memory _medicine,string memory _test,bytes32 _sdate,bytes32 _edate,
+        bytes32 _nof,string memory _summ,uint _pid) public{
         hCount++;
         history[hCount] = History(hCount,_dname,_medicine,_test,_sdate,_edate,_nof,_summ,_pid);
     }
-function viewHist1(uint i,uint _p) public view returns(bytes32 _dname,bytes32 _medicine,bytes32 _test,bytes32 _sdate,
+function viewHist1(uint i,uint _p) public view returns(string memory _dname,string memory _medicine,string memory _test,bytes32 _sdate,
 bytes32 _edate,bytes32 _nof,uint _hCount){
     if(_p==history[i].pid){
             return(history[i].dname,history[i].medicine,history[i].test,history[i].sdate,history[i].edate,history[i].nof,hCount);
         }
     }
-    function viewHist2(uint i,uint _p) public view returns(bytes32 _summ){
+    function viewHist2(uint i,uint _p) public view returns(string memory _summ){
     if(_p==history[i].pid){
             return(history[i].summ);
         }
