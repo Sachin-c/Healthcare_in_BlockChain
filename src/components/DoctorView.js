@@ -332,7 +332,7 @@ constructor(props){
                   <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                       <li className="nav-item active">
-                        <a className="nav-link" href="#">{this.state.account}</a>
+                        <a className="nav-link" href="">{this.state.account}</a>
                       </li>
                     </ul>
                   </div>
