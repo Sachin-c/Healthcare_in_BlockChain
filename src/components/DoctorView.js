@@ -6,7 +6,8 @@ import Patientabi from '../abis/Patient.json'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import Collapsible from 'react-collapsible';
 import CreatableSelect from 'react-select/creatable';
-
+import { findDOMNode } from 'react-dom';
+import $ from 'jquery';
 import '../../node_modules/react-notifications/lib/notifications.css';
 import Navbar from './Navbar'
 import { DropdownButton } from 'react-bootstrap';
@@ -269,6 +270,14 @@ async add(dname,mname,mtype,test,edate,sdate,nof,summ){
     window.alert("Contract not loaded to blockchain")
   }
 }
+
+toggleMenu = (e) => {
+  e.preventDefault();
+  const el = findDOMNode(this.refs.wrap);
+  $(el).toggle();
+};
+
+
 async openLink(tabName){
     var i;
     var x = document.getElementsByClassName("data");
@@ -302,8 +311,8 @@ constructor(props){
 
     const ipfsHash = this.state.hash
     return (
-          <div className="d-flex" id="wrapper">
-            <div className="bg-light border-right" id="sidebar-wrapper" >
+          <div className="d-flex"  id="wrapper" >
+            <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap" >
               <div className="sidebar-heading"> Name</div>
               <div className="list-group list-group-flush">
                 <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('dashboard')} >Dashboard</a>
@@ -317,7 +326,7 @@ constructor(props){
             <div id="page-content-wrapper">
 
               <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <button className="btn btn-primary" id="menu-toggle">
+                <button className="btn btn-primary" id="menu-toggle" onClick={this.toggleMenu}>
                   Toggle Menu
                 </button>
 

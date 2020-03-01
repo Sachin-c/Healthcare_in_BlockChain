@@ -3,6 +3,8 @@ import Web3 from 'web3'
 import './App.css';
 import Patientabi from '../abis/Patient.json'
 import Navbar from './Navbar'
+import { findDOMNode } from 'react-dom';
+import $ from 'jquery';
 import Doctorabi from '../abis/Doctor.json'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import '../../node_modules/react-notifications/lib/notifications.css';
@@ -141,6 +143,13 @@ async hist(){
 }
 }
 
+toggleMenu = (e) => {
+  e.preventDefault();
+  const el = findDOMNode(this.refs.wrap);
+  console.log("reached!");
+  $(el).toggle();
+};
+
 openLink(cityName) {
     var i;
     var x = document.getElementsByClassName("data");
@@ -179,7 +188,7 @@ openLink(cityName) {
       
             <div className="d-flex" id="wrapper">
               <NotificationContainer/>
-              <div className="bg-light border-right" id="sidebar-wrapper" >
+              <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap">
                 <div className="sidebar-heading"> Name</div>
                 <div className="list-group list-group-flush">
                   <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('dashboard')}>Dashboard</a>
@@ -191,7 +200,7 @@ openLink(cityName) {
               </div>
               <div id="page-content-wrapper">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                  <button className="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+                  <button className="btn btn-primary" id="menu-toggle" onClick={this.toggleMenu}>Toggle Menu</button>
 
                   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

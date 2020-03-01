@@ -9,9 +9,13 @@ import PatientView from './components/PatientView';
 import DoctorView from './components/DoctorView';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
-
-
+import $ from 'jquery';
 import * as serviceWorker from './serviceWorker';
+
+$("#menu-toggle").click(function(e) {
+  e.preventDefault();
+  $("#wrapper").toggleClassName("toggled");
+});
 
 const routing = (
     <Router>
