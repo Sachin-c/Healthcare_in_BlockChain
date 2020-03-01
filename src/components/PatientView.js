@@ -70,6 +70,7 @@ constructor(props){
     info:'',
     doctors:[],
     doctors2:[],
+    showMe: false,
   }
   this.hist = this.hist.bind(this);
 
@@ -125,12 +126,6 @@ async hist(){
   
 }
 
-toggleMenu = (e) => {
-  e.preventDefault();
-  const el = findDOMNode(this.refs.wrap);
-  console.log("reached!");
-  $(el).toggle();
-};
 
 async openLink(cityName) {
     var i;
@@ -189,7 +184,7 @@ async openLink(cityName) {
     return (
             <div>
               <Navbar account={this.state.account} />
-            <div className="d-flex" id="wrapper">
+            <div className={this.state.showMe ? "d-flex toggled" : "d-flex"} id="wrapper" >
               
               <NotificationContainer/>
               
@@ -205,7 +200,7 @@ async openLink(cityName) {
               </div>
               <div id="page-content-wrapper">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                  <button className="btn btn-primary" id="menu-toggle" onClick={this.toggleMenu}>Toggle Menu</button>
+                  <button className="btn btn-primary" id="menu-toggle" onClick={() => this.setState({showMe: !this.state.showMe})}>Toggle Menu</button>
 
                   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -336,8 +331,6 @@ async openLink(cityName) {
                   <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
                     <h1>History</h1>
                      <div className="col text-center" id="box">
-                      {/*<button id="button"  onClick={this.hist} className="btn btn-primary">History</button>*/}
-                      {/* <button id="button"  onClick={this.hist} className="btn btn-primary">History</button> */}
                       <table id="dlist"></table>
                     </div>
                   </div>

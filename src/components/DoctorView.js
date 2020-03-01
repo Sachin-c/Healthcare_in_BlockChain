@@ -252,12 +252,6 @@ async add(dname,mname,mtype,test,edate,sdate,nof,summ){
   }
 }
 
-toggleMenu = (e) => {
-  e.preventDefault();
-  const el = findDOMNode(this.refs.wrap);
-  $(el).toggle();
-};
-
 
 async openLink(tabName){
     var i;
@@ -323,6 +317,7 @@ constructor(props){
     plist:[],
     options: defaultOptions,
     value: undefined,
+    showMe: false,
   }
   // this.hist = this.hist.bind(this);
 
@@ -350,7 +345,7 @@ constructor(props){
             <div id="page-content-wrapper">
 
               <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <button className="btn btn-primary" id="menu-toggle" onClick={this.toggleMenu}>
+                <button className="btn btn-primary" id="menu-toggle" onClick={() => this.setState({showMe: !this.state.showMe})}>
                   Toggle Menu
                 </button>
 
