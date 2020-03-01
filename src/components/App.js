@@ -69,9 +69,9 @@ constructor(props){
             <div>
               <div id="myCarousel" className="carousel slide" data-ride="carousel">
                 <ol className="carousel-indicators">
-                  <li data-target="#myCarousel" data-slide-to="0" className="active"></li>
-                  <li data-target="#myCarousel" data-slide-to="1"></li>
-                  <li data-target="#myCarousel" data-slide-to="2"></li>
+                  <li data-target="myCarousel" data-slide-to="0" className="active"></li>
+                  <li data-target="myCarousel" data-slide-to="1"></li>
+                  <li data-target="myCarousel" data-slide-to="2"></li>
                 </ol>
                 <div className="carousel-inner" role="listbox">
                   <div className="carousel-item active">
@@ -108,11 +108,11 @@ constructor(props){
                     </div>
                   </div>
                 </div>
-                <a className="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+                <a className="carousel-control-prev" href="myCarousel" role="button" data-slide="prev">
                   <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span className="sr-only">Previous</span>
                 </a>
-                <a className="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+                <a className="carousel-control-next" href="myCarousel" role="button" data-slide="next">
                   <span className="carousel-control-next-icon" aria-hidden="true"></span>
                   <span className="sr-only">Next</span>
                 </a>
@@ -124,19 +124,19 @@ constructor(props){
                     <img className="rounded-circle" src="/pubhealth.jpg" alt="Generic placeholder image" width="140" height="140"/>
                     <h2>Public Health</h2>
                     <p>By using blockchain technology, regulatory bodies can create a shared stream of de-identified patient information. This stream will help authorities identify the pandemics or threats so they can take necessary action to control the problem in a timely manner.</p>
-                    <p><a className="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                    <p><a className="btn btn-secondary" href="" role="button">View details &raquo;</a></p>
                   </div>
                   <div className="col-lg-4">
                     <img className="rounded-circle" src="/datasec.jpg" alt="Generic placeholder image" width="140" height="140"/>
                     <h2>Data Security</h2>
                     <p>Blockchain technology is the smarter solution to safeguard the patient’s information. Blockchain prevents unauthorized individuals from accessing the information.</p>
-                    <p><a className="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                    <p><a className="btn btn-secondary" href="" role="button">View details &raquo;</a></p>
                   </div>
                   <div className="col-lg-4">
                     <img className="rounded-circle" src="/consent.jpg" alt="Generic placeholder image" width="140" height="140"/>
                     <h2>Managed Consent</h2>
                     <p>Patients can specifically authorize any individual to access their medical information.</p>
-                    <p><a className="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+                    <p><a className="btn btn-secondary" href="" role="button">View details &raquo;</a></p>
                   </div>
                 </div>
 
@@ -180,7 +180,7 @@ constructor(props){
                 <hr className="featurette-divider"/>
 
                 <footer>
-                  <p className="float-right"><a href="#">Back to top</a></p>
+                  <p className="float-right"><a href="">Back to top</a></p>
                 </footer>
               </div>
             </div>
