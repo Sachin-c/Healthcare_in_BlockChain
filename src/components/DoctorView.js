@@ -228,26 +228,7 @@ async ph(key){
   }  
   console.log(this.state.patient)
 }
-async hist(){
-  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
-   var key = window.location.href.toString().split("/")[4]
-  var x= await this.state.doctor.methods.treatCount.call()
-  if(document.getElementById("wheel").innerHTML==""){
-  for(var i=1;i<=x.toString();i++){
-    var no= await this.state.doctor.methods.GetMedicationList(i,key).call()
-    if(no[0]!==""){
-      let tableRef = document.getElementById("wheel");
-      let newRow = tableRef.insertRow(-1);
-      let newCell = newRow.insertCell(0);
-      newCell.setAttribute("style","padding: 26px; display: inline-block; text-align: center")
-      let p=document.createTextNode((no[0]+" was prescribed "+web3.utils.toUtf8(no[1])+" as "+web3.utils.toUtf8(no[2])+" from  "+ web3.utils.toUtf8(no[3])+" to "+web3.utils.toUtf8(no[4])+" and "+web3.utils.toUtf8(no[5])+ " times a day.").toString());
-      newCell.appendChild(p);
-    }
-  }
-}else{
-  document.getElementById("wheel").innerHTML=""
-}
-}
+
 async add(dname,mname,mtype,test,edate,sdate,nof,summ){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const abi= Patientabi.abi
@@ -277,6 +258,24 @@ async openLink(tabName){
       x[i].style.display = "none";
     }
     document.getElementById(tabName).style.display = "block";
+    if(tabName=='history'){
+      const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+   var key = window.location.href.toString().split("/")[4]
+  var x= await this.state.doctor.methods.treatCount.call()
+  if(document.getElementById("wheel").innerHTML==""){
+  for(var i=1;i<=x.toString();i++){
+    var no= await this.state.doctor.methods.GetMedicationList(i,key).call()
+    
+      let tableRef = document.getElementById("wheel");
+      let newRow = tableRef.insertRow(-1);
+      let newCell = newRow.insertCell(0);
+      newCell.setAttribute("style","padding: 26px; display: inline-block; text-align: center")
+      let p=document.createTextNode((no[0]+" was prescribed "+web3.utils.toUtf8(no[1])+" as "+web3.utils.toUtf8(no[2])+" from  "+ web3.utils.toUtf8(no[3])+" to "+web3.utils.toUtf8(no[4])+" and "+web3.utils.toUtf8(no[5])+ " times a day.").toString());
+      newCell.appendChild(p);
+    }
+  }
+
+    }
 }
 
 
@@ -306,10 +305,10 @@ constructor(props){
             <div className="bg-light border-right" id="sidebar-wrapper" >
               <div className="sidebar-heading"> Name</div>
               <div className="list-group list-group-flush">
-                <a href="" className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('dashboard')} >Dashboard</a>
-                <a href="" className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
-                <a href="" className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('report')} >Reports</a>
-                <a href="" className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('profile')} >Profile</a>
+                <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('dashboard')} >Dashboard</a>
+                <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
+                <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('report')} >Reports</a>
+                <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('profile')} >Profile</a>
                 <a className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('history')}>History</a>
               </div>
             </div>
@@ -528,7 +527,7 @@ constructor(props){
                 </div>
                 <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
                 <h1>History</h1>
-                <button id="button"  onClick={this.hist} className="btn btn-primary">History</button>
+                {/* <button id="button"  onClick={this.hist} className="btn btn-primary">History</button> */}
                 <table id="wheel"></table>
                 </div>
               </div>
