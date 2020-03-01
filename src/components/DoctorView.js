@@ -292,7 +292,7 @@ constructor(props){
     options: defaultOptions,
     value: undefined,
   }
-  this.hist = this.hist.bind(this);
+  // this.hist = this.hist.bind(this);
 
 }
 
