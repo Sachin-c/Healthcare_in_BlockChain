@@ -122,25 +122,7 @@ async selecting(id,key){
 }
 async hist(){
   // var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
-  var key = window.location.href.toString().split("/")[4]
- var x= await this.state.patient.methods.hCount.call()
- if(document.getElementById("dlist").innerHTML==""){
- for(var i=1;i<=x.toString();i++){
-   var no= await this.state.patient.methods.viewHist(i,key).call()
-   console.log(no)
-   if(no[0]!==""){
-     let tableRef = document.getElementById("dlist");
-     let newRow = tableRef.insertRow(-1);
-     let newCell = newRow.insertCell(0);
-     console.log(no)
-     newCell.setAttribute("style","padding: 26px; display: inline-block; text-align: center")
-     let p=document.createTextNode((no[0]+"  prescribed to have "+no[1]+" from  "+no[2]+" to "+no[3]+" "+no[4]+"times a day").toString());
-     newCell.appendChild(p);
-   }
- }
-}else{
-  document.getElementById("dlist").innerHTML=""
-}
+  
 }
 
 toggleMenu = (e) => {
@@ -150,11 +132,29 @@ toggleMenu = (e) => {
   $(el).toggle();
 };
 
-openLink(cityName) {
+async openLink(cityName) {
     var i;
     var x = document.getElementsByClassName("data");
     for (i = 0; i < x.length; i++) {
       x[i].style.display = "none";
+    }
+    if(cityName=='history'){
+      var key = window.location.href.toString().split("/")[4]
+ var x= await this.state.patient.methods.hCount.call()
+ if(document.getElementById("dlist").innerHTML==""){
+ for(var i=1;i<=x.toString();i++){
+   var no= await this.state.patient.methods.viewHist(i,key).call()
+   console.log(no)
+  
+     let tableRef = document.getElementById("dlist");
+     let newRow = tableRef.insertRow(-1);
+     let newCell = newRow.insertCell(0);
+     console.log(no)
+     newCell.setAttribute("style","padding: 26px; display: inline-block; text-align: center")
+     let p=document.createTextNode((no[0]+"  prescribed to have "+no[1]+" from  "+no[2]+" to "+no[3]+" "+no[4]+"times a day").toString());
+     newCell.appendChild(p);
+   }
+ }
     }
     document.getElementById(cityName).style.display = "block";
 }
@@ -185,11 +185,14 @@ openLink(cityName) {
   render() {  var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
 
     return (
-      
+            <div>
+              <Navbar account={this.state.account} />
             <div className="d-flex" id="wrapper">
+              
               <NotificationContainer/>
+              
               <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap">
-                <div className="sidebar-heading"> Name</div>
+                <div className="sidebar-heading"> </div>
                 <div className="list-group list-group-flush">
                   <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')}>Dashboard</a>
                   <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
@@ -208,7 +211,7 @@ openLink(cityName) {
                   <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                       <li className="nav-item active">
-                        <a className="nav-link" href="#">{this.state.account}</a>
+                        {/* <a className="nav-link" href="#">{this.state.account}</a> */}
                       </li>
                     </ul>
                   </div>
@@ -239,9 +242,9 @@ openLink(cityName) {
                             <th scope="row">{doctor[0]._ipfhash ? (
                               <div className="c-doctor-card__photo_col pure-u-1-5">
                             <img
-                            
+                              height="150" width="150"
                               src={`https://ipfs.io/ipfs/${doctor[0]._ipfhash}`}
-                              className="card-img-top"
+                              // className="card-img-top"
                               alt={`${doctor._ipfhash}`}
                             /></div>
                               ) : (
@@ -331,7 +334,11 @@ openLink(cityName) {
                   <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
                     <h1>History</h1>
                      <div className="col text-center" id="box">
+<<<<<<< HEAD
                       {/*<button id="button"  onClick={this.hist} className="btn btn-primary">History</button>*/}
+=======
+                      {/* <button id="button"  onClick={this.hist} className="btn btn-primary">History</button> */}
+>>>>>>> 276a53c46821defabbea15620185aac97f93e0c3
                       <table id="dlist"></table>
                     </div>
                   </div>
@@ -339,7 +346,7 @@ openLink(cityName) {
               }
         </div>
       </div>
-    );
+      </div>);
   }
 }
 
