@@ -66,7 +66,8 @@ constructor(props){
     account:'',
     loading:true,
     info:'',
-    doctors:[]
+    doctors:[],
+    doctors2:[],
   }
   this.hist = this.hist.bind(this);
 
@@ -82,10 +83,13 @@ async getdoctors()
     
     var count = await doctor.methods.doctorCount.call()
     for(var i=1;i<= count;i++){
-        var doc=await doctor.methods.getall1(i).call()
-        console.log(doc)
+      
+        var doc1=await doctor.methods.getall1(i).call()
+        var doc2=await doctor.methods.getall2(i).call()
+        var doc=[doc1,doc2]
+        // this.setState({doctors:[...this.state.doctors,doc,doc2]})
         this.setState({doctors:[...this.state.doctors,doc]})
-        
+        console.log((this.state.doctors))
     }
   }else{
     window.alert("Contract not loaded to blockchain")
@@ -103,7 +107,10 @@ async selecting(id,key){
     var doctor= web3.eth.Contract(d_abi,address)
     this.setState({doctor})
     console.log(key,Number(id))
-    doctor.methods.setp(Number(id),key,Patientabi.networks[net_id].address).send({from:this.state.account}).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
+    doctor.methods.setp(Number(id),key,Patientabi.networks[net_id].address).send({from:this.state.account}).on('error', function(error){
+      NotificationManager.error('Your request was cancelled', 'Doctor not notified!', 5000)
+        window.setTimeout(function(){window.location.reload()}, 3000);    
+    }).on('receipt',(receipt)=>{ this.setState({loading:false})}).on("confirmation", function () {
      NotificationManager.success('Your prescribtion will be added by doctor', 'Doctor was notified',5000)
       window.setTimeout(function(){window.location.reload()}, 3000);    
     });
@@ -169,7 +176,9 @@ openLink(cityName) {
   render() {  var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
 
     return (
+      
             <div className="d-flex" id="wrapper">
+              <NotificationContainer/>
               <div className="bg-light border-right" id="sidebar-wrapper" >
                 <div className="sidebar-heading"> Name</div>
                 <div className="list-group list-group-flush">
@@ -208,6 +217,9 @@ openLink(cityName) {
                         <th scope="col">Doctor Name</th>
                         <th scope="col"> Specialitist</th>
                         <th scope="col"> Years of Experience</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Avaliable from</th>
+                        <th scope="col">Available till</th>
                         <th scope="col"> selecting</th>
                         </tr>
                       </thead>          
@@ -215,11 +227,11 @@ openLink(cityName) {
                         {this.state.doctors.map((doctor,key)=>{
                           return(
                             <tr key={key}>
-                            <th scope="row">{doctor._ipfhash ? (
+                            <th scope="row">{doctor[0]._ipfhash ? (
                               <div className="c-doctor-card__photo_col pure-u-1-5">
                             <img
                             
-                              src={`https://ipfs.io/ipfs/${doctor._ipfhash}`}
+                              src={`https://ipfs.io/ipfs/${doctor[0]._ipfhash}`}
                               className="card-img-top"
                               alt={`${doctor._ipfhash}`}
                             /></div>
@@ -230,9 +242,12 @@ openLink(cityName) {
                                 alt="NA"
                               />
                               )}</th>
-                              <td><b></b> {web3.utils.toUtf8(doctor._name)}</td>
-                              <td><b></b> {web3.utils.toUtf8(doctor._spec)}</td>
-                              <td><b></b> {web3.utils.toDecimal(doctor._exp)}</td>
+                              <td><b></b> {web3.utils.toUtf8(doctor[0]._name)}</td>
+                              <td><b></b> {web3.utils.toUtf8(doctor[0]._spec)}</td>
+                              <td><b></b> {web3.utils.toDecimal(doctor[0]._exp)}</td>
+                              <td><b></b>{web3.utils.toUtf8(doctor[1].add)}</td>
+                              <td><b></b>{web3.utils.toUtf8(doctor[1]._timingfrom)}</td>
+                              <td><b></b>{web3.utils.toUtf8(doctor[1]._timingtill)}</td>
                               
                               <td>
                               <button className="btn btn-primary"
