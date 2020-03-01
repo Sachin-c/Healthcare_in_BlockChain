@@ -31,10 +31,15 @@ contract Patient{
         hCount++;
         history[hCount] = History(hCount,_dname,_medicine,_test,_sdate,_edate,_nof,_summ,_pid);
     }
-function viewHist(uint i,uint _p) public view returns(bytes32 _dname,bytes32 _medicine,bytes32 _sdate,
+function viewHist1(uint i,uint _p) public view returns(bytes32 _dname,bytes32 _medicine,bytes32 _test,bytes32 _sdate,
 bytes32 _edate,bytes32 _nof,uint _hCount){
     if(_p==history[i].pid){
-            return(history[i].dname,history[i].medicine,history[i].sdate,history[i].edate,history[i].nof,hCount);
+            return(history[i].dname,history[i].medicine,history[i].test,history[i].sdate,history[i].edate,history[i].nof,hCount);
+        }
+    }
+    function viewHist2(uint i,uint _p) public view returns(bytes32 _summ){
+    if(_p==history[i].pid){
+            return(history[i].summ);
         }
     }
      function set(string memory _name, uint _age, string memory _gender,string memory _aler,string memory _bg, address _address) public {

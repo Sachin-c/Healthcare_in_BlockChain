@@ -143,9 +143,11 @@ async openLink(cityName) {
  var x= await this.state.patient.methods.hCount.call()
  if(document.getElementById("dlist").innerHTML==""){
  for(var i=1;i<=x.toString();i++){
-   var no= await this.state.patient.methods.viewHist(i,key).call()
+   var no= await this.state.patient.methods.viewHist1(i,key).call()
    console.log(no)
-  
+   var no1= await this.state.patient.methods.viewHist2(i,key).call()
+   console.log(no1)
+
      let tableRef = document.getElementById("dlist");
      let newRow = tableRef.insertRow(-1);
      let newCell = newRow.insertCell(0);
@@ -192,10 +194,10 @@ async openLink(cityName) {
               <NotificationContainer/>
               
               <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap">
-                <div className="sidebar-heading"> </div>
+                <div className="sidebar-heading"> Your Account</div>
                 <div className="list-group list-group-flush">
-                  <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')}>Dashboard</a>
-                  <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
+                  {/* <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')}>Dashboard</a> */}
+                  <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')}>Make an Appointment</a>
                   <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('report')}>Reports</a>
                   <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('profile')} >Profile</a>
                   <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('history')} >History</a>
@@ -334,11 +336,8 @@ async openLink(cityName) {
                   <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
                     <h1>History</h1>
                      <div className="col text-center" id="box">
-<<<<<<< HEAD
                       {/*<button id="button"  onClick={this.hist} className="btn btn-primary">History</button>*/}
-=======
                       {/* <button id="button"  onClick={this.hist} className="btn btn-primary">History</button> */}
->>>>>>> 276a53c46821defabbea15620185aac97f93e0c3
                       <table id="dlist"></table>
                     </div>
                   </div>

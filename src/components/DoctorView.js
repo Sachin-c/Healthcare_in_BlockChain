@@ -272,15 +272,38 @@ async openLink(tabName){
    var key = window.location.href.toString().split("/")[4]
   var x= await this.state.doctor.methods.treatCount.call()
   if(document.getElementById("wheel").innerHTML==""){
-  for(var i=1;i<=x.toString();i++){
-    var no= await this.state.doctor.methods.GetMedicationList(i,key).call()
+  for(var i=x.toString();i>=1;i--){
+    var no= await this.state.doctor.methods.GetMedicationList1(i,key).call()
+    var no2= await this.state.doctor.methods.GetMedicationList2(i,key).call()
     
       let tableRef = document.getElementById("wheel");
       let newRow = tableRef.insertRow(-1);
       let newCell = newRow.insertCell(0);
-      newCell.setAttribute("style","padding: 26px; display: inline-block; text-align: center")
-      let p=document.createTextNode((no[0]+" was prescribed "+web3.utils.toUtf8(no[1])+" as "+web3.utils.toUtf8(no[2])+" from  "+ web3.utils.toUtf8(no[3])+" to "+web3.utils.toUtf8(no[4])+" and "+web3.utils.toUtf8(no[5])+ " times a day.").toString());
-      newCell.appendChild(p);
+      newCell.setAttribute("style","padding: 26px; text-align: left")
+      let a=document.createTextNode(("Name: "+no[0]).toString())
+      let b=document.createTextNode(("Allergies: "+no[1]).toString());
+      let c=document.createTextNode((" Treatment details:").toString())
+      let d=document.createTextNode(("Medicine prescribed to take is: "+web3.utils.toUtf8(no[2])).toString()+" as "+web3.utils.toUtf8(no[3]) )
+      let e=document.createTextNode(("Tests suggested:  "+ web3.utils.toUtf8(no[4])).toString())
+      let f=document.createTextNode(("Medicine to be taken from "+web3.utils.toUtf8(no2[0])+" till "+web3.utils.toUtf8(no2[1])+" , "+  (no[5]) +" times a day").toString())
+      let g=document.createTextNode(("Summary of treatment: "+web3.utils.toUtf8(no2[3])).toString())
+      let h=document.createTextNode(("").toString())
+      newCell.appendChild(document.createElement("hr"));
+      newCell.appendChild(a);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(b);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(c);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(d);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(e);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(f);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(g);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(h);
     }
   }
 
@@ -310,9 +333,11 @@ constructor(props){
 
     const ipfsHash = this.state.hash
     return (
+      <div>
+        <Navbar account={this.state.account} />
           <div className="d-flex"  id="wrapper" >
             <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap" >
-              <div className="sidebar-heading"> Name</div>
+              <div className="sidebar-heading"> Your Account</div>
               <div className="list-group list-group-flush">
                 <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')} >Dashboard</a>
                 <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
@@ -367,18 +392,18 @@ constructor(props){
                                       const edate=this.edate.value
                                       const nof=this.nof.value
                                       const summ=this.summ.value
-                                      var aler="";
-                                      if(this.state.patients2[key].length!=0){
-                                        for(var i=0;i<this.state.patients2[key].length;i++){
-                                          aler=aler+this.state.patients2[key][i].toString()
-                                          if(i!=this.state.value.length-1){
-                                            aler=aler+", "
-                                          }
-                                        }
-                                      }
-                                      else{
-                                        aler="None"
-                                      }
+                                      var aler=this.state.patients2[key];
+                                      // if(this.state.patients2[key].length!=0){
+                                      //   for(var i=0;i<this.state.patients2[key].length;i++){
+                                      //     aler=aler+this.state.patients2[key][i].toString()
+                                      //     if(i!=this.state.value.length-1){
+                                      //       aler=aler+", "
+                                      //     }
+                                      //   }
+                                      // }
+                                      // else{
+                                      //   aler="None"
+                                      // }
                                       var test="";
                                       console.log(this.state.value)
                                       if(this.state.value!=undefined){
@@ -393,6 +418,7 @@ constructor(props){
                                       else{
                                         test="None"
                                       }
+                                      console.log(test)
                                       // const doc=this.state.doctor.geta
                                       this.write(patient._name,patient._age,patient._gender,aler,patient._pid.toString(),mname,mtype,test,edate,sdate,nof,summ,key)   
                                       this.add(this.state.info,mname,mtype,test,edate,sdate,nof,summ)
@@ -543,6 +569,7 @@ constructor(props){
           }
             </div>
           </div>
+        </div>
     );
   }
 }

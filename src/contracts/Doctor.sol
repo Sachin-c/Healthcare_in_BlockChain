@@ -54,11 +54,15 @@ contract Doctor{
         waitlist[_did].pop();
         waitlist_add[_did].pop();
     }
-    function GetMedicationList(uint _id,uint _key)public view returns(string memory _name,bytes32 _medname, bytes32 _medtype,
-     bytes32 _sdate, bytes32 _edate, bytes32 _nof,uint _treatCount){
+    function GetMedicationList1(uint _id,uint _key)public view returns(string memory _name,string memory _aler,
+    bytes32 _medname, bytes32 _medtype,bytes32 _test,uint _treatCount){
          if(_key==patientlist[_id].did)
-        return(patientlist[_id].name,patientlist[_id].medname,patientlist[_id].medtype,patientlist[_id].sdate,
-        patientlist[_id].edate,patientlist[_id].nof,treatCount);
+        return(patientlist[_id].name,patientlist[_id].aler,patientlist[_id].medname,patientlist[_id].medtype,patientlist[_id].test,treatCount);
+    }
+     function GetMedicationList2(uint _id,uint _key)public view returns(bytes32 _sdate, bytes32 _edate, bytes32 _nof,
+     bytes32 _summ,uint _treatCount){
+         if(_key==patientlist[_id].did)
+        return(patientlist[_id].sdate,patientlist[_id].edate,patientlist[_id].nof,patientlist[_id].summ,treatCount);
     }
     function setp(uint _p_id,uint _key, address _address) public {
      waitlist[_key].push(WaitList(_p_id));
