@@ -271,7 +271,7 @@ async add(dname,mname,mtype,test,edate,sdate,nof,summ){
 }
 async openLink(tabName){
     var i;
-    var x = document.getElementsByclassName("data");
+    var x = document.getElementsByClassName("data");
     console.log(x);
     for (i = 0; i < x.length; i++) {
       x[i].style.display = "none";
@@ -310,7 +310,7 @@ constructor(props){
                 <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
                 <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('report')} >Reports</a>
                 <a href="#" className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('profile')} >Profile</a>
-                <a className="list-group-item list-group-item-action bg-light tablink" onClick={this.openLink.bind(this,'history')}>History</a>
+                <a className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('history')}>History</a>
               </div>
             </div>
 
