@@ -314,11 +314,11 @@ constructor(props){
             <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap" >
               <div className="sidebar-heading"> Name</div>
               <div className="list-group list-group-flush">
-                <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('dashboard')} >Dashboard</a>
-                <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
-                <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('report')} >Reports</a>
-                <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('profile')} >Profile</a>
-                <a className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('history')}>History</a>
+                <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')} >Dashboard</a>
+                <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
+                <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('report')} >Reports</a>
+                <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('profile')} >Profile</a>
+                <a className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('history')}>History</a>
               </div>
             </div>
 

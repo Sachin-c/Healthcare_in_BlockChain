@@ -194,11 +194,11 @@ async openLink(cityName) {
               <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap">
                 <div className="sidebar-heading"> </div>
                 <div className="list-group list-group-flush">
-                  {/* <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('dashboard')}>Dashboard</a> */}
-                  <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('dashboard')}>Make an Appointment</a>
-                  <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('report')}>Reports</a>
-                  <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('profile')} >Profile</a>
-                  <a  className="list-group-item list-group-item-action bg-light tablink" onClick={(e) => this.openLink('history')} >History</a>
+                  <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')}>Dashboard</a>
+                  <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
+                  <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('report')}>Reports</a>
+                  <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('profile')} >Profile</a>
+                  <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('history')} >History</a>
                 </div>
               </div>
               <div id="page-content-wrapper">
@@ -334,7 +334,11 @@ async openLink(cityName) {
                   <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
                     <h1>History</h1>
                      <div className="col text-center" id="box">
+<<<<<<< HEAD
+                      {/*<button id="button"  onClick={this.hist} className="btn btn-primary">History</button>*/}
+=======
                       {/* <button id="button"  onClick={this.hist} className="btn btn-primary">History</button> */}
+>>>>>>> 276a53c46821defabbea15620185aac97f93e0c3
                       <table id="dlist"></table>
                     </div>
                   </div>
