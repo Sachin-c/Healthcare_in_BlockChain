@@ -252,12 +252,6 @@ async add(dname,mname,mtype,test,edate,sdate,nof,summ){
   }
 }
 
-toggleMenu = (e) => {
-  e.preventDefault();
-  const el = findDOMNode(this.refs.wrap);
-  $(el).toggle();
-};
-
 
 async openLink(tabName){
     var i;
@@ -300,6 +294,7 @@ constructor(props){
     plist:[],
     options: defaultOptions,
     value: undefined,
+    showMe: false,
   }
   // this.hist = this.hist.bind(this);
 
@@ -310,9 +305,10 @@ constructor(props){
 
     const ipfsHash = this.state.hash
     return (
-          <div className="d-flex"  id="wrapper" >
-            <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap" >
-              <div className="sidebar-heading"> Name</div>
+
+          <div className={this.state.showMe ? "d-flex toggled" : "d-flex"}  id="wrapper" >
+            <div className="bg-light border-right" id="sidebar-wrapper"  >
+              <div className="sidebar-heading">{this.state.name}</div>
               <div className="list-group list-group-flush">
                 <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')} >Dashboard</a>
                 <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
@@ -325,7 +321,7 @@ constructor(props){
             <div id="page-content-wrapper">
 
               <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <button className="btn btn-primary" id="menu-toggle" onClick={this.toggleMenu}>
+                <button className="btn btn-primary" id="menu-toggle" onClick={() => this.setState({showMe: !this.state.showMe})}>
                   Toggle Menu
                 </button>
 

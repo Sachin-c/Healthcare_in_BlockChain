@@ -70,6 +70,7 @@ constructor(props){
     info:'',
     doctors:[],
     doctors2:[],
+    showMe: false,
   }
   this.hist = this.hist.bind(this);
 
@@ -125,12 +126,6 @@ async hist(){
   
 }
 
-toggleMenu = (e) => {
-  e.preventDefault();
-  const el = findDOMNode(this.refs.wrap);
-  console.log("reached!");
-  $(el).toggle();
-};
 
 async openLink(cityName) {
     var i;
@@ -187,12 +182,12 @@ async openLink(cityName) {
     return (
             <div>
               <Navbar account={this.state.account} />
-            <div className="d-flex" id="wrapper">
+            <div className={this.state.showMe ? "d-flex toggled" : "d-flex"} id="wrapper" >
               
               <NotificationContainer/>
               
-              <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap">
-                <div className="sidebar-heading"> </div>
+              <div className="bg-light border-right" id="sidebar-wrapper" >
+                <div className="sidebar-heading">{this.state.info[0]}</div>
                 <div className="list-group list-group-flush">
                   <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')}>Dashboard</a>
                   <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('appointment')}>Make an Appointment</a>
@@ -203,7 +198,7 @@ async openLink(cityName) {
               </div>
               <div id="page-content-wrapper">
                 <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                  <button className="btn btn-primary" id="menu-toggle" onClick={this.toggleMenu}>Toggle Menu</button>
+                  <button className="btn btn-primary" id="menu-toggle" onClick={() => this.setState({showMe: !this.state.showMe})}>Toggle Menu</button>
 
                   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -334,11 +329,6 @@ async openLink(cityName) {
                   <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
                     <h1>History</h1>
                      <div className="col text-center" id="box">
-<<<<<<< HEAD
-                      {/*<button id="button"  onClick={this.hist} className="btn btn-primary">History</button>*/}
-=======
-                      {/* <button id="button"  onClick={this.hist} className="btn btn-primary">History</button> */}
->>>>>>> 276a53c46821defabbea15620185aac97f93e0c3
                       <table id="dlist"></table>
                     </div>
                   </div>
