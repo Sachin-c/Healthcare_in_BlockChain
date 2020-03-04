@@ -143,24 +143,38 @@ async openLink(cityName) {
       var web3 = new Web3(Web3.givenProvider|| "http://localhost:7545")
       var key = window.location.href.toString().split("/")[4]
  var x= await this.state.patient.methods.hCount.call()
- if(document.getElementById("dlist").innerHTML==""){
- for(var i=1;i<=x.toString();i++){
+ console.log(x)
+//  if(document.getElementById("dlist").innerHTML==""){
+ for(var i=1;i<=x;i++){
    var no= await this.state.patient.methods.viewHist1(i,key).call()
    console.log(no)
    var no2= await this.state.patient.methods.viewHist2(i,key).call()
    console.log(no2)
-
+  //  (string  _dname,string[] _medicine,string _test, bytes32 _sdate,bytes32[] memory _edate,bytes32[] memory _nof,uint _hCount)
+  //   (string memory _summ,bytes32[] memory _typ)
      let tableRef = document.getElementById("dlist");
      let newRow = tableRef.insertRow(-1);
      let newCell = newRow.insertCell(0);
-     console.log(no)
+     console.log(no,no2)
      newCell.setAttribute("style","padding: 26px; text-align: left")
      let a=document.createTextNode(("Name: "+web3.utils.toUtf8(no[0])).toString())
       let c=document.createTextNode((" Treatment details:").toString())
-      let d=document.createTextNode(("Medicine prescribed to take is: "+web3.utils.toUtf8(no[1])).toString())
-      let e=document.createTextNode(("Tests suggested:  "+(no[2])).toString())
-      let f=document.createTextNode(("Medicine to be taken from "+web3.utils.toUtf8(no[3])+" till "+web3.utils.toUtf8(no[4])+" , "+  web3.utils.toUtf8(no[5]) +" times a day").toString())
-      let g=document.createTextNode(("Summary of treatment: "+web3.utils.toUtf8(no2)).toString())
+      if(no[1].length>1)
+      {
+      var s1="Medicines prescribed to take are: ".toString()
+      }
+      else{
+        var s1="Medicine prescribed to take is: ".toString()
+      }
+      console.log(no[1].length);
+      for (var j=0;j<no[1].length;j++)
+      {
+        s1=s1+((no[1][j])+" as "+web3.utils.toUtf8(no2[1][j])+" till "+web3.utils.toUtf8(no[4][j])+" , "+web3.utils.toUtf8(no[5][j])+" times a day. ")
+      }
+      let e=document.createTextNode(s1)
+      let f=document.createTextNode(("Tests suggested:  "+(no[2])).toString())
+      let d=document.createTextNode(("Treatment Date: "+web3.utils.toUtf8(no[3])).toString())
+      let g=document.createTextNode(("Summary of treatment: "+(no2[0])).toString())
       let h=document.createTextNode(("").toString())
       newCell.appendChild(document.createElement("hr"));
       newCell.appendChild(a);
@@ -177,7 +191,7 @@ async openLink(cityName) {
       newCell.appendChild(document.createElement("br"));
       newCell.appendChild(h);
    }
- }
+//  }
     }
     document.getElementById(cityName).style.display = "block";
 }
@@ -360,7 +374,7 @@ async openLink(cityName) {
                   </div>
                   <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
                     <h1>History</h1>
-                     <div className="col text-center" id="box">
+                     <div className="col text-center">
                       <table id="dlist"></table>
                     </div>
                   </div>
