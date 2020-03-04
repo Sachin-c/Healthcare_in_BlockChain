@@ -69,16 +69,16 @@ constructor(props){
             <div>
               <div id="myCarousel" className="carousel slide" data-ride="carousel">
                 <ol className="carousel-indicators">
-                  <li data-target="myCarousel" data-slide-to="0" className="active"></li>
-                  <li data-target="myCarousel" data-slide-to="1"></li>
-                  <li data-target="myCarousel" data-slide-to="2"></li>
+                  <li data-target="#myCarousel" data-slide-to="0" className="active"></li>
+                  <li data-target="#myCarousel" data-slide-to="1"></li>
+                  <li data-target="#myCarousel" data-slide-to="2"></li>
                 </ol>
                 <div className="carousel-inner" role="listbox">
                   <div className="carousel-item active">
                     <img className="first-slide" src="/img2.jpg" alt="First slide"/>
                     <div className="container">
                       <div className="carousel-caption d-none d-md-block text-left">
-                        <h1>Example headline.</h1>
+                        <h1>Blockchain as an enabler of nationwide interoperability</h1>
                         <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
                         <p><a className="btn btn-lg btn-primary" href="/Patient" role="button">Patient</a></p>
                         <p><a className="btn btn-lg btn-primary" href="/Doctor" role="button">Doctor</a></p>
@@ -89,8 +89,8 @@ constructor(props){
                     <img className="second-slide" src="/img4.jpg" alt="Second slide"/>
                     <div className="container">
                       <div className="carousel-caption d-none d-md-block">
-                        <h1>Another example headline.</h1>
-                        <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                        <h1>Increase patient satisfaction with morden technologies</h1>
+                        <p>This app allows patients to fill out and submit healthcare forms automatically to healthcare providers from their smartphones. No clipboards, paper forms, or electronic tablets. What a relief!</p>
                           <p><a className="btn btn-lg btn-primary" href="/Patient" role="button">Patient</a></p>
                           <p><a className="btn btn-lg btn-primary" href="/Doctor" role="button">Doctor</a></p>
                       </div>
@@ -100,7 +100,7 @@ constructor(props){
                     <img className="third-slide" src="/img5.jpeg" alt="Third slide"/>
                     <div className="container">
                       <div className="carousel-caption d-none d-md-block text-right">
-                        <h1>One more for good measure.</h1>
+                        <h1>secure data and transfer it safely between devices and health service providers</h1>
                         <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
                         <p><a className="btn btn-lg btn-primary" href="/Patient" role="button">Patient</a></p>
                         <p><a className="btn btn-lg btn-primary" href="/Doctor" role="button">Doctor</a></p>
@@ -108,11 +108,11 @@ constructor(props){
                     </div>
                   </div>
                 </div>
-                <a className="carousel-control-prev" href="myCarousel" role="button" data-slide="prev">
+                <a className="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
                   <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span className="sr-only">Previous</span>
                 </a>
-                <a className="carousel-control-next" href="myCarousel" role="button" data-slide="next">
+                <a className="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
                   <span className="carousel-control-next-icon" aria-hidden="true"></span>
                   <span className="sr-only">Next</span>
                 </a>
