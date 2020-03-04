@@ -108,7 +108,7 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
   }
   else{
      ipfs.add(this.state.buffer, (err, result) => {
-      console.log('Result',result[0].hash);
+      // console.log('Result',result[0].hash);
       const prhash=result[0].hash
       this.setState({loading : true})
       console.log(this.state.buffer)

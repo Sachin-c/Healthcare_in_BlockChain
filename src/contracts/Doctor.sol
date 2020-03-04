@@ -1,5 +1,5 @@
-
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 import './Patient.sol';
 contract Doctor{
     uint public doctorCount = 0;
@@ -21,15 +21,15 @@ contract Doctor{
         uint pid;
         bytes32 name;
         string aler;
-        string medname;
-        bytes32 medtype;
+        string[] medname;
+        bytes32[] medtype;
+        bytes32[] edate;
+        bytes32[] nof;
         string test;
         bytes32 sdate;
-        bytes32 edate;
-        bytes32 nof;
         string summ;
         uint did;
-    }
+    } string medname;
     struct Info{
     uint id;
     bytes32 name;
@@ -41,10 +41,11 @@ contract Doctor{
     bytes32 gender;
     string ipfshash;
     }
-    function WriteMedication(bytes32 _name, string memory _aler,uint _pid,string memory _medname,
-     bytes32 _medtype,string memory _test,bytes32 _sdate,bytes32 _edate,bytes32 _nof,string memory _summ,uint _did ) public{
+    function WriteMedication(bytes32 _name, string memory _aler,uint _pid,string[] memory _medname,bytes32[] memory _medtype,
+    string memory _test,bytes32 _sdate,bytes32[] memory _edate,bytes32[] memory _nof,string memory _summ,uint _did ) public{
         treatCount++;
-        patientlist[treatCount] = PatientList(treatCount,_name,_aler,_medname,_medtype,_test,_sdate,_edate,_nof,_summ,_did);
+
+        patientlist[treatCount] = PatientList(treatCount,_name,_aler,_medname,_medtype,_edate,_nof,_test,_sdate,_summ,_did);
         for(uint i = 0;i<waitlist[_did].length-1;i++){
             if(waitlist[_did][i].wait==_pid){
                 waitlist[_did][i].wait = waitlist[_did][waitlist[_did].length-1].wait;
@@ -55,11 +56,11 @@ contract Doctor{
         waitlist_add[_did].pop();
     }
     function GetMedicationList1(uint _id,uint _key)public view returns(bytes32 _name,string memory _aler,
-    string memory _medname, bytes32 _medtype,string memory _test,uint _treatCount){
+    string[] memory _medname, bytes32[] memory _medtype,string memory _test,uint _treatCount){
          if(_key==patientlist[_id].did)
         return(patientlist[_id].name,patientlist[_id].aler,patientlist[_id].medname,patientlist[_id].medtype,patientlist[_id].test,treatCount);
     }
-     function GetMedicationList2(uint _id,uint _key)public view returns(bytes32 _sdate, bytes32 _edate, bytes32 _nof,
+     function GetMedicationList2(uint _id,uint _key)public view returns(bytes32 _sdate, bytes32[] memory _edate, bytes32[] memory _nof,
      string memory _summ,uint _treatCount){
          if(_key==patientlist[_id].did)
         return(patientlist[_id].sdate,patientlist[_id].edate,patientlist[_id].nof,patientlist[_id].summ,treatCount);

@@ -11,6 +11,10 @@ import $ from 'jquery';
 import '../../node_modules/react-notifications/lib/notifications.css';
 import Navbar from './Navbar'
 import { DropdownButton } from 'react-bootstrap';
+import TaskList from "./taskList"
+import axios from 'axios';
+
+
 type State = {
   options: [{ [string]: string }],
   value: string | void,
@@ -86,7 +90,30 @@ const defaultOptions = [
 ];
 
 class DoctorView extends Component {
-
+  
+  handleChangee = (e) => {
+    if (["medName", "medType", "endDate", "nof"].includes(e.target.name)) {
+        let taskList = [...this.state.taskList]
+        taskList[e.target.dataset.id][e.target.name] = e.target.value;
+    } else {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+   
+  }
+  addNewRow = (e) => {
+    this.setState((prevState) => ({
+        taskList: [...prevState.taskList, { index: Math.random(), medName: "", medType: "", endDate: "", nof: ""  }],
+    }));
+  }
+  
+  deteteRow = (index) => {
+    this.setState({
+        taskList: this.state.taskList.filter((s, sindex) => index !== sindex),
+    });
+    // const taskList1 = [...this.state.taskList];
+    // taskList1.splice(index, 1);
+    // this.setState({ taskList: taskList1 });
+  }
    componentWillMount(){
    this.loadBlockchainData()
   }
@@ -190,11 +217,11 @@ handleCreate = (inputValue: any) => {
     });
   }, 1000);
 };
-async write(name,age,gender,aler,pid,mname,mtype,test,edate,sdate,nof,summ,id){
+async write(name,age,gender,aler,mname,mtype,sdate,edate,nof,pid,test,summ,id){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var id = window.location.href.toString().split("/")[4]
   // console.log(pid,id)
-  this.state.doctor.methods.WriteMedication(web3.utils.fromAscii(name),aler,Number(pid),web3.utils.fromAscii(mname),web3.utils.fromAscii(mtype),(test),web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),web3.utils.fromAscii(summ),id).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
+  this.state.doctor.methods.WriteMedication(web3.utils.fromAscii(name),aler,Number(pid),(mname),(mtype),(test),web3.utils.fromAscii(sdate),(edate),(nof),(summ),id).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
     NotificationManager.success('Prescribtion added', 'Check history',5000)
   }) 
   var p = Number(pid)
@@ -263,7 +290,7 @@ async ph(key){
   console.log(this.state.patient)
 }
 
-async add(dname,mname,mtype,test,edate,sdate,nof,summ){
+async add(dname,mname,type,sdate,edate,nof,test,summ){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const abi= Patientabi.abi
   var net_id = 5777
@@ -273,7 +300,7 @@ async add(dname,mname,mtype,test,edate,sdate,nof,summ){
     this.setState({patient})
     console.log(dname)
     console.log(this.state.p)
-    patient.methods.addDoc(web3.utils.fromAscii(dname),web3.utils.fromAscii(mname),test,web3.utils.fromAscii(sdate),web3.utils.fromAscii(edate),web3.utils.fromAscii(nof),web3.utils.fromAscii(summ),this.state.p).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
+    patient.methods.addDoc(web3.utils.fromAscii(dname),(mname),test,type,web3.utils.fromAscii(sdate),(edate),(nof),(summ),this.state.p).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
       NotificationManager.success('Patient got prescribtion', 'Inform Patient',5000)
       window.setTimeout(function(){window.location.reload()}, 3000)    
     }) 
@@ -302,9 +329,16 @@ async openLink(tabName){
   for(var i=x.toString();i>=1;i--){
     var no= await this.state.doctor.methods.GetMedicationList1(i,key).call()
     var no2= await this.state.doctor.methods.GetMedicationList2(i,key).call()
-    console.log(no)
+    console.log(no,no2)
     if(no[1]!="")
     {
+     
+//       {
+//         ytes32 _name,string memory _aler,
+//     string[] memory _medname, bytes32[] memory _medtype,string memory _test,uint _treatCount){
+// (bytes32 _sdate, bytes32[] memory _edate, bytes32[] memory _nof,
+//      string memory _summ,uint _treatCount
+//       }
       let tableRef = document.getElementById("wheel");
       let newRow = tableRef.insertRow(-1);
       let newCell = newRow.insertCell(0);
@@ -312,10 +346,21 @@ async openLink(tabName){
       let a=document.createTextNode(("Name: "+web3.utils.toUtf8(no[0])).toString())
       let b=document.createTextNode(("Allergies: "+no[1]).toString());
       let c=document.createTextNode((" Treatment details:").toString())
-      let d=document.createTextNode(("Medicine prescribed to take is: "+web3.utils.toUtf8(no[2]))+" as "+web3.utils.toUtf8(no[3]).toString() )
-      let e=document.createTextNode(("Tests suggested:  "+(no[4])).toString())
-      let f=document.createTextNode(("Medicine to be taken from "+web3.utils.toUtf8(no2[0])+" till "+web3.utils.toUtf8(no2[1])+" , "+  (no[5]) +" times a day").toString())
-      let g=document.createTextNode(("Summary of treatment: "+web3.utils.toUtf8(no2[3])).toString())
+      if(no[1].length>1)
+      {
+      var s1="Medicines prescribed to take are: ".toString()
+      }
+      else{
+        var s1="Medicine prescribed to take is: ".toString()
+
+      }      for (var i=0;i<no2[1].length;i++)
+      {
+        s1=s1+((no[2][i])+" as "+web3.utils.toUtf8(no[3][i])+" till "+web3.utils.toUtf8(no2[1][i])+" , "+web3.utils.toUtf8(no2[2][i])+" times a day. ")
+      }
+      let e=document.createTextNode(s1 )
+      let d=document.createTextNode(("Treatment Date: "+web3.utils.toUtf8(no2[0])).toString())
+      let f=document.createTextNode(("Tests suggested:  "+(no[4])).toString())
+      let g=document.createTextNode(("Summary of treatment: "+(no2[3])).toString())
       let h=document.createTextNode(("").toString())
       newCell.appendChild(document.createElement("hr"));
       newCell.appendChild(a);
@@ -348,6 +393,8 @@ constructor(props){
     loading:true,
     list:true,
     info:'',
+    taskList: [{ index: Math.random(), medName: "", medType: "Liquid", endDate: "", nof: "1" }],
+   
     patients:[],
     patients2:[],
     plist:[],
@@ -358,9 +405,14 @@ constructor(props){
   // this.hist = this.hist.bind(this);
 
 }
-
+clickOnDelete(record) {
+  this.setState({
+      taskList: this.state.taskList.filter(r => r !== record)
+  });
+}
   render() {
     const { isLoading, options, value } = this.state;
+    let { taskList } = this.state//let { notes, date, description, taskList } = this.state
 
     const ipfsHash = this.state.hash
     return (
@@ -408,22 +460,26 @@ constructor(props){
                       {this.state.list
                         ?<div><h3>No requests yet</h3></div>
                         :
-                        <ul>   
+                        <ul style= {{listStyleType: "none"}}>   
                           {this.state.patients.map((patient,key)=>{
                             return(
                               
                                   <li key={key}><hr></hr>
-                                     <div style={{ display: "flex" }}><button  style={{ marginLeft: "auto" }} className="btn-primary" onClick={(e) => this.ph(patient[5])} title="View Patient History">View Patient History</button></div>
-                                    <div id="box">
-                                      <form id="form1" onSubmit= { event=> {
+                                    
+                                    <div >
+                                    <div className="card">
+                                    <h4 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg}</h4>
+                                      <h4>Allergies from: {this.state.patients2[key]}</h4>
+                                      <div style={{ display: "flex",padding:"20px" }}><button  style={{ marginLeft: "auto" }} className="btn btn-primary"  onClick={(e) => this.ph(patient[5])} title="View Patient History">View Patient History</button></div>
+                                      <form id="form1" onChange={this.handleChangee} onSubmit= { event=> {
                                       this.setState({loading:true})
                                       event.preventDefault()
                                       
-                                      const mname=this.mname.value
-                                      const mtype=this.mtype.value
-                                      const sdate=this.sdate.value
-                                      const edate=this.edate.value
-                                      const nof=this.nof.value
+                                      // const mname=this.mname.value
+                                      // const mtype=this.mtype.value
+                                      // const sdate=this.sdate.value
+                                      // const edate=this.edate.value
+                                      // const nof=this.nof.value
                                       const summ=this.summ.value
                                       var aler=this.state.patients2[key];
                                       // if(this.state.patients2[key].length!=0){
@@ -451,34 +507,35 @@ constructor(props){
                                       else{
                                         test="None"
                                       }
-                                      console.log(test)
                                       // const doc=this.state.doctor.geta
-                                      console.log(this.state.info)
-                                      this.write(patient._name,patient._age,patient._gender,aler,patient._pid.toString(),mname,mtype,test,edate,sdate,nof,summ,key)   
-                                      this.add(this.state.info,mname,mtype,test,edate,sdate,nof,summ)
+                                      console.log(this.state.taskList)
+                                      var nof=[]
+                                      var medName=[]
+                                      var medType=[]
+                                      var endDate=[]
+                                      const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+
+                                      for(var q=0;q<=this.state.taskList.length-1;q++)
+                                        {
+                                          nof.push(web3.utils.fromAscii(this.state.taskList[q].nof))
+                                          medName.push((this.state.taskList[q].medName))
+                                          medType.push(web3.utils.fromAscii(this.state.taskList[q].medType))
+                                          endDate.push(web3.utils.fromAscii(this.state.taskList[q].endDate))
+                                        }
+                                      let newDate = new Date()
+                                      let date = newDate.getDate();
+                                      let month = newDate.getMonth() + 1;
+                                      let year = newDate.getFullYear();
+                                      var sdate=(`${year}${'-'}${month<10?`0${month}`:`${month}`}${'-'}${date<10?`0${date}`:`${date}`}`)
+                                      this.write(patient._name,patient._age,patient._gender,aler,medName,medType,sdate,endDate,nof,patient._pid.toString(),test,summ,key)   
+                                      this.add(this.state.info,medName,medType,sdate,endDate,nof,test,summ)
                                       
                                       }}> 
                                       
-                                      <h4 id="print">{patient._name}({patient._age.toString()} years old) is {patient._gender} with blood group {patient._bg}</h4>
-                                      <h4>Allergies from: {this.state.patients2[key]}</h4>
-                                      
+                                     
                                     <table id="dlist"></table>
-                                      {/* { this.setmindate()} */}
-                                      {/* <p className="text-danger" id="error"></p> */}
-
-                                      <div className="form-group text-center">
-                                        <label htmlFor="Medicine">Medicine</label>
-                                        <input type="med" className="form-control" required ref={(input) => {this.mname=input}} id="medicine" placeholder="Medicine Name"></input>
-                                      </div>
-                                      <div className="form-group text-center"> 
-                                        <label htmlFor="type">Medicine Type</label>
-                                        <select  name="type" className="form-control" ref={(input) => {this.mtype=input}} >
-                                          <option value="Liquid"defaultValue>Liquid</option>
-                                          <option value="Tablet">Tablet</option>
-                                          <option value="Capsule">Capsule</option>
-                                        </select>
-                                      </div>
-                                      <div className="form-group text-center"> 
+                                    <hr/>
+                                    <div className="form-group text-center"> 
                                         <label htmlFor="type">Suggest tests</label>
                                         <CreatableSelect
                                               isClearable
@@ -494,39 +551,45 @@ constructor(props){
                                               ref={(input) => {this.aler=input}}
                                             />
                                       </div>
+                                      {/* { this.setmindate()} */}
+                                      {/* <p className="text-danger" id="error"></p> */}
+                                      <table className="table">
+                                        <thead>
+                                            <tr>
+                                                <td className="required" >Medicine to take (Name)</td>
+                                                <td className="required" >In form of</td>
+                                                <td className="required">Number of times a day to take</td>
+                                                <td  className="required">To be taken till </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <TaskList add={this.addNewRow} delete={this.clickOnDelete.bind(this)} taskList={taskList} />
+                                        </tbody>
+                                        <tfoot>
+                                            <tr><td colSpan="4">
+                                                <button onClick={this.addNewRow} type="button" className="btn btn-primary text-center"><i className="fa fa-plus-circle" aria-hidden="true"></i></button>
+                                            </td></tr>
+                                        </tfoot>
+                                    </table>
+                                     
                                       
-                                      <div className="form-group text-center" data-provide="datepicker">
+                                      
+                                      
+                                      {/* <div className="form-group text-center" data-provide="datepicker">
                                         <label htmlFor="Start Date">Start taking medicines from</label><br/>
                                         <input type="date" id="ssdate" required ref={(input) => {this.sdate=input}}/>
-                                      </div>
+                                      </div> */}
                                            
-                                      <div className="form-group text-center" data-provide="datepicker">
-                                        <label htmlFor="Start Date">Medicines to be taken till</label><br/>
-                                        <input type="date" required ref={(input) => {this.edate=input}}/>
-                                      </div>
+                                     
 
-                                      <div className="form-group text-center"> 
-                                        <label htmlFor="type">Number of times medicine to be taken in a day </label>
-                                        <select  name="numberof" className="form-control" ref={(input) => {this.nof=input}} >
-                                          <option defaultValue value="1">1</option>
-                                          <option value="2">2</option>
-                                          <option value="3">3</option>
-                                          <option value="4">4</option>
-                                          <option value="5">5</option>
-                                          <option value="6">6</option>
-                                          <option value="7">7</option>
-                                          <option value="8">8</option>
-                                          <option value="9">9</option>
-                                          
-                                        </select>
-                                      </div>
+                                      
                                       <div className="form-group text-center"> 
                                         <label htmlFor="type">Summary for medication</label>
                                         <textarea type="text" className="form-control" id="summ" required ref={(input) => {this.summ=input}}></textarea>
                                       </div>
                                       <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
                                     </form>
-                                  </div></li>
+                                 </div> </div></li>
                                 )
                               }
                             )
