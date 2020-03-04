@@ -241,19 +241,36 @@ async ph(key){
     var no= await this.state.patient.methods.viewHist1(i,key).call()
     var no2= await this.state.patient.methods.viewHist2(i,key).call()
 
-    console.log(no)
+    console.log(no,no2)
     if(no[0]!==""){
       let tableRef = document.getElementById("dlist");
       let newRow = tableRef.insertRow(-1);
       let newCell = newRow.insertCell(0);
-      console.log(no)
       newCell.setAttribute("style","border-stlye:solid;  text-align:left; position: relative;top: 8px;right: 16px;font-size: 18px;")
-      let p=document.createTextNode((web3.utils.toUtf8(no[0])+"  prescribed to have "+web3.utils.toUtf8(no[1])+" from  "+web3.utils.toUtf8(no[3])+" to  "+web3.utils.toUtf8(no[4])+", times a day").toString());
-      let q=document.createTextNode("Summary of treatment: "+web3.utils.toUtf8(no2) .toString())
+      console.log(no)
+      if(no[1].length>1)
+      {
+      var s1="Medicines prescribed to take are: ".toString()
+      }
+      else{
+        var s1="Medicine prescribed to take is: ".toString()
+
+      }      for (var j=0;j<no2[1].length;j++)
+      {
+        s1=s1+((no[1][j])+" as "+web3.utils.toUtf8(no2[1][j])+" till "+web3.utils.toUtf8(no[4][j])+" , "+web3.utils.toUtf8(no[5][j])+" times a day. ")
+      }
+      let p=document.createTextNode(s1 )
+      let q=document.createTextNode(("Treatment Date: "+web3.utils.toUtf8(no[3])).toString())
+      let r=document.createTextNode(("Tests suggested:  "+(no[2])).toString())
+      let g=document.createTextNode(("Summary of treatment: "+(no2[0])).toString())
+      
+      
       newCell.appendChild(document.createElement("hr"));
       newCell.appendChild(p);
       newCell.appendChild(document.createElement("br"));
       newCell.appendChild(q);
+      newCell.appendChild(document.createElement("br"));
+      newCell.appendChild(r);
       newCell.appendChild(document.createElement("hr"));
       // let a=document.createTextNode(("Name: "+web3.utils.toUtf8(no[0])).toString())
       // let b=document.createTextNode(("Allergies: "+no[1]).toString());
