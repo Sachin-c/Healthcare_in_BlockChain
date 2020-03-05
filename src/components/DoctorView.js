@@ -434,7 +434,6 @@ clickOnDelete(record) {
     const ipfsHash = this.state.hash
     return (
       <div>
-      <Navbar account={this.state.account} />
           <div className={this.state.showMe ? "d-flex toggled" : "d-flex"}  id="wrapper" >
           <NotificationContainer/>
             <div className="bg-light border-right" id="sidebar-wrapper"  >

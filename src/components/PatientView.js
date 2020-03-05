@@ -224,13 +224,12 @@ async openLink(cityName) {
 
     return (
             <div>
-              <Navbar account={this.state.account} />
             <div className={this.state.showMe ? "d-flex toggled" : "d-flex"} id="wrapper" >
               
               <NotificationContainer/>
               
               <div className="bg-light border-right" id="sidebar-wrapper" ref="wrap">
-                <div className="sidebar-heading"> Your Account</div>
+                <div className="sidebar-heading">{this.state.info[0]}</div>
                 <div className="list-group list-group-flush">
                   {/* <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')}>Dashboard</a> */}
                   <a  className="list-group-item list-group-item-action bg-light tablink" type="button" onClick={(e) => this.openLink('dashboard')}>Make an Appointment</a>
@@ -249,7 +248,7 @@ async openLink(cityName) {
                   <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
                       <li className="nav-item active">
-                        {/* <a className="nav-link" href="#">{this.state.account}</a> */}
+                        <a className="nav-link" href="#">{this.state.account}</a>
                       </li>
                     </ul>
                   </div>

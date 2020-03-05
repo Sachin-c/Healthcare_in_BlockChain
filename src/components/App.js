@@ -60,9 +60,6 @@ constructor(props){
     return (
       <div >
         <div>
-          <Navbar account={this.state.account} />
-        </div>
-        <div>
           {this.state.loading 
             ? <div id="loader" className="col-text-center"><h1 className="text-center">Loading..</h1></div>
             : 

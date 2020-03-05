@@ -64,7 +64,7 @@ constructor(props){
     file: null,
     buffer:null,
     prhash:null,
-    
+    showMe: true,
 
   }
   this.set=this.set.bind(this);
@@ -130,129 +130,116 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
    
 }
   render() {
-   
-    return (<div id="big-banner">
+    return (
+      <div className="container bootstrap snippet">
         <NotificationContainer/>
-       <Navbar account={this.state.account} />
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
-                {this.state.loading 
-                ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
-                : 
-                
-                                  <form id="box" onSubmit={this.onSubmit}>
-                                
-                                <p className="text-danger" id="error"></p>
-                                <div className="row" >
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="Name">Name:</label>
-                                  </div>
-                                  <div className="col-sm-8">
-                                    <input type="text" className="form-control" id="name" required ref={(input) => {this.pname=input}} placeholder="Enter Name"></input>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="spec">Specialization:</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">
-                                    <select  name="spec" className="form-control" ref={(input) => {this.spec=input}} >
-                                      <option value="Dentist"defaultValue>Dentist</option>
-                                      <option value="Gynecologist">Gynecologist</option>
-                                      <option value="Obstetrician">Obstetrician</option>
-                                      <option value="General Physician">General Physician</option>
-                                      <option value="Dermatologist">Dermatologist</option>
-                                      <option value="Ear-nose-throat (ent) Specialist">Ear-nose-throat (ent) Specialist</option>
-                                      <option value="Homoeopath">Homoeopath</option>
-                                      <option value="Ayurveda">Ayurveda</option>
-                                      
-                                    </select>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="Experience">Years of Experience:</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">  
-                                    <input type="number" className="form-control" id="exp" required ref={(input) => {this.exp=input}} placeholder="Experience"></input>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="Address">City:</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">  
-                                    <textarea type="text" className="form-control" id="add" required ref={(input) => {this.add=input}} placeholder="Address"></textarea>
-                                  </div>
-                                </div>
-                                
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="time">Available  from:</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">  
-                                    <input type="time" id="timingfrom" required ref={(input) => {this.timingfrom=input}}/>                                  
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="time">Available till:</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">  
-                                    <input type="time" id="timingtill" required ref={(input) => {this.timingtill=input}}/>                                  
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="Gender">Gender</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">
-                                    <select  name="gender" className="form-control" ref={(input) => {this.pgen=input}} >
-                                      <option value="male"defaultValue>Male</option>
-                                      <option value="female"defaultValue>Female</option>
-                                      <option value="others"defaultValue>Others</option>
-                                    </select>
-                                  </div>
-                                </div> 
-                                <div className="row">      
-                                <div className="form-group col-sm-4">
-                                  <label htmlFor="file">Choose a profile photo</label>
-                                </div>
-                                <div className="form-group col-sm-8">
-                                  <input
-                                    type="file"
-                                    className="form-control-file"
-                                    id="file"
-                                    onChange={this.captureFile}
-                                    required
-                                  />
-                                  </div>    
-                                  </div> 
-                                  {this.state.file && (
-                                    <div className="text-center mt-3 mb-3">
-                                      <img
-                                        src={this.state.file}
-                                        className="img-thumbnail"
-                                        alt="Preview"
-                                      />
-                                    </div>
-                                  )}              
-                              <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
-                           </form>      
-                          
-            
-  }
-                 {/* <TouchableOpacity onPress={() => { onPress('YourPage'); }} n> */}
-                  {/* <Text> Move</Text> */}
-                {/* </TouchableOpacity> */}
-              </div>
-            </main>
-          </div>
+        <br/>
+        <div className="row">
+          <div className="col-sm-10"><h1>Doctor Registration</h1></div>
+          <div className="col-sm-2"><img title="profile image" height="150" width="150" className="rounded img-responsive" src="logo.png"/></div>
         </div>
+        <hr/>
+        <div>
+          {this.state.loading 
+          ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
+          : 
+          <div className="row">
+            <div className="col-sm-3">          
+              <div className="text-center">
+              {this.state.showMe
+                ? <img src="avatar.png" className="avatar img-circle img-thumbnail" alt="avatar"/>
+                : <img 
+                    height="150" width="150"
+                    src={this.state.file}
+                    className="img-thumbnail"
+                    alt="Preview"
+                    />
+                  }
+                <h6>Upload a different photo...</h6>
+                <input
+                  onClick={() => this.setState({showMe: !this.state.showMe})}
+                  type="file"
+                  className="form-control-file"
+                  id="file"
+                  onChange={this.captureFile}
+                  required
+                />
+              </div> 
+            </div>
+            <div className="col-sm-9">
+              <div>
+                <form className="form" id="registrationForm" onSubmit={this.onSubmit}>
+                  <p className="text-danger" id="error"></p>
+                  <div className="row">         
+                    <div className="col-6">
+                      <label htmlFor="Name"><h4>Name</h4></label>
+                      <input type="text" className="form-control" id="name" required ref={(input) => {this.pname=input}} placeholder="Enter Name"/>
+                    </div>
+                    <div className="col-6">
+                      <label htmlFor="spec"><h4>Specialization</h4></label>
+                      <select  name="spec" className="form-control" ref={(input) => {this.spec=input}} >
+                        <option value="Dentist"defaultValue>Dentist</option>
+                        <option value="Gynecologist">Gynecologist</option>
+                        <option value="Obstetrician">Obstetrician</option>
+                        <option value="General Physician">General Physician</option>
+                        <option value="Dermatologist">Dermatologist</option>
+                        <option value="Ear-nose-throat (ent) Specialist">Ear-nose-throat (ent) Specialist</option>
+                        <option value="Homoeopath">Homoeopath</option>
+                        <option value="Ayurveda">Ayurveda</option>  
+                      </select>
+                    </div>
+                  </div>
+                  <br/>
+                  <div className="row">
+                  <div className="col-6">
+                      <label htmlFor="time"><h4>Available from</h4></label>
+                      <input type="time" id="timingfrom" required ref={(input) => {this.timingfrom=input}}/>
+                  </div>
+                    <div className="col-6">
+                      <label htmlFor="time"><h4>Available till</h4></label>
+                      <input type="time" id="timingtill" required ref={(input) => {this.timingtill=input}}/>
+                    </div>
+                  </div>
+                  <br/>
+                  <div className="row">  
+                    <div className="col-6">
+                      <label htmlFor="Experience"><h4>Years of Experience</h4></label>
+                      <input type="number" className="form-control" id="exp" required ref={(input) => {this.exp=input}} placeholder="Experience" />
+                    </div>
+                    <div className="col-6">
+                      <label htmlFor="Gender"><h4>Gender</h4></label>
+                      <select  name="gender" className="form-control" ref={(input) => {this.pgen=input}} >
+                        <option value="male"defaultValue>Male</option>
+                        <option value="female"defaultValue>Female</option>
+                        <option value="others"defaultValue>Others</option>
+                      </select>
+                    </div>
+                  </div>
+                  <br/>
+                  <div className="form-group">
+                    <div className="col-6">
+                      <label htmlFor="Address"><h4>City</h4></label>
+                      <textarea type="text" className="form-control" id="add" required ref={(input) => {this.add=input}} placeholder="Address"></textarea>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <div className="col-12">
+                      <br/>
+                      <button className="btn btn-lg btn-success" type="submit">Save</button>
+                      <button className="btn btn-lg" type="reset">Reset</button>
+                    </div>
+                  </div>
+                </form>
+                <hr/>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+        {/* <TouchableOpacity onPress={() => { onPress('YourPage'); }} n> */}
+        {/* <Text> Move</Text> */}
+        {/* </TouchableOpacity> */}   
       </div>
-      
     );
   }
 }

@@ -161,102 +161,127 @@ async set(name,age,gender,bg){
     const { isLoading, options, value } = this.state;
 
     return (
-      
-      
-      <div id="big-banner" >
+      <div className="container bootstrap snippet">
         <NotificationContainer/>
-       <Navbar account={this.state.account} />
-          <div className="row border border-danger">
-              <div className="content mr-auto ml-auto">
-                {this.state.loading 
-                ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
-                :
-                                  <form id="box" className="" onSubmit={event=>{
-                                    event.preventDefault()
-                                    const name=this.pname.value
-                                    const age=this.page.value
-                                    const gender=this.pgen.value
-                                    const bg= this.pbg.value
-                                    this.set(name,age,gender,bg)   
-                                  }}>
-                                <p className="text-danger" id="error"></p>
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="Name">Name:</label>
-                                  </div>
-                                  <div className="col-sm-8">
-                                    <input type="text" className="form-control" id="name" required ref={(input) => {this.pname=input}} placeholder="Enter Name"></input>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="Age">Age:</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">  
-                                    <input type="number" className="form-control" id="age" required ref={(input) => {this.page=input}} placeholder="Age"></input>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="Gender">Gender</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">
-                                    <select  name="gender" className="form-control" ref={(input) => {this.pgen=input}} >
-                                      <option value="male"defaultValue>Male</option>
-                                      <option value="female"defaultValue>Female</option>
-                                      <option value="others"defaultValue>Others</option>
-                                    </select>
-                                  </div>
-                                </div>
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="Allergies">Search Allergies </label>
-                                    <label htmlFor="Allergies">(If not in list, type and select create)</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">
-                                      <CreatableSelect
-                                      isClearable
-                                      isDisabled={isLoading}
-                                      isLoading={isLoading}
-                                      onChange={this.handleChange}
-                                      // onCreateOption={this.handleCreate}
-                                      options={options}
-                                      value={value}
-                                      isMulti
-                                      required
-                                      placeholder="Search or type allergies if not in list"
-                                      ref={(input) => {this.aler=input}}
-                                    />
-                                  </div>
-                                </div>
-                                
-                                <div className="row">
-                                  <div className="form-group col-sm-4">
-                                    <label htmlFor="Blood Group">Blood Group:</label>
-                                  </div>
-                                  <div className="form-group col-sm-8">
-                                  {/* <input type="text" className="form-control" id="bg" ref={(input) => {this.pbg=input}} placeholder="Blood Group"></input> */}
-                                    <select  name="bg" className="form-control" ref={(input) => {this.pbg=input}} >
-                                      <option value="O+"defaultValue>O+</option>
-                                      <option value="O-">O-</option>
-                                      <option value="A+">A+</option>
-                                      <option value="A-">A-</option>
-                                      <option value="B+">B+</option>
-                                      <option value="B-">B-</option>
-                                      <option value="AB+">AB+</option>
-                                      <option value="AB-">AB-</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              <button id="button" type="submit"  className="btn btn-primary">Submit</button> 
-                           </form>      
-                          }
-                        </div>
+        <br/>
+        <div className="row">
+          <div className="col-sm-10"><h1>Patient Registration</h1></div>
+          <div className="col-sm-2"><img title="profile image" height="150" width="150" className="rounded img-responsive" src="logo.png"/></div>
+        </div>
+        <hr/>
+        <div>
+          {this.state.loading 
+          ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
+          : 
+          <div className="row">
+            <div className="col-sm-3">          
+              <div className="text-center">
+                <img src="avatar.png" className="avatar img-circle img-thumbnail" alt="avatar"/>
+                <h6>Upload a different photo...</h6>
+                <input type="file"/>
+              {/*{this.state.showMe
+                ? <img src="avatar.png" className="avatar img-circle img-thumbnail" alt="avatar"/>
+                : <img 
+                    height="150" width="150"
+                    src={this.state.file}
+                    className="img-thumbnail"
+                    alt="Preview"
+                    />
+                  }
+                <h6>Upload a different photo...</h6>
+                <input
+                  onClick={() => this.setState({showMe: !this.state.showMe})}
+                  type="file"
+                  className="form-control-file"
+                  id="file"
+                  onChange={this.captureFile}
+                  required
+                />*/}
+              </div> 
+            </div>
+            <div className="col-sm-9">
+              <div>
+                <form className="form" id="registrationForm" onSubmit={event=>{
+                  event.preventDefault()
+                  const name=this.pname.value
+                  const age=this.page.value
+                  const gender=this.pgen.value
+                  const bg= this.pbg.value
+                  this.set(name,age,gender,bg)   
+                }}>
+                  <p className="text-danger" id="error"></p>
+                  <div className="row">         
+                    <div className="col-6">
+                      <label htmlFor="Name"><h4>Name</h4></label>
+                      <input type="text" className="form-control" id="name" required ref={(input) => {this.pname=input}} placeholder="Enter Name"/>
+                    </div>
+                    <div className="col-6">
+                      <label htmlFor="Age"><h4>Specialization</h4></label>
+                      <input type="number" className="form-control" id="age" required ref={(input) => {this.page=input}} placeholder="Age"/>
                     </div>
                   </div>
-              );
-            }
+                  <br/>
+                  <div className="row">  
+                    <div className="col-6">
+                      <label htmlFor="Blood Group"><h4>Blood Group</h4></label>
+                      <select  name="bg" className="form-control" ref={(input) => {this.pbg=input}} >
+                        <option value="O+"defaultValue>O+</option>
+                        <option value="O-">O-</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                      </select>
+                    </div>
+                    <div className="col-6">
+                      <label htmlFor="Gender"><h4>Gender</h4></label>
+                      <select  name="gender" className="form-control" ref={(input) => {this.pgen=input}} >
+                        <option value="male"defaultValue>Male</option>
+                        <option value="female"defaultValue>Female</option>
+                        <option value="others"defaultValue>Others</option>
+                      </select>
+                    </div>
+                  </div>
+                  <br/>
+                  <div className="form-group">
+                    <div className="col-6">
+                      <label htmlFor="Allergies">Search Allergies </label>
+                      <label htmlFor="Allergies">(If not in list, type and select create)</label>
+                      <CreatableSelect
+                        isClearable
+                        isDisabled={isLoading}
+                        isLoading={isLoading}
+                        onChange={this.handleChange}
+                        // onCreateOption={this.handleCreate}
+                        options={options}
+                        value={value}
+                        isMulti
+                        required
+                        placeholder="Search or type allergies if not in list"
+                        ref={(input) => {this.aler=input}}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <div className="col-12">
+                      <br/>
+                      <button className="btn btn-lg btn-success" type="submit">Save</button>
+                      <button className="btn btn-lg" type="reset">Reset</button>
+                    </div>
+                  </div>
+                </form>
+                <hr/>
+              </div>
+            </div>
+          </div>
           }
+        </div> 
+      </div>
+      );
+    }
+  }
 export default Patient;
                  {/* <TouchableOpacity onPress={() => { onPress('YourPage'); }} n> */}
                   {/* <Text> Move</Text> */}
