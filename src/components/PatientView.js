@@ -156,6 +156,8 @@ async openLink(cityName) {
      let newRow = tableRef.insertRow(-1);
      let newCell = newRow.insertCell(0);
      console.log(no,no2)
+     if(no[0]!="")
+{
      newCell.setAttribute("style","padding: 26px; text-align: left")
      let a=document.createTextNode(("Name: "+web3.utils.toUtf8(no[0])).toString())
       let c=document.createTextNode((" Treatment details:").toString())
@@ -190,6 +192,7 @@ async openLink(cityName) {
       newCell.appendChild(g);
       newCell.appendChild(document.createElement("br"));
       newCell.appendChild(h);
+    }
    }
 //  }
     }

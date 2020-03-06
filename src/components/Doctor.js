@@ -146,18 +146,19 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
           <div className="row">
             <div className="col-sm-3">          
               <div className="text-center">
-              {this.state.showMe
-                ? <img src="avatar.png" className="avatar img-circle img-thumbnail" alt="avatar"/>
-                : <img 
+              
+                {/* ? <img src="avatar.png" className="avatar img-circle img-thumbnail" alt="avatar"/> */}
+                 <img 
                     height="150" width="150"
                     src={this.state.file}
                     className="img-thumbnail"
-                    alt="Preview"
+                    // alt="avatar.png"
+                    onerror="this.onerror=null;this.src='avatar.png';"
                     />
-                  }
+                  
                 <h6>Upload a different photo...</h6>
                 <input
-                  onClick={() => this.setState({showMe: !this.state.showMe})}
+                  // onClick={() => this.setState({showMe: !this.state.showMe})}
                   type="file"
                   className="form-control-file"
                   id="file"
