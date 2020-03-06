@@ -4,10 +4,20 @@ import './App.css';
 import Doctorabi from '../abis/Doctor.json'
 import Patientabi from '../abis/Patient.json'
 import Navbar from './Navbar'
+import './Sample.less';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 // import { callExpression } from '@babel/types';
 // import routing from './../index'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import '../../node_modules/react-notifications/lib/notifications.css';
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+
 // const ipfsClient = require('ipfs-http-client')
 const ipfsAPI = require('ipfs-http-client');
 const ipfs = ipfsAPI({host:'ipfs.infura.io',port: '5001',  protocol: 'https' });
@@ -18,6 +28,8 @@ const ipfs = ipfsAPI({host:'ipfs.infura.io',port: '5001',  protocol: 'https' });
    this.loadBlockchainData()
     
   }
+ 
+  onChange = time => this.setState({ time })
 
 
 async loadBlockchainData(){
@@ -61,10 +73,12 @@ constructor(props){
   this.state={
     account:'',
     loading:true,
-    file: null,
+    file: '/avatar.png',
     buffer:null,
     prhash:null,
     showMe: true,
+    value: new Date(),
+
 
   }
   this.set=this.set.bind(this);
@@ -129,13 +143,17 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
 }
    
 }
+
   render() {
+    const { value } = this.state;
+    
     return (
+      
       <div className="container bootstrap snippet">
         <NotificationContainer/>
         <br/>
         <div className="row">
-          <div className="col-sm-10"><h1>Doctor Registration</h1></div>
+          <div className="col-sm-10" ><h1 c>Doctor Registration</h1></div>
           <div className="col-sm-2"><img title="profile image" height="150" width="150" className="rounded img-responsive" src="logo.png"/></div>
         </div>
         <hr/>
@@ -144,16 +162,18 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
           ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
           : 
           <div className="row">
-            <div className="col-sm-3">          
+            <div className="col-sm-3">   
+           
               <div className="text-center">
-              
+              <form>
                 {/* ? <img src="avatar.png" className="avatar img-circle img-thumbnail" alt="avatar"/> */}
+                <h6>Preview</h6>
                  <img 
                     height="150" width="150"
                     src={this.state.file}
                     className="img-thumbnail"
                     // alt="avatar.png"
-                    onerror="this.onerror=null;this.src='avatar.png';"
+                    onerror="this.onerror=null;this.src='../../public/avatar.png';"
                     />
                   
                 <h6>Upload a different photo...</h6>
@@ -165,7 +185,7 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
                   onChange={this.captureFile}
                   required
                 />
-              </div> 
+              </form></div> 
             </div>
             <div className="col-sm-9">
               <div>
@@ -193,11 +213,12 @@ async set(name,spec,gender,exp,add,timingfrom,timingtill){
                   <br/>
                   <div className="row">
                   <div className="col-6">
-                      <label htmlFor="time"><h4>Available from</h4></label>
-                      <input type="time" id="timingfrom" required ref={(input) => {this.timingfrom=input}}/>
+                      <label htmlFor="time"><h4>Available from</h4></label><br/>
+                      <input type="time" id="timingtill" required ref={(input) => {this.timingfrom=input}}/>
+
                   </div>
                     <div className="col-6">
-                      <label htmlFor="time"><h4>Available till</h4></label>
+                      <label htmlFor="time"><h4>Available till</h4></label><br/>
                       <input type="time" id="timingtill" required ref={(input) => {this.timingtill=input}}/>
                     </div>
                   </div>

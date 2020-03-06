@@ -8,18 +8,32 @@ import $ from 'jquery';
 import Doctorabi from '../abis/Doctor.json'
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import '../../node_modules/react-notifications/lib/notifications.css';
-
+import { ImageGroup, Image } from 'react-fullscreen-image';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 // import ReactNotification from 'react-notifications-component'
 // import 'react-notifications-component/dist/theme.css'
 // import { store } from 'rc-notifications/react-notification-component';
 
-
+const ipfsAPI = require('ipfs-http-client');
+const ipfs = ipfsAPI({host:'ipfs.infura.io',port: '5001',  protocol: 'https' });
+const images = [
+  'https://unsplash.com/photos/Bkci_8qcdvQ',
+  'https://unsplash.com/photos/hS46bsAASwQ',
+  'https://unsplash.com/photos/2VDa8bnLM8c',
+  'https://unsplash.com/photos/_LuLiJc1cdo',
+  'https://unsplash.com/photos/1Z2niiBPg5A',
+  'https://unsplash.com/photos/pHANr-CpbYM',
+  'https://unsplash.com/photos/pQMM63GE7fo',
+  'https://unsplash.com/photos/2VDa8bnLM8c',
+  'https://unsplash.com/photos/MBkQKiH14ng',
+]
 class PatientView extends Component {
 
    componentWillMount(){
    this.loadBlockchainData()
     this.getdoctors()
-
+    // this.getrep()
   }
 
 
@@ -72,9 +86,24 @@ constructor(props){
     doctors2:[],
     a:[0],
     showMe: false,
+    buffer:null,
+    prhash:null,
+    rep:[],
   }
   this.hist = this.hist.bind(this);
 
+}
+printDocument() {
+  const input = document.getElementById('dlist');
+  html2canvas(input)
+    .then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, 'JPEG', 0, 0);
+      // pdf.output('dataurlnewwindow');
+      pdf.save("download.pdf");
+    })
+  ;
 }
 async getdoctors()
 {
@@ -86,8 +115,6 @@ async getdoctors()
     var doctor= web3.eth.Contract(abi,address)
     this.setState({doctor})
     var id = window.location.href.toString().split("/")[4]
-
-   
     var count = await doctor.methods.doctorCount.call()
     for(var i=1;i<= count;i++){var c=(await doctor.methods.checkwait(Number(i),(id)).call()); if(c==1){var d= true}else{var d=false}
       this.setState({a:[...this.state.a,d]})
@@ -98,10 +125,25 @@ async getdoctors()
         this.setState({doctors:[...this.state.doctors,doc]})
         var c=await doctor.methods.checkwait(1,2).call()
         console.log(c)
-    }
+    } console.log(this.state.doctors)
   }else{
     window.alert("Contract not loaded to blockchain")
   }
+  var abi= Patientabi.abi
+  var net_id=5777
+      var address= Patientabi.networks[net_id].address
+  var patient= await web3.eth.Contract(abi,address)
+    this.setState({patient})
+  var id = window.location.href.toString().split("/")[4]
+  var len=await this.state.patient.methods.replen(id).call()
+  // console.log(len)
+
+  for(var w=0;w<len;w++)
+  {
+    var dd= await this.state.patient.methods.viewrep(id,w).call()
+    this.setState({rep:[...this.state.rep,dd]})
+  }
+console.log(this.state.rep)
 }
 async selecting(id,key){
   
@@ -132,7 +174,28 @@ async hist(){
   
 }
 
+async addrep(name){
+ 
+   console.log("here")
+     ipfs.add(this.state.buffer, (err, result) => {
+      console.log('Result',result[0].hash);
+      const prhash=result[0].hash
+      this.setState({loading : true})
+      console.log(this.state.buffer)
+      var key = window.location.href.toString().split("/")[4]
+     this.state.patient.methods.addrep(key,name,prhash).send({from: this.state.account}).on('error', function(error){
+      NotificationManager.error('File not uploaded', 'File upload cancelled', 5000)
+        window.setTimeout(function(){window.location.reload()}, 3000);    
+    }).on('receipt',(receipt)=>{ this.setState({loading:false})
+    this.setState({prhash:result[0].hash})}).on("confirmation", function () {
+      NotificationManager.success('Report uploaded successfully', 'Report added', 5000)
+      window.setTimeout(function(){window.location.reload()}, 2000);    
+  })
+      return
+    })
+   
 
+}
 async openLink(cityName) {
     var i;
     var x = document.getElementsByClassName("data");
@@ -221,7 +284,29 @@ async openLink(cityName) {
 //     }
 //   };
 // };
-
+onSubmit=(event)=>{
+  event.preventDefault()
+  // ipfs.add(this.state.buffer, (err, result) => {
+  //   console.log('Rsult',result);
+  //   this.setState({prhash:result})
+  // })
+  
+  
+  const repname=this.repname.value                  
+  this.addrep(repname)   
+}
+captureFile=(event)=>{
+  event.preventDefault()
+  const file = event.target.files[0]
+  const reader = new window.FileReader()
+  reader.readAsArrayBuffer(file)
+  reader.onloadend = () => {
+    this.setState({
+      buffer: Buffer(reader.result),
+      file: URL.createObjectURL(file)
+    })
+  }
+}
   render() {  
     var web3 = new Web3(Web3.givenProvider|| "http://localhost:7545")
 
@@ -259,7 +344,7 @@ async openLink(cityName) {
                 {this.state.loading 
                 ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
                 :
-                <div>
+                <div id="history1">
                   <div className="container-fluid data animate-right" id="dashboard">
                     <h3>Doctors to consult from</h3>
                     <table className="table">
@@ -277,6 +362,7 @@ async openLink(cityName) {
                       </thead>          
                       <tbody id="doclist">
                         {this.state.doctors.map((doctor,key)=>{
+                          console.log(doctor)
                           return(
                             <tr key={key}>
                             <th scope="row">{doctor[0]._ipfhash ? (
@@ -324,8 +410,105 @@ async openLink(cityName) {
                   </div>
                   <div className="container-fluid data animate-right" id="report" style={{display: "none"}}>
                     <h1>Reports</h1>
-                    <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-                    <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+                    <hr>
+                    </hr>
+                    <h3> Upload a report</h3>
+                    <div className="card">
+                      <form onSubmit={this.onSubmit}> 
+                        <div className="row">         
+                          <div className="col-6">
+                            <label htmlFor="Name"><h5>Report of</h5></label>
+                            <input type="text" className="form-control" id="name" required ref={(input) => {this.repname=input}} placeholder="Enter Name"/>
+                          </div>
+                          </div>
+                          <div className="row">         
+                          <div className="col-6">
+                            <label htmlFor="Name"><h5>Upload Report</h5></label>
+                            <input
+                              // onClick={() => this.setState({showMe: !this.state.showMe})}
+                              type="file"
+                              className="form-control-file"
+                              id="file"
+                              onChange={this.captureFile}
+                              required
+                            />                          
+                            </div>
+                          </div>                      
+                          <button className="btn btn-lg btn-success" type="submit">Save</button>
+                      </form>
+                    </div>
+                   <hr>
+                   </hr>
+                   <h3> Previously uploaded reports</h3>
+                   <table className="table">
+                      <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Preview</th>
+                        <th scope="col"> Report Name</th>
+                        </tr>
+                      </thead>          
+                      <tbody id="doclist">
+                       
+                        {this.state.rep.map((rep,key)=>{
+                          return(
+                            console.log(rep,this.state.rep),
+                            <tr key={key}>
+                            <th>{key+1}</th>
+                            <th scope="row">{this.state.rep[key]._rep ? (
+                              <div className="c-doctor-card__photo_col pure-u-1-5">
+                                <ImageGroup>
+                                  <img  height="150" width="150"  
+              src={`https://ipfs.io/ipfs/${this.state.rep[key]._rep}`}
+              alt={`${rep[key]._rep}`}
+              style={{
+                // position: 'absolute',
+                // top: 0,
+                // left: 0,
+                // right: 0,
+                // bottom: 0,
+                // height: '100%',
+                // width: '100%',
+                // objectFit: 'cover',
+                // height='150px', 
+                // width='150px',
+              }}
+            />
+                            </ImageGroup></div>
+                              ) : (
+                              <Image
+                                src="https://api.fnkr.net/testimg/333x180/?text=IPFS"
+                                className="card-img-top"
+                                alt="NA"
+                                style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  left: 0,
+                                  right: 0,
+                                  bottom: 0,
+                                  height: '100%',
+                                  width: '100%',
+                                  objectFit: 'cover',
+                                  // height='150px', 
+                                  // width='150px',
+                                }}
+                              />
+                              )}</th>
+                              {/* <td><b></b> {web3.utils.toUtf8(rep[0]._name)}</td>
+                              <td><b></b> {web3.utils.toUtf8(rep[0]._spec)}</td>
+                              <td><b></b> {web3.utils.toDecimal(rep[0]._exp)}</td>
+                              <td><b></b>{(rep[1].add)}</td>
+                              <td><b></b>{web3.utils.toUtf8(rep[1]._timingfrom)}</td>
+                              <td><b></b>{web3.utils.toUtf8(rep[1]._timingtill)}</td>
+                               */}
+                              <td>{this.state.rep[key]._repname}
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                
                   </div>
                   <div className="container-fluid data animate-right" id="profile" style={{display:"none"}}>
                     <h1>Profile</h1>
@@ -374,10 +557,20 @@ async openLink(cityName) {
                       <script>var age=</script>
                     </div>
                   </div>
-                  <div className="container-fluid data animate-right" id="history" style={{display: "none"}}>
+                  <div className="container-fluid data animate-right mt4" style={{
+        backgroundColor: '#f5f5f5',
+        width: '210mm',
+        minHeight: '297mm',
+        marginLeft: 'auto',
+        marginRight: '300mm',
+        display:"none",
+      }}  id="history" >
                     <h1>History</h1>
                      <div className="col text-center">
                       <table id="dlist"></table>
+                      <button className="btn btn-primary" style={{position: 'absolute',
+                      right:'0',
+                      bottom:'0'}}onClick={this.printDocument}>Download History</button>
                     </div>
                   </div>
                 </div>

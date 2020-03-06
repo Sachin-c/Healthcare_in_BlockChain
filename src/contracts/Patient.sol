@@ -7,6 +7,15 @@ contract Patient{
     mapping(uint=>address) public adr;
     mapping(address => Info) public info;
     mapping(uint => History) public history;
+    mapping(uint => Report[]) public report;
+    mapping(uint => ReportName[])public reportname;
+
+  struct Report{
+        string report;
+    }
+    struct ReportName{
+        string reportname;
+    }
     struct Info{
     uint id;
     string name;
@@ -68,5 +77,15 @@ bytes32 _sdate,bytes32[] memory _edate,bytes32[] memory _nof,uint _hCount){
     }
     function getall2(uint i) public view returns(string memory _aler){
     return (info[adr[i]].aler);
+    }
+    function addrep(uint  i,string memory _repname,string memory _rep) public {
+        report[i].push(Report(_rep));
+        reportname[i].push(ReportName(_repname));
+    }
+    function viewrep(uint i,uint j)public view returns(string memory _repname,string memory _rep){
+        return(reportname[i][j].reportname,report[i][j].report);
+    }
+    function replen(uint i)public view returns(uint _i){
+        return(report[i].length);
     }
 }
