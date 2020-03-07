@@ -444,7 +444,7 @@ captureFile=(event)=>{
                       <thead>
                         <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Preview</th>
+                        <th scope="col">Preview (Clickable)</th>
                         <th scope="col"> Report Name</th>
                         </tr>
                       </thead>          
@@ -457,24 +457,23 @@ captureFile=(event)=>{
                             <th>{key+1}</th>
                             <th scope="row">{this.state.rep[key]._rep ? (
                               <div className="c-doctor-card__photo_col pure-u-1-5">
-                                <ImageGroup>
-                                  <img  height="150" width="150"  
+                                <a target="blank" href={`https://ipfs.io/ipfs/${this.state.rep[key]._rep}`}>
+
+                                  <img  
               src={`https://ipfs.io/ipfs/${this.state.rep[key]._rep}`}
               alt={`${rep[key]._rep}`}
               style={{
-                // position: 'absolute',
-                // top: 0,
-                // left: 0,
-                // right: 0,
-                // bottom: 0,
-                // height: '100%',
-                // width: '100%',
-                // objectFit: 'cover',
-                // height='150px', 
-                // width='150px',
+                
+               
+                maxWidth:50,
+                height: '70%',
+                width: '70%',
+                objectFit: 'cover',
+                // height='150', 
+                // width='150',
               }}
             />
-                            </ImageGroup></div>
+                            </a></div>
                               ) : (
                               <Image
                                 src="https://api.fnkr.net/testimg/333x180/?text=IPFS"

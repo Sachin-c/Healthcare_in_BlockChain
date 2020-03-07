@@ -174,7 +174,7 @@ async set(name,age,gender,bg){
           ? <div id="loader" className="text-center"><h1 className="text-center">Loading..</h1></div>
           : 
           <div className="row">
-            <div className="col-sm-3">          
+            {/* <div className="col-sm-3">          
               <div className="text-center">
                 <img src="avatar.png" className="avatar img-circle img-thumbnail" alt="avatar"/>
                 <h6>Upload a different photo...</h6>
@@ -197,8 +197,9 @@ async set(name,age,gender,bg){
                   onChange={this.captureFile}
                   required
                 />*/}
-              </div> 
-            </div>
+              {/* </div>  */}
+            {/* </div> */}
+             
             <div className="col-sm-9">
               <div>
                 <form className="form" id="registrationForm" onSubmit={event=>{
@@ -216,7 +217,7 @@ async set(name,age,gender,bg){
                       <input type="text" className="form-control" id="name" required ref={(input) => {this.pname=input}} placeholder="Enter Name"/>
                     </div>
                     <div className="col-6">
-                      <label htmlFor="Age"><h4>Specialization</h4></label>
+                      <label htmlFor="Age"><h4>Age</h4></label>
                       <input type="number" className="form-control" id="age" required ref={(input) => {this.page=input}} placeholder="Age"/>
                     </div>
                   </div>
