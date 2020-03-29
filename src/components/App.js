@@ -16,11 +16,10 @@ class App extends Component {
 async loadBlockchainData(){
   const web3 = new Web3(Web3.givenProvider)
   const accounts = await web3.eth.getAccounts()
-  console.log(web3)
+  console.log(accounts)
   
   this.setState({account:accounts[0]})  
-  var net_id = 5777
-  // await web3.eth.net.getId()
+  var net_id = await web3.eth.net.getId()
   var ret=0    
   if(Doctorabi.networks[net_id]){
     const d_abi= Doctorabi.abi
