@@ -207,6 +207,7 @@ async openLink(cityName) {
       var key = window.location.href.toString().split("/")[4]
  var x= await this.state.patient.methods.hCount.call()
  console.log(x)
+ document.getElementById("dlist").innerHTML=""
 //  if(document.getElementById("dlist").innerHTML==""){
  for(var i=1;i<=x;i++){
    var no= await this.state.patient.methods.viewHist1(i,key).call()
