@@ -17,7 +17,7 @@ module.exports = {
       // Hostname: "bit.com",
       provider: function() {
         return new HDWalletProvider(mnemonic, "https://sandbox.truffleteams.com/025ee19b-5c67-4f4e-9a40-b88b5742528f");
-      },
+      }, 
       // host: "https://sandbox.truffleteams.com/025ee19b-5c67-4f4e-9a40-b88b5742528f",
       port: 443,
       network_id: "*" // Match any network id
