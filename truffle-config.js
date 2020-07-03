@@ -6,7 +6,7 @@ module.exports = {
   networks: {
     development: {
       provider: function() {
-        return new HDWalletProvider(mnemonic, "https://sandbox.truffleteams.com/025ee19b-5c67-4f4e-9a40-b88b5742528f");
+        return new HDWalletProvider(mnemonic, "https://sandbox.truffleteams.com/525dd842-df52-4827-8645-baf6ae81dc27");
       }, 
       port: 443,
       network_id: "*" // Match any network id
