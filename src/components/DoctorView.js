@@ -126,6 +126,7 @@ class DoctorView extends Component {
   componentWillMount() {
     this.loadBlockchainData();
   }
+<<<<<<< HEAD
   async loadBlockchainData() {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
     const accounts = await web3.eth.getAccounts();
@@ -152,6 +153,32 @@ class DoctorView extends Component {
       } else {
         this.setState({ loading: false });
       }
+=======
+   componentWillMount(){
+   this.loadBlockchainData()
+  }
+async loadBlockchainData(){
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const accounts = await web3.eth.getAccounts()
+  this.setState({account:accounts[0]})
+  const abi= Doctorabi.abi
+  var net_id = await web3.eth.net.getId()//5777
+  var ret=0 
+  var et=0   
+  if(Doctorabi.networks[net_id]){
+    const d_abi= Doctorabi.abi
+    var address= Doctorabi.networks[net_id].address
+    var doctor= await web3.eth.Contract(d_abi,address)
+    this.setState({doctor})
+    ret = await this.state.doctor.methods.check(this.state.account).call()
+    console.log(window.location.href.toString().split("/")[3])
+    if(ret>0 & (window.location.href.toString().split("/")[3]!="Doctor_View" | window.location.href.toString().split("/")[4]!=ret)){
+        window.location.href="/Doctor_View/"+ret
+    }else if(ret==-1){
+      window.location.href="/"
+    }else{
+    this.setState({loading:false})
+>>>>>>> 3a4229f95cdc928f2c83dfc66887d4fc2dab73fb
     }
     //   if(Patientabi.networks[net_id]){
     //     console.log(this.state.account)
@@ -370,6 +397,7 @@ class DoctorView extends Component {
     console.log(this.state.patient);
   }
 
+<<<<<<< HEAD
   async add(dname, mname, type, sdate, edate, nof, test, summ) {
     const web3 = new Web3(Web3.givenProvider || "http://localhost:7545");
     const abi = Patientabi.abi;
@@ -406,6 +434,22 @@ class DoctorView extends Component {
             window.location.reload();
           }, 3000);
         });
+=======
+async add(dname,mname,type,sdate,edate,nof,test,summ){
+  const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
+  const abi= Patientabi.abi
+  var net_id = await web3.eth.net.getId()// 5777
+  if(Patientabi.networks[net_id]){
+    const address= Patientabi.networks[net_id].address
+    const patient= await web3.eth.Contract(abi,address)
+    this.setState({patient})
+    console.log(dname)
+    console.log(this.state.p)
+    patient.methods.addDoc(web3.utils.fromAscii(dname),(mname),test,type,web3.utils.fromAscii(sdate),(edate),(nof),(summ),this.state.p).send({from:this.state.account}).once('receipt',(receipt)=>{ this.setState({loading:false})}).once("confirmation", function () {
+      NotificationManager.success('Patient got prescribtion', 'Inform Patient',5000)
+      window.setTimeout(function(){window.location.reload()}, 3000)    
+    }) 
+>>>>>>> 3a4229f95cdc928f2c83dfc66887d4fc2dab73fb
 
       // var id = window.location.href.toString().split("/")[4]
       // const result=await this.state.doctor.methods.getPlen(id).call()
