@@ -45,7 +45,7 @@ async loadBlockchainData(){
     var et=0
   var abi= Patientabi.abi
   // var net_id=await web3.eth.net.getId()
-  var net_id=5777
+  var net_id=await web3.eth.net.getId()//5777
     if(Patientabi.networks[net_id]){
       var address= Patientabi.networks[net_id].address
       var patient= await web3.eth.Contract(abi,address)
@@ -109,7 +109,7 @@ async getdoctors()
 {
   var web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   var abi= Doctorabi.abi
-  var net_id = 5777
+  var net_id =await web3.eth.net.getId()// 5777
   if(Doctorabi.networks[net_id]){
     var address= Doctorabi.networks[net_id].address
     var doctor= web3.eth.Contract(abi,address)
@@ -130,7 +130,7 @@ async getdoctors()
     window.alert("Contract not loaded to blockchain")
   }
   var abi= Patientabi.abi
-  var net_id=5777
+  var net_id=await web3.eth.net.getId()//5777
       var address= Patientabi.networks[net_id].address
   var patient= await web3.eth.Contract(abi,address)
     this.setState({patient})
@@ -151,7 +151,7 @@ async selecting(id,key){
   var web3 = new Web3(Web3.givenProvider|| "http://localhost:7545")
   var d_abi= Doctorabi.abi
   // var net_id=await web3.eth.net.getId()
-  var net_id=5777
+  var net_id=await web3.eth.net.getId()//5777
   if(Doctorabi.networks[net_id]){
     var address= Doctorabi.networks[net_id].address
     var doctor= web3.eth.Contract(d_abi,address)

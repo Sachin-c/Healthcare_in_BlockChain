@@ -122,7 +122,7 @@ async loadBlockchainData(){
   const accounts = await web3.eth.getAccounts()
   this.setState({account:accounts[0]})
   const abi= Doctorabi.abi
-  var net_id = 5777
+  var net_id = await web3.eth.net.getId()//5777
   var ret=0 
   var et=0   
   if(Doctorabi.networks[net_id]){
@@ -310,7 +310,7 @@ async ph(key){
 async add(dname,mname,type,sdate,edate,nof,test,summ){
   const web3 = new Web3(Web3.givenProvider || "http://localhost:7545")
   const abi= Patientabi.abi
-  var net_id = 5777
+  var net_id = await web3.eth.net.getId()// 5777
   if(Patientabi.networks[net_id]){
     const address= Patientabi.networks[net_id].address
     const patient= await web3.eth.Contract(abi,address)
