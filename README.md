@@ -170,4 +170,4 @@ This project uses [Bootstrap 4](https://getbootstrap.com/).
 
 # License
 
-MIT
+[MIT](https://github.com/Sachin-c/Healthcare_in_BlockChain/blob/master/LICENSE)
