@@ -169,5 +169,5 @@ This project uses [Bootstrap 4](https://getbootstrap.com/).
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # License
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [MIT](https://github.com/Sachin-c/Healthcare_in_BlockChain/blob/master/LICENSE)
