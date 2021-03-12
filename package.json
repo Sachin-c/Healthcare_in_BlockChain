@@ -31,7 +31,7 @@
     "ipfs": "^0.41.1",
     "ipfs-http-client": "^33.1.1",
     "jquery": "^3.4.1",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "material-ui-pickers": "^2.2.4",
     "react": "16.8.4",
     "react-bootstrap": "^1.0.0-beta.5",
